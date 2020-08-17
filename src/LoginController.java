@@ -3,6 +3,7 @@ import java.util.LinkedHashMap;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,12 +20,17 @@ import javafx.stage.Stage;
 public class LoginController {
 	/** Title for the New User page. */
 	private final String NEW_USER_TITLE = "Create Profile";
+	/** Title for the Main Menu. */
+	private final String MAIN_MENU_TITLE = "Main Menu";
 	
 	/** A linked hashmap to hold all current users. */
 	LinkedHashMap<String, User> users;
 	
 	/** fxID for the username text field */
 	@FXML private TextField txtUsername;
+	
+	/** A button that opens the main menu. */
+	@FXML private Button btnLogin;
 	
 	/**
 	 * Sets up the linked hashmap holding all the users.
@@ -36,7 +42,7 @@ public class LoginController {
 	/**
 	 * Handles a button event for the login button e.g. button press.
 	 */
-	public void handleLoginButtonAction() {
+	public void loginButtonAction() {
 		// Checks if the username exists in the system.
 		String username = txtUsername.getText().trim();
 		if (users.containsKey(username)) {
@@ -53,7 +59,7 @@ public class LoginController {
 	/**
 	 * Displays a page that allows the user to create a new profile.
 	 */
-	public void handleCreateNewProfileButtonAction() {
+	public void createNewProfileButtonAction() {
 		try {	
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
 					.getResource("FXMLFiles/NewUser.fxml"));
@@ -88,6 +94,22 @@ public class LoginController {
 	 * Displays the main menu.
 	 */
 	public void showMainMenu() {
-		System.out.println("Hi " + FileHandling.getCurrentUser());
+		Stage curStage = (Stage) btnLogin.getScene().getWindow();
+		curStage.close(); 
+		
+		try {
+			Stage primaryStage = new Stage();
+			Parent root = FXMLLoader.load(getClass()
+					.getResource("FXMLFiles/MainMenu.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle(MAIN_MENU_TITLE);
+			primaryStage.show(); // Displays the new stage.
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 }

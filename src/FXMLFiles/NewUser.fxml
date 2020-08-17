@@ -31,7 +31,7 @@
                </font>
             </Label>
       <TextField fx:id="txtUsername" prefHeight="25.0" prefWidth="192.0" />
-            <Button mnemonicParsing="false" onAction="#handleCreateProfileButtonAction" text="Create Profile" />
+            <Button mnemonicParsing="false" onAction="#createProfileButtonAction" text="Create Profile" />
          </children>
          <BorderPane.margin>
             <Insets top="20.0" />
@@ -41,7 +41,7 @@
    <bottom>
       <VBox alignment="TOP_CENTER" prefHeight="44.0" prefWidth="360.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Back" />
+            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
          </children>
       </VBox>
    </bottom>

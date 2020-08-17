@@ -29,7 +29,7 @@ public class NewUserController {
 	/**
 	 * Creates the new user's profile.
 	 */
-	public void handleCreateProfileButtonAction() {
+	public void createProfileButtonAction() {
 		// Checks if the username exists in the system.
 		String username = txtUsername.getText().trim();
 		if (users.containsKey(username)) {
@@ -50,7 +50,7 @@ public class NewUserController {
 	/**
      * Closes the current page.
      */
-    public void handleBackButtonAction() {
+    public void backButtonAction() {
 		Stage curStage = (Stage) btnBack.getScene().getWindow(); 
 		curStage.close(); 
     }
