@@ -15,7 +15,7 @@ public class Main extends Application {
 	/** Width of the stage. */
 	private static final int STAGE_WIDTH = 360;
 	/** Height of the stage. */
-	private static final int STAGE_HEIGHT = 176;
+	private static final int STAGE_HEIGHT = 164;
 	
 	/**
 	 * Performs any pre-launch tasks and then launches the system.

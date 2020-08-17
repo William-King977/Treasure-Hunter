@@ -20,4 +20,42 @@ public class Alerts {
 				+ "in the system. Please try again.");	
 		alert.showAndWait();
 	}
+	
+	/**
+	 * An alert pop-up that tells the user that there is no input in the 
+	 * username field.
+	 */
+	public static void usernameNotEntered() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error: Username Not Entered.");
+		alert.setHeaderText(null);
+		alert.setContentText("Please enter a username.");	
+		alert.showAndWait();
+	}
+	
+	/**
+	 * An alert pop-up that tells the user that
+	 * the username entered already exists in the system.
+	 */
+	public static void usernameExists() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error: This Username Exists.");
+		alert.setHeaderText(null);
+		alert.setContentText("An existing user has the same "
+				+ "username, please enter a different one.");
+		alert.showAndWait();
+    	return;
+	}
+	
+	/**
+	 * An alert pop-up that tells the user that the their profile has 
+	 * been created successfully.
+	 */
+	public static void userCreated() {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("User Created Successfully.");
+		alert.setHeaderText(null);
+		alert.setContentText("The user has been created successfully.");
+		alert.showAndWait();
+	}
 }

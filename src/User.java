@@ -12,11 +12,19 @@ public class User {
 	/**
 	 * Constructor for the User class.
 	 * @param username A unique name for the user.
-	 * @param currentLevel The current level the user is on.
 	 */
-	public User(String username, int currentLevel) {
+	public User(String username) {
 		this.username = username;
-		this.currentLevel = currentLevel;
+		this.currentLevel = 1; // Levels start at 1.
+	}
+	
+	/**
+	 * Gets a string of the User's full details for file saving.
+	 * @return String of the User's full details.
+	 */
+	public String toStringDetail() {
+		String strUser = username + "," + currentLevel + ",";
+		return strUser;
 	}
 	
 	/**

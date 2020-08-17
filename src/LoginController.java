@@ -1,9 +1,14 @@
+import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Controller for the Login page.
@@ -12,6 +17,9 @@ import javafx.scene.control.TextField;
  * @author William King
  */
 public class LoginController {
+	/** Title for the New User page. */
+	private final String NEW_USER_TITLE = "Create Profile";
+	
 	/** A linked hashmap to hold all current users. */
 	LinkedHashMap<String, User> users;
 	
@@ -33,6 +41,8 @@ public class LoginController {
 		String username = txtUsername.getText().trim();
 		if (users.containsKey(username)) {
 			showMainMenu();
+		} else if (username.isEmpty()) {
+			Alerts.usernameNotEntered();
 		} else {
 			// Alert shown when the username doesn't exist.
 			Alerts.userNotExist(username);
@@ -43,13 +53,40 @@ public class LoginController {
 	 * Displays a page that allows the user to create a new profile.
 	 */
 	public void handleCreateNewProfileButtonAction() {
-		
+		try {	
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/NewUser.fxml"));
+				
+			// Sets a new border pane.
+			BorderPane newRoot = fxmlLoader.load();
+				
+			// Gets the controller for the FXML file loaded.
+			NewUserController createUser = fxmlLoader.<NewUserController> getController();
+			
+			// Pass down the user linked hashmap for local changes.
+			createUser.setUserHashMap(users);
+			
+	        // Sets the scene.
+	        Scene newScene = new Scene(newRoot); 
+	        // Creates a new stage.
+	        Stage newStage = new Stage();
+	        // Sets the scene to the stage.
+	        newStage.setScene(newScene);
+	        newStage.setTitle(NEW_USER_TITLE);
+	        newStage.initModality(Modality.APPLICATION_MODAL);
+	        newStage.showAndWait();
+        } catch (IOException e) {
+        	// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+        }
 	}
 	
 	/**
 	 * Displays the main menu.
 	 */
 	public void showMainMenu() {
-		
+		System.out.println("Hi");
 	}
 }
