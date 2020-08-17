@@ -40,6 +40,7 @@ public class LoginController {
 		// Checks if the username exists in the system.
 		String username = txtUsername.getText().trim();
 		if (users.containsKey(username)) {
+			FileHandling.setCurrentUser(username);
 			showMainMenu();
 		} else if (username.isEmpty()) {
 			Alerts.usernameNotEntered();
@@ -87,6 +88,6 @@ public class LoginController {
 	 * Displays the main menu.
 	 */
 	public void showMainMenu() {
-		System.out.println("Hi");
+		System.out.println("Hi " + FileHandling.getCurrentUser());
 	}
 }

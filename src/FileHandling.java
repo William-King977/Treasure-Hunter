@@ -16,6 +16,44 @@ public class FileHandling {
 	private final static String DATA_FILE_PATH = "DataFiles/";
 	
 	/**
+	 * Saves the username of the currently logged in user to a text file.
+	 * @param currentUser Username of the current user.
+	 */
+	public static void setCurrentUser(String currentUser) {
+		String filePath = DATA_FILE_PATH + "CurrentUser.txt";
+		try {
+			FileWriter myWriter = new FileWriter(filePath);
+			myWriter.write(currentUser);
+		    myWriter.close();
+		} catch (IOException e) {
+		      System.out.println("Cannot write to " + filePath);
+		      System.exit(-1);
+		}
+	}
+	
+	/**
+	 * Fetches the username of the currently logged in user.
+	 * @return The current user's username.
+	 */
+	public static String getCurrentUser() {
+		String currentUser = "";
+		
+		String filePath = DATA_FILE_PATH + "CurrentUser.txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
+	    try {
+	    	//Opens the file for reading
+			in = new Scanner (inputFile);
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    currentUser = in.next();
+		return currentUser;
+	}
+	
+	/**
 	 * Fetches all the current users in the system and stores
 	 * them in a Linked Hashmap.
 	 * @return LinkedHashMap of all users in the system.
