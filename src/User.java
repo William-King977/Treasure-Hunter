@@ -4,10 +4,10 @@
  */
 public class User {
 	/** A unique name for the user. */
-	String username;
+	private String username;
 	
 	/** The current level the user is on. */
-	int currentLevel;
+	private int currentLevel;
 	
 	/**
 	 * Constructor for the User class.
