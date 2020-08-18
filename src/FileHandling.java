@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -88,6 +89,55 @@ public class FileHandling {
 	    }
 	    in.close();
 		return users;
+	}
+	
+	/**
+	 * Fetches all the levels of the game
+	 * @return ArrayList holding all of the levels.
+	 */
+	public static ArrayList<Level> getLevels() {
+		ArrayList<Level> levels = new ArrayList<>();
+		String levelFilePath = DATA_FILE_PATH + "Levels";
+		int numberOfLevels = new File(levelFilePath).list().length;
+		
+		// Read each level file.
+		for (int i = 1; i <= numberOfLevels; i++) {
+			String filePath = levelFilePath + "/Level " + i + ".txt";
+			File inputFile = new File(filePath);
+			Scanner in = null;
+		    try {
+		    	//Opens the file for reading
+				in = new Scanner (inputFile);
+			// Catch an exception if the file does not exist and exit the program.
+			} catch (FileNotFoundException e) {
+				System.out.println("Cannot open " + filePath);
+				System.exit(-1);
+			}
+		    
+		    in.useDelimiter(",");
+		    
+		    // Read the level's height and width first.
+		    int levelWidth = in.nextInt();
+	    	int levelHeight = in.nextInt();
+		    in.nextLine();
+		    
+		    String[][] levelElements = new String[levelWidth][levelHeight];
+		    
+		    // Then read the level elements.
+		    for (int row = 0; row < levelHeight; row++) {
+		    	for (int col = 0; col < levelWidth; col++) {
+		    		String element = in.next();
+		    		levelElements[row][col] = element;
+		    	}
+		    	in.nextLine(); // Needed if you change delimiter.
+		    }
+		    	
+		    // Construct a level, then add it to the list.
+		    Level newLevel = new Level(levelElements, i);
+		    levels.add(newLevel);
+		    in.close();
+		}
+		return levels;
 	}
 	
 	/**

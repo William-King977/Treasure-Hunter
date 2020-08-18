@@ -5,7 +5,7 @@
 public class Level {
 	/** Holds each cell element of the level in their corresponding 
 	 * positions in the list.  */
-	private String[][] levelCells;
+	private String[][] levelElements;
 	
 	/** The height of the level in cells. */
 	private int levelHeight;
@@ -18,24 +18,24 @@ public class Level {
 	
 	/**
 	 * Constructor for the Level class.
-	 * @param levelCells Array holding each element needed to draw the level.
+	 * @param levelElements Array holding each element needed to draw the level.
 	 * @param levelNumber The number of the level being constructed.
 	 */
-	public Level(String[][] levelCells, int levelNumber) {
-		this.levelCells = levelCells;
+	public Level(String[][] levelElements, int levelNumber) {
+		this.levelElements = levelElements;
 		this.levelNumber = levelNumber;
 		
 		// Height and width will be fixed, so this is fine.
-		levelHeight = levelCells.length;
-		levelWidth = levelCells[0].length; 
+		levelHeight = levelElements.length;
+		levelWidth = levelElements[0].length; 
 	}
 	
 	/**
 	 * Gets the elements (and their position) used for the level. 
 	 * @return An array of elements for the level.
 	 */
-	public String[][] getLevelCells() {
-		return levelCells;
+	public String[][] getlevelElements() {
+		return levelElements;
 	}
 	
 	/**

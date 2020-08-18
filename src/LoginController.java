@@ -34,6 +34,7 @@ public class LoginController {
 	
 	/**
 	 * Sets up the linked hashmap holding all the users.
+	 * This method will run automatically.
 	 */
 	public void initialize() {
 		users = FileHandling.getUsers();
