@@ -101,8 +101,8 @@ public class FileHandling {
 		int numberOfLevels = new File(levelFilePath).list().length;
 		
 		// Read each level file.
-		for (int i = 1; i <= numberOfLevels; i++) {
-			String filePath = levelFilePath + "/Level " + i + ".txt";
+		for (int levelNum = 1; levelNum <= numberOfLevels; levelNum++) {
+			String filePath = levelFilePath + "/Level " + levelNum + ".txt";
 			File inputFile = new File(filePath);
 			Scanner in = null;
 		    try {
@@ -131,9 +131,34 @@ public class FileHandling {
 		    	}
 		    	in.nextLine(); // Needed if you change delimiter.
 		    }
-		    	
+		    
+		    // Read miscinalious game objects.
+		    Player player = null;
+		    
+		    while(in.hasNextLine()) {
+			    String elementType = in.next();
+			    switch(elementType) {
+			    	case "START":
+			    		// Read the player's start position.
+					    int playerX = in.nextInt();
+					    int playerY = in.nextInt();
+					    // Construct the player.
+					    player = new Player(playerX, playerY);
+					    in.nextLine();
+					    break;
+			    	case "ENEMY":
+			    		// Read enemies, construct them and add them to a list.
+			    		in.nextLine();
+			    		break;
+			    	case "DOOR":
+			    		// Read doors, construct them and add them to a list.
+			    		in.nextLine();
+			    		break;
+			    }
+		    }
+		    
 		    // Construct a level, then add it to the list.
-		    Level newLevel = new Level(levelElements, i);
+		    Level newLevel = new Level(levelElements, levelNum, player);
 		    levels.add(newLevel);
 		    in.close();
 		}

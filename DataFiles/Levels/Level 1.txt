@@ -1,1 +1,7 @@
-20,10,
+5,5, WIDTH & HEIGHT
+W,W,W,W,W,
+W, , , ,W,
+W, , , ,W,
+W, , , ,W,
+W,W,W,W,W,
+START,1,1,

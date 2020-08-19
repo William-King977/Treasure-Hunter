@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -42,6 +44,27 @@ public class MainMenuController {
 	 * Loads the first level.
 	 */
 	public void newGameButtonAction() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/GameWindow.fxml"));
+			Pane root = fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			GameController gameWindow = fxmlLoader.<GameController> getController();
+			gameWindow.setLevelNumber(1);
+			
+			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(CREATE_PROFILE_PICTURE_TITLE);
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+            primaryStage.showAndWait();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 	
 	/**

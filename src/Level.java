@@ -16,14 +16,19 @@ public class Level {
 	/** Specifies which level this level is e.g. level 1, 2,... */
 	private int levelNumber;
 	
+	/** The player in the level. */
+	private Player player;
+	
 	/**
 	 * Constructor for the Level class.
 	 * @param levelElements Array holding each element needed to draw the level.
 	 * @param levelNumber The number of the level being constructed.
+	 * @param player The player in the level.
 	 */
-	public Level(String[][] levelElements, int levelNumber) {
+	public Level(String[][] levelElements, int levelNumber, Player player) {
 		this.levelElements = levelElements;
 		this.levelNumber = levelNumber;
+		this.setPlayer(player);
 		
 		// Height and width will be fixed, so this is fine.
 		levelHeight = levelElements.length;
@@ -34,7 +39,7 @@ public class Level {
 	 * Gets the elements (and their position) used for the level. 
 	 * @return An array of elements for the level.
 	 */
-	public String[][] getlevelElements() {
+	public String[][] getLevelElements() {
 		return levelElements;
 	}
 	
@@ -60,5 +65,21 @@ public class Level {
 	 */
 	public int getLevelNumber() {
 		return levelNumber;
+	}
+
+	/**
+	 * Gets the player in the level.
+	 * @return the player 
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
+	 * Sets the player after adjusting their status.
+	 * @param player The player to be set.
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }
