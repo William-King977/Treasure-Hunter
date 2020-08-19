@@ -26,14 +26,20 @@ public class GameController {
 	
 	/** An arraylist holding all the levels. */
 	private ArrayList<Level> levels;
+	/** An array holding the elements for a level. */
+	private String[][] levelElements;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
+	/** The current level that the player is on. */
+	private Level currentLevel;
+	/** Player in the game (to control its status). */
+	private Player player;
 	/** The number of the level selected. */
 	private int levelNum;
 	
 	// Loaded images
-	private Image player;
+	private Image playerSprite;
 	private Image dirt;
 	private Image wall;
 	
@@ -49,14 +55,87 @@ public class GameController {
 	 * This method will run automatically.
 	 */
 	public void initialize() {
+		// Set up the level and its elements.
 		levels = FileHandling.getLevels();
+		currentLevel = levels.get(levelNum);
+		levelElements = currentLevel.getLevelElements();
+		player = currentLevel.getPlayer();
 		
 		// Load the graphics.
-		player = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
+		playerSprite = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
 		dirt = new Image(new File (TEXTURE_FILE_PATH + "Dirt.png").toURI().toString());
 		wall = new Image(new File (TEXTURE_FILE_PATH + "StoneWall.png").toURI().toString());
 		
+		// Draw the level as the game opens.
 		drawLevel();
+	}
+	
+	/**
+	 * Process a key event due to a key being pressed, e.g., to the player.
+	 * @param event The key event that was pressed.
+	 */
+	public void processMovement(KeyEvent event) {
+		// New x,y variables if the player has moved.
+		int playerNewX;
+		int playerNewY;
+		
+		// Because the level is basically stored in an array.
+		// Going UP needs to lower the index and vice versa.
+		switch (event.getCode()) {
+			case UP:
+				playerNewY = player.getPlayerY() - 1;
+	        	isMoveValid(player.getPlayerX(), playerNewY);
+				break;
+			case DOWN:
+				playerNewY = player.getPlayerY() + 1;
+				isMoveValid(player.getPlayerX(), playerNewY);
+	        	break;
+			case LEFT:
+		    	playerNewX = player.getPlayerX() - 1;
+		    	isMoveValid(playerNewX, player.getPlayerY());
+	        	break;
+		    case RIGHT:
+		    	playerNewX = player.getPlayerX() + 1;
+		    	isMoveValid(playerNewX, player.getPlayerY());
+	        	break;	        
+	        default:
+	        	// Do nothing
+	        	break;
+		}
+		
+		// Redraw game as the player may have moved.
+		drawLevel();
+		
+		// Consume the event. This means we mark it as dealt with. 
+		// This stops other GUI nodes (buttons etc.) responding to it.
+		event.consume();
+	}
+	
+	/**
+	 * Checks if the move made is valid and determine action
+	 * depending on the surrounding elements.
+	 * @param newX The new x-coordinate.
+	 * @param newY The new y-coordinate.
+	 */
+	public void isMoveValid(int newX, int newY) {
+		String element = levelElements[newX][newY];
+		switch (element) {
+			case "W":
+				// No nothing.
+				break;
+			case "F":
+				// DEATH.
+				break;
+			case "WTR":
+				// DEATH.
+				break;
+			case "E":
+				// DEATH.
+				break;
+			default:
+				player.setPlayerX(newX);
+				player.setPlayerY(newY);
+		}
 	}
 	
 	/**
@@ -69,15 +148,12 @@ public class GameController {
 		// Clear canvas.
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
-		Level currentLevel = levels.get(levelNum);
-		String[][] levelElements = currentLevel.getLevelElements();
 		int levelHeight = currentLevel.getLevelHeight();
 		int levelWidth = currentLevel.getLevelWidth();
 		
 		// Get player position.
-		Player thisPlayer = currentLevel.getPlayer();
-		int playerX = thisPlayer.getPlayerX();
-		int playerY = thisPlayer.getPlayerY();
+		int playerX = player.getPlayerX();
+		int playerY = player.getPlayerY();
 		
 		for (int row = 0; row < levelHeight; row++) {
 	    	for (int col = 0; col < levelWidth; col++) {
@@ -94,7 +170,7 @@ public class GameController {
 	    }
 		
 		// Draw player at current location
-		gc.drawImage(player, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+		gc.drawImage(playerSprite, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
 	}
 	
 	/**
@@ -103,6 +179,17 @@ public class GameController {
 	 */
 	public void setLevelNumber(int levelNum) {
 		this.levelNum = levelNum;
+	}
+	
+	/**
+	 * Sets up the elements for the next level.
+	 */
+	public void loadNewLevel() {
+		// Set up the level and its elements.
+		currentLevel = levels.get(levelNum);
+		levelElements = currentLevel.getLevelElements();
+		player = currentLevel.getPlayer();
+		drawLevel();
 	}
 	
 	/**
