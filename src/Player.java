@@ -34,7 +34,6 @@ public class Player {
 		this.setY(playerY);
 		
 		// Set to one item for now. It will change as new items are added.
-		this.inventory = new String[1]; 
 		this.equippedItems = new String[NUM_POSSIBLE_EQUIPPED];
 		this.numTokens = 0;
 	}
@@ -86,8 +85,13 @@ public class Player {
 	public void addInventory(String newItem) {
 		// Checks how many items there are in the current inventory.
 		int numItems = 0; 
-		for (String items : inventory) {
-			numItems++;
+		
+		if (inventory == null) {
+			numItems = 0;
+		} else {
+			for (String items : inventory) {
+				numItems++;
+			}
 		}
 		
 		// Populate the new inventory.
@@ -97,7 +101,7 @@ public class Player {
 		}
 		
 		// Add the new item at the end of the array.
-		updatedInventory[numItems + 1] = newItem;
+		updatedInventory[numItems] = newItem;
 		inventory = updatedInventory;
 	}
 	
@@ -114,6 +118,7 @@ public class Player {
 	 * @param equippedItems The equipped items to be set.
 	 */
 	public void addEquipped(String newItem) {
+		// It replaces them...
 		switch (newItem) {
 			// Check for apparel.
 			case "Flippers":

@@ -1,8 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,6 +55,9 @@ public class GameController {
 	
 	private Image fireBoots;
 	private Image flippers;
+	private Image orangeKey;
+	private Image yellowKey;
+	private Image purpleKey;
 	
 	private Image playerSprite; // The current player sprite.
 	private Image floor;
@@ -86,8 +86,12 @@ public class GameController {
 		playerFlippers = new Image(new File (PLAYER_FILE_PATH + "Flippers.png").toURI().toString());
 		playerFireBoots = new Image(new File (PLAYER_FILE_PATH + "FireBoots.png").toURI().toString());
 		
-		fireBoots = new Image(new File (ITEM_FILE_PATH + "Fire Boots.png").toURI().toString());
+		// Items
+		fireBoots = new Image(new File (ITEM_FILE_PATH + "FireBoots.png").toURI().toString());
 		flippers = new Image(new File (ITEM_FILE_PATH + "Flippers.png").toURI().toString());
+		orangeKey = new Image(new File (ITEM_FILE_PATH + "OrangeKey.png").toURI().toString());
+		yellowKey = new Image(new File (ITEM_FILE_PATH + "YellowKey.png").toURI().toString());
+		purpleKey = new Image(new File (ITEM_FILE_PATH + "purpleKey.png").toURI().toString());
 		
 		// Environment.
 		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
@@ -156,16 +160,40 @@ public class GameController {
 				// Level Complete
 				loadNewLevel();
 				break;
+			// APPAREL.
 			case "FLP":
 				player.setX(newX);
 				player.setY(newY);
 				playerSprite = playerFlippers;
+				player.addInventory("Flippers");
+				player.addEquipped("Flippers");
 				levelElements[newY][newX] = " "; // Make it disappear.
 				break;
 			case "FB":
 				player.setX(newX);
 				player.setY(newY);
 				playerSprite = playerFireBoots;
+				player.addInventory("Fire Boots");
+				player.addEquipped("Fire Boots");
+				levelElements[newY][newX] = " ";
+				break;
+			// ITEMS.
+			case "OK":
+				player.setX(newX);
+				player.setY(newY);
+				player.addInventory("Orange Key");
+				levelElements[newY][newX] = " "; 
+				break;
+			case "YK":
+				player.setX(newX);
+				player.setY(newY);
+				player.addInventory("Yellow Key");
+				levelElements[newY][newX] = " ";
+				break;
+			case "PK":
+				player.setX(newX);
+				player.setY(newY);
+				player.addInventory("Purple Key");
 				levelElements[newY][newX] = " ";
 				break;
 			// HAZARDS.
@@ -276,12 +304,24 @@ public class GameController {
 			case "G":
 				gc.drawImage(goal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
+			// APPAREL.
 			case "FLP":
 				gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
 			case "FB":
 				gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
+			// ITEMS.
+			case "OK":
+				gc.drawImage(orangeKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "YK":
+				gc.drawImage(yellowKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "PK":
+				gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			// HAZARDS.
 			case "WTR":
 				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
@@ -340,7 +380,10 @@ public class GameController {
 			// Gets the controller for the FXML file.
 			InventoryController inventoryWindow = fxmlLoader.<InventoryController> getController();
 			
-			// Pass down the player?
+			// Pass down the player.
+			inventoryWindow.setPlayerDetails(player, playerSprite);
+			inventoryWindow.showSprites();
+			inventoryWindow.showInventory();
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
@@ -348,6 +391,11 @@ public class GameController {
 			// primaryStage.setTitle(CREATE_PROFILE_PICTURE_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
             primaryStage.showAndWait();
+            
+            // Update the player sprite.
+            playerSprite = inventoryWindow.getPlayerSprite();
+            gc.drawImage(floor, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
+            gc.drawImage(playerSprite, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.
