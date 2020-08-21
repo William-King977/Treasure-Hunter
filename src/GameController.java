@@ -1,14 +1,19 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 // NOTE: In a 2-D Array sense, Y is row and X is the column. So array[Y][X].
@@ -21,6 +26,8 @@ import javafx.stage.Stage;
 public class GameController {
 	/** File location of the player sprites. */
 	private final static String PLAYER_FILE_PATH = "DataFiles/Player Sprites/";
+	/** File location of the items. */
+	private final static String ITEM_FILE_PATH = "DataFiles/Items/";
 	/** File location of the textures. */
 	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
 	/** The number marking the highest level in the game. */
@@ -46,16 +53,21 @@ public class GameController {
 	
 	// Loaded images
 	private Image playerDefault;
-	private Image playerDeathWater;
-	private Image playerDeathFire;
+	private Image playerFlippers;
+	private Image playerFireBoots;
 	
-	private Image playerSprite;
+	private Image fireBoots;
+	private Image flippers;
+	
+	private Image playerSprite; // The current player sprite.
 	private Image floor;
 	private Image wall;
 	private Image goal;
 	private Image water;
 	private Image fire;
 	
+	/** The inventory button for the game. */
+	@FXML private Button btnInventory;
 	/** The quit button for the game. */
 	@FXML private Button btnQuit;
 	/* The canvas in the GUI. */ 
@@ -69,14 +81,22 @@ public class GameController {
 	 */
 	public void initialize() {
 		// Load the graphics.
+		// Player Sprites.
 		playerDefault = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
+		playerFlippers = new Image(new File (PLAYER_FILE_PATH + "Flippers.png").toURI().toString());
+		playerFireBoots = new Image(new File (PLAYER_FILE_PATH + "FireBoots.png").toURI().toString());
 		
-		playerSprite = playerDefault;
+		fireBoots = new Image(new File (ITEM_FILE_PATH + "Fire Boots.png").toURI().toString());
+		flippers = new Image(new File (ITEM_FILE_PATH + "Flippers.png").toURI().toString());
+		
+		// Environment.
 		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
 		wall = new Image(new File (TEXTURE_FILE_PATH + "StoneWall.png").toURI().toString());
-		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
 		water = new Image(new File (TEXTURE_FILE_PATH + "Water.png").toURI().toString());
 		fire = new Image(new File (TEXTURE_FILE_PATH + "Fire.png").toURI().toString());
+		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
+		
+		playerSprite = playerDefault;
 	}
 	
 	/**
@@ -92,20 +112,20 @@ public class GameController {
 		// Going UP needs to lower the index and vice versa.
 		switch (event.getCode()) {
 			case UP:
-				playerNewY = player.getPlayerY() - 1;
-	        	isMoveValid(player.getPlayerX(), playerNewY);
+				playerNewY = player.getY() - 1;
+	        	isMoveValid(player.getX(), playerNewY);
 				break;
 			case DOWN:
-				playerNewY = player.getPlayerY() + 1;
-				isMoveValid(player.getPlayerX(), playerNewY);
+				playerNewY = player.getY() + 1;
+				isMoveValid(player.getX(), playerNewY);
 	        	break;
 			case LEFT:
-		    	playerNewX = player.getPlayerX() - 1;
-		    	isMoveValid(playerNewX, player.getPlayerY());
+		    	playerNewX = player.getX() - 1;
+		    	isMoveValid(playerNewX, player.getY());
 	        	break;
 		    case RIGHT:
-		    	playerNewX = player.getPlayerX() + 1;
-		    	isMoveValid(playerNewX, player.getPlayerY());
+		    	playerNewX = player.getX() + 1;
+		    	isMoveValid(playerNewX, player.getY());
 	        	break;	        
 	        default:
 	        	// Do nothing
@@ -136,10 +156,27 @@ public class GameController {
 				// Level Complete
 				loadNewLevel();
 				break;
+			case "FLP":
+				player.setX(newX);
+				player.setY(newY);
+				playerSprite = playerFlippers;
+				levelElements[newY][newX] = " "; // Make it disappear.
+				break;
+			case "FB":
+				player.setX(newX);
+				player.setY(newY);
+				playerSprite = playerFireBoots;
+				levelElements[newY][newX] = " ";
+				break;
 			// HAZARDS.
 			case "F":
-				// Death.
-				restartLevel();
+				if (playerSprite.equals(playerFireBoots)) {
+					player.setX(newX);
+					player.setY(newY);
+				} else {
+					// Death.
+					restartLevel();
+				}
 				break;
 			case "WTR":
 				// Death.
@@ -149,8 +186,8 @@ public class GameController {
 				// DEATH.
 				break;
 			default:
-				player.setPlayerX(newX);
-				player.setPlayerY(newY);
+				player.setX(newX);
+				player.setY(newY);
 		}
 	}
 	
@@ -169,8 +206,8 @@ public class GameController {
 		int levelWidth = currentLevel.getLevelWidth() - 1;
 		
 		// Get player position.
-		int playerX = player.getPlayerX();
-		int playerY = player.getPlayerY();
+		int playerX = player.getX();
+		int playerY = player.getY();
 		
 		// Set the bounds of the game shown based on the player's position.
 		int xLeftBound = playerX - GAME_BOUNDS;
@@ -204,22 +241,8 @@ public class GameController {
 		for (int row = yUpBound; row <= yDownBound; row++) {
 	    	for (int col = xLeftBound; col <= xRightBound; col++) {
 	    		String element = levelElements[row][col];
-	    		// Draw the floor first (as a base).
-	    		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-	    		switch(element) {
-	    			case "W":
-	    				gc.drawImage(wall, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-	    				break;
-	    			case "G":
-	    				gc.drawImage(goal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-	    				break;
-	    			case "WTR":
-	    				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-	    				break;
-	    			case "F":
-	    				gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-	    				break;
-	    		}
+	    		
+	    		drawElements(element, tempCol, tempRow);
 	    		tempCol++;
 	    	}
 	    	
@@ -235,6 +258,37 @@ public class GameController {
 		playerX = GAME_BOUNDS;
 	    playerY = GAME_BOUNDS;
 		gc.drawImage(playerSprite, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+	}
+	
+	/**
+	 * Draws each element in their respective cells on the canvas.
+	 * @param element The acronym of the current element.
+	 * @param tempCol The local column the element is in.
+	 * @param tempRow The local row the element is in.
+	 */
+	public void drawElements(String element, int tempCol, int tempRow) {
+		// Draw the floor first (as a base).
+		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+		switch(element) {
+			case "W":
+				gc.drawImage(wall, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "G":
+				gc.drawImage(goal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "FLP":
+				gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "FB":
+				gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "WTR":
+				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+			case "F":
+				gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
+		}
 	}
 	
 	/**
@@ -257,6 +311,7 @@ public class GameController {
 			currentLevel = FileHandling.getLevel(levelNum);
 			levelElements = currentLevel.getLevelElements();
 			player = currentLevel.getPlayer();
+			playerSprite = playerDefault;
 			drawLevel();
 		}
 	}
@@ -271,6 +326,34 @@ public class GameController {
 		player = currentLevel.getPlayer();
 		playerSprite = playerDefault;
 		drawLevel();
+	}
+	
+	/**
+	 * Opens the player's inventory screen.
+	 */
+	public void openInventory() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/InventoryWindow.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			InventoryController inventoryWindow = fxmlLoader.<InventoryController> getController();
+			
+			// Pass down the player?
+			
+			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(CREATE_PROFILE_PICTURE_TITLE);
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+            primaryStage.showAndWait();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 	
 	/**

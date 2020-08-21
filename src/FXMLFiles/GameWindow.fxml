@@ -4,16 +4,21 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#processMovement" prefHeight="479.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#processMovement" prefHeight="521.0" prefWidth="464.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="238.0" prefWidth="559.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Canvas fx:id="canvas" height="350.0" width="350.0" />
-            <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" />
+            <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="464.0">
+               <children>
+                  <Button fx:id="btnInventory" mnemonicParsing="false" onAction="#openInventory" text="Inventory" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
@@ -31,4 +36,11 @@
          </BorderPane.margin>
       </VBox>
    </top>
+   <bottom>
+      <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
 </BorderPane>
