@@ -152,6 +152,9 @@ public class GameController {
 	 */
 	public void isMoveValid(int newX, int newY) {
 		String element = levelElements[newY][newX];
+		String[] equippedItems =  player.getEquippedItems();
+		String apparel = equippedItems[0]; // For water/fire hazards.
+		String item = equippedItems[1]; // For coloured doors.
 		switch (element) {
 			case "W":
 				// No nothing.
@@ -164,17 +167,13 @@ public class GameController {
 			case "FLP":
 				player.setX(newX);
 				player.setY(newY);
-				playerSprite = playerFlippers;
 				player.addInventory("Flippers");
-				player.addEquipped("Flippers");
 				levelElements[newY][newX] = " "; // Make it disappear.
 				break;
 			case "FB":
 				player.setX(newX);
 				player.setY(newY);
-				playerSprite = playerFireBoots;
 				player.addInventory("Fire Boots");
-				player.addEquipped("Fire Boots");
 				levelElements[newY][newX] = " ";
 				break;
 			// ITEMS.
@@ -198,20 +197,30 @@ public class GameController {
 				break;
 			// HAZARDS.
 			case "F":
-				if (playerSprite.equals(playerFireBoots)) {
-					player.setX(newX);
-					player.setY(newY);
-				} else {
-					// Death.
-					restartLevel();
+				switch (apparel) {
+					case "Fire Boots":
+						player.setX(newX);
+						player.setY(newY);
+						break;
+					default:
+						// DEATH.
+						restartLevel();
 				}
 				break;
 			case "WTR":
-				// Death.
-				restartLevel();
+				switch (apparel) {
+					case "Flippers":
+						player.setX(newX);
+						player.setY(newY);
+						break;
+					default:
+						// DEATH.
+						restartLevel();
+				}
 				break;
 			case "E":
 				// DEATH.
+				restartLevel();
 				break;
 			default:
 				player.setX(newX);
@@ -251,7 +260,7 @@ public class GameController {
 		// Adjust elements if out of bounds.
 		if (xLeftBound < 0) {
 			tempCol = xLeftBound * -1;
-			xLeftBoundChange = true; // Used cos it needs to reset in the for loop.
+			xLeftBoundChange = true; // It needs to reset in the for loop.
 			xLeftBound = 0;
 		}
 		if (xRightBound > levelHeight) {
@@ -269,7 +278,6 @@ public class GameController {
 		for (int row = yUpBound; row <= yDownBound; row++) {
 	    	for (int col = xLeftBound; col <= xRightBound; col++) {
 	    		String element = levelElements[row][col];
-	    		
 	    		drawElements(element, tempCol, tempRow);
 	    		tempCol++;
 	    	}
@@ -357,8 +365,7 @@ public class GameController {
 	}
 	
 	/**
-	 * Resets the elements for the current level if the player
-	 * has died.
+	 * Resets the elements for the current level if the player has died.
 	 */
 	public void restartLevel() {
 		currentLevel = FileHandling.getLevel(levelNum);

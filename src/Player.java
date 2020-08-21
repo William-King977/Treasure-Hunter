@@ -15,7 +15,7 @@ public class Player {
 	private int playerY;
 	
 	/** The items that the player is currently holding. */
-	private String[] inventory;
+	private String[] inventory = {};
 	
 	/** The items the player is currently equipped with. 
 	 * Index 0 holds apparel and index*/
@@ -32,10 +32,13 @@ public class Player {
 	public Player(int playerX, int playerY) {
 		this.setX(playerX);
 		this.setY(playerY);
-		
-		// Set to one item for now. It will change as new items are added.
-		this.equippedItems = new String[NUM_POSSIBLE_EQUIPPED];
 		this.numTokens = 0;
+		
+		// Initialise it with empty spaces.
+		this.equippedItems = new String[NUM_POSSIBLE_EQUIPPED];
+		for (int i = 0; i < NUM_POSSIBLE_EQUIPPED; i++) {
+			this.equippedItems[i] = " ";
+		}
 	}
 
 	/**
@@ -85,13 +88,8 @@ public class Player {
 	public void addInventory(String newItem) {
 		// Checks how many items there are in the current inventory.
 		int numItems = 0; 
-		
-		if (inventory == null) {
-			numItems = 0;
-		} else {
-			for (String items : inventory) {
-				numItems++;
-			}
+		for (String items : inventory) {
+			numItems++;
 		}
 		
 		// Populate the new inventory.

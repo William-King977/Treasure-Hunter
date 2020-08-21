@@ -130,12 +130,6 @@ public class InventoryController {
 	 */
 	public void showInventory() {
 		inventory = player.getInventory();
-		
-		// If there's nothing in the inventory.
-		if (inventory == null) {
-			return;
-		}
-		
 		for (String item : inventory) {
 			lstInventory.getItems().add(item);
 		}
@@ -152,14 +146,7 @@ public class InventoryController {
 		Image imgApparel = null;
 		Image imgItem = null;
 		
-		if (apparel == null) {
-			apparel = " ";
-		}
-		
-		if (item == null) {
-			item = " ";
-		}
-		
+		// Checks apparel then checks for the item (key).
 		switch (apparel) {
 			case "Flippers":
 				imgApparel = flippers;
