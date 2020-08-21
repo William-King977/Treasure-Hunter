@@ -28,7 +28,7 @@ public class Level {
 	public Level(String[][] levelElements, int levelNumber, Player player) {
 		this.levelElements = levelElements;
 		this.levelNumber = levelNumber;
-		this.setPlayer(player);
+		this.player = player;
 		
 		// Height and width will be fixed, so this is fine.
 		levelHeight = levelElements.length;

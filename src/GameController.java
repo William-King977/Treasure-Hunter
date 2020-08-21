@@ -1,5 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -8,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+// NOTE: In a 2-D Array sense, Y is row and X is the column. So array[Y][X].
 
 /**
  * Controller for the Game screen.
@@ -19,13 +23,15 @@ public class GameController {
 	private final static String PLAYER_FILE_PATH = "DataFiles/Player Sprites/";
 	/** File location of the textures. */
 	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
+	/** The number marking the highest level in the game. */
+	private final static int MAX_LEVEL = 2;
 	/** Size of the cell width. */
 	private static int GRID_CELL_WIDTH = 50;
 	/** Size of the cell height. */
 	private static int GRID_CELL_HEIGHT = 50;
-	
-	/** An arraylist holding all the levels. */
-	private ArrayList<Level> levels;
+	/** The number of square cells shown on the screen. */
+	private final static int GAME_BOUNDS = 3;
+
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
 	
@@ -39,9 +45,16 @@ public class GameController {
 	private int levelNum;
 	
 	// Loaded images
+	private Image playerDefault;
+	private Image playerDeathWater;
+	private Image playerDeathFire;
+	
 	private Image playerSprite;
-	private Image dirt;
+	private Image floor;
 	private Image wall;
+	private Image goal;
+	private Image water;
+	private Image fire;
 	
 	/** The quit button for the game. */
 	@FXML private Button btnQuit;
@@ -51,23 +64,19 @@ public class GameController {
 	private GraphicsContext gc;
 	
 	/**
-	 * Sets up the level array list. 
+	 * Sets up the graphics. 
 	 * This method will run automatically.
 	 */
 	public void initialize() {
-		// Set up the level and its elements.
-		levels = FileHandling.getLevels();
-		currentLevel = levels.get(levelNum);
-		levelElements = currentLevel.getLevelElements();
-		player = currentLevel.getPlayer();
-		
 		// Load the graphics.
-		playerSprite = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
-		dirt = new Image(new File (TEXTURE_FILE_PATH + "Dirt.png").toURI().toString());
-		wall = new Image(new File (TEXTURE_FILE_PATH + "StoneWall.png").toURI().toString());
+		playerDefault = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
 		
-		// Draw the level as the game opens.
-		drawLevel();
+		playerSprite = playerDefault;
+		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
+		wall = new Image(new File (TEXTURE_FILE_PATH + "StoneWall.png").toURI().toString());
+		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
+		water = new Image(new File (TEXTURE_FILE_PATH + "Water.png").toURI().toString());
+		fire = new Image(new File (TEXTURE_FILE_PATH + "Fire.png").toURI().toString());
 	}
 	
 	/**
@@ -118,16 +127,23 @@ public class GameController {
 	 * @param newY The new y-coordinate.
 	 */
 	public void isMoveValid(int newX, int newY) {
-		String element = levelElements[newX][newY];
+		String element = levelElements[newY][newX];
 		switch (element) {
 			case "W":
 				// No nothing.
 				break;
+			case "G":
+				// Level Complete
+				loadNewLevel();
+				break;
+			// HAZARDS.
 			case "F":
-				// DEATH.
+				// Death.
+				restartLevel();
 				break;
 			case "WTR":
-				// DEATH.
+				// Death.
+				restartLevel();
 				break;
 			case "E":
 				// DEATH.
@@ -148,28 +164,76 @@ public class GameController {
 		// Clear canvas.
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
-		int levelHeight = currentLevel.getLevelHeight();
-		int levelWidth = currentLevel.getLevelWidth();
+		// Based on the index.
+		int levelHeight = currentLevel.getLevelHeight() - 1;
+		int levelWidth = currentLevel.getLevelWidth() - 1;
 		
 		// Get player position.
 		int playerX = player.getPlayerX();
 		int playerY = player.getPlayerY();
 		
-		for (int row = 0; row < levelHeight; row++) {
-	    	for (int col = 0; col < levelWidth; col++) {
+		// Set the bounds of the game shown based on the player's position.
+		int xLeftBound = playerX - GAME_BOUNDS;
+		int xRightBound = playerX + GAME_BOUNDS;
+		int yUpBound = playerY - GAME_BOUNDS;
+		int yDownBound = playerY + GAME_BOUNDS;
+		
+		// Used to show applicable items on the canvas.
+		int tempRow = 0;
+		int tempCol = 0;
+		boolean xLeftBoundChange = false;
+		
+		// Adjust elements if out of bounds.
+		if (xLeftBound < 0) {
+			tempCol = xLeftBound * -1;
+			xLeftBoundChange = true; // Used cos it needs to reset in the for loop.
+			xLeftBound = 0;
+		}
+		if (xRightBound > levelHeight) {
+			xRightBound = levelHeight;
+		} 	
+	    if (yDownBound > levelWidth) {
+	    	yDownBound = levelWidth;
+		} 
+	    if (yUpBound < 0) {
+	    	tempRow = yUpBound * -1;
+			yUpBound = 0;
+		}
+		
+	    // Show elements based on the bounds.
+		for (int row = yUpBound; row <= yDownBound; row++) {
+	    	for (int col = xLeftBound; col <= xRightBound; col++) {
 	    		String element = levelElements[row][col];
+	    		// Draw the floor first (as a base).
+	    		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 	    		switch(element) {
 	    			case "W":
-	    				gc.drawImage(wall, row * GRID_CELL_WIDTH, col * GRID_CELL_HEIGHT);
+	    				gc.drawImage(wall, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 	    				break;
-	    			default:
-	    				gc.drawImage(dirt, row * GRID_CELL_WIDTH, col * GRID_CELL_HEIGHT);
+	    			case "G":
+	    				gc.drawImage(goal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+	    				break;
+	    			case "WTR":
+	    				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+	    				break;
+	    			case "F":
+	    				gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 	    				break;
 	    		}
+	    		tempCol++;
 	    	}
+	    	
+	    	tempCol = 0;
+	    	if (xLeftBoundChange) {
+	    		tempCol = (playerX - GAME_BOUNDS) * -1;
+	    	}
+	    	
+	    	tempRow++;
 	    }
-		
-		// Draw player at current location
+	
+		// Draw player at current location (always in the middle of the canvas (locally)).
+		playerX = GAME_BOUNDS;
+	    playerY = GAME_BOUNDS;
 		gc.drawImage(playerSprite, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
 	}
 	
@@ -186,9 +250,26 @@ public class GameController {
 	 */
 	public void loadNewLevel() {
 		// Set up the level and its elements.
-		currentLevel = levels.get(levelNum);
+		if (MAX_LEVEL == levelNum) {
+			// GAME COMPLETE!
+		} else {
+			levelNum++;
+			currentLevel = FileHandling.getLevel(levelNum);
+			levelElements = currentLevel.getLevelElements();
+			player = currentLevel.getPlayer();
+			drawLevel();
+		}
+	}
+	
+	/**
+	 * Resets the elements for the current level if the player
+	 * has died.
+	 */
+	public void restartLevel() {
+		currentLevel = FileHandling.getLevel(levelNum);
 		levelElements = currentLevel.getLevelElements();
 		player = currentLevel.getPlayer();
+		playerSprite = playerDefault;
 		drawLevel();
 	}
 	

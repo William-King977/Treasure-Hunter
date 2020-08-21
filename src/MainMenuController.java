@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -47,11 +47,17 @@ public class MainMenuController {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
 					.getResource("FXMLFiles/GameWindow.fxml"));
-			Pane root = fxmlLoader.load();
+			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
 			GameController gameWindow = fxmlLoader.<GameController> getController();
+			
+			// Adjust the level number parameter.
+			// NOTE: Restart level basically loads the level AFTER
+			// the level number is set. The Initialize method runs first, which
+			// causes the level number to be always 0.
 			gameWindow.setLevelNumber(1);
+			gameWindow.restartLevel();
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();

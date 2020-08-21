@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -92,77 +91,70 @@ public class FileHandling {
 	}
 	
 	/**
-	 * Fetches all the levels of the game
-	 * @return ArrayList holding all of the levels.
+	 * Fetches a single specified level from the game.
+	 * @param levelNum Indicates which level to get as an integer.
+	 * @return The level the user specifies.
 	 */
-	public static ArrayList<Level> getLevels() {
-		ArrayList<Level> levels = new ArrayList<>();
-		String levelFilePath = DATA_FILE_PATH + "Levels";
-		int numberOfLevels = new File(levelFilePath).list().length;
-		
-		// Read each level file.
-		for (int levelNum = 1; levelNum <= numberOfLevels; levelNum++) {
-			String filePath = levelFilePath + "/Level " + levelNum + ".txt";
-			File inputFile = new File(filePath);
-			Scanner in = null;
-		    try {
-		    	//Opens the file for reading
-				in = new Scanner (inputFile);
-			// Catch an exception if the file does not exist and exit the program.
-			} catch (FileNotFoundException e) {
-				System.out.println("Cannot open " + filePath);
-				System.exit(-1);
-			}
-		    
-		    in.useDelimiter(",");
-		    
-		    // Read the level's height and width first.
-		    int levelWidth = in.nextInt();
-	    	int levelHeight = in.nextInt();
-		    in.nextLine();
-		    
-		    String[][] levelElements = new String[levelWidth][levelHeight];
-		    
-		    // Then read the level elements.
-		    for (int row = 0; row < levelHeight; row++) {
-		    	for (int col = 0; col < levelWidth; col++) {
-		    		String element = in.next();
-		    		levelElements[row][col] = element;
-		    	}
-		    	in.nextLine(); // Needed if you change delimiter.
-		    }
-		    
-		    // Read miscinalious game objects.
-		    Player player = null;
-		    
-		    while(in.hasNextLine()) {
-			    String elementType = in.next();
-			    switch(elementType) {
-			    	case "START":
-			    		// Read the player's start position.
-					    int playerX = in.nextInt();
-					    int playerY = in.nextInt();
-					    // Construct the player.
-					    player = new Player(playerX, playerY);
-					    in.nextLine();
-					    break;
-			    	case "ENEMY":
-			    		// Read enemies, construct them and add them to a list.
-			    		in.nextLine();
-			    		break;
-			    	case "DOOR":
-			    		// Read doors, construct them and add them to a list.
-			    		in.nextLine();
-			    		break;
-			    }
-		    }
-		    
-		    // Construct a level, then add it to the list.
-		    Level newLevel = new Level(levelElements, levelNum, player);
-		    levels.add(newLevel);
-		    in.close();
+	public static Level getLevel(int levelNum) {
+		String filePath = DATA_FILE_PATH + "Levels/Level " + levelNum + ".txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
+	    try {
+	    	//Opens the file for reading
+			in = new Scanner (inputFile);
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
 		}
-		return levels;
+	    
+	    in.useDelimiter(",");
+	    
+	    // Read the level's height and width first.
+	    int levelWidth = in.nextInt();
+    	int levelHeight = in.nextInt();
+	    in.nextLine();
+	    
+	    // Then read the level elements.
+	    String[][] levelElements = new String[levelWidth][levelHeight];
+	    
+	    for (int row = 0; row < levelHeight; row++) {
+	    	for (int col = 0; col < levelWidth; col++) {
+	    		String element = in.next();
+	    		levelElements[row][col] = element;
+	    	}
+	    	in.nextLine(); // Needed if you change delimiter.
+	    }
+	    
+	    // Read miscellaneous game objects (that require more details).
+	    Player player = null;
+	    
+	    while(in.hasNextLine()) {
+		    String elementType = in.next();
+		    switch(elementType) {
+		    	case "START":
+		    		// Read the player's start position.
+				    int playerX = in.nextInt();
+				    int playerY = in.nextInt();
+				    // Construct the player.
+				    player = new Player(playerX, playerY);
+				    in.nextLine();
+				    break;
+		    	case "ENEMY":
+		    		// Read enemies, construct them and add them to a list.
+		    		in.nextLine();
+		    		break;
+		    	case "DOOR":
+		    		// Read doors, construct them and add them to a list.
+		    		in.nextLine();
+		    		break;
+		    }
+	    }
+	    in.close();
+	    
+	    // Construct the level.
+	    Level newLevel = new Level(levelElements, levelNum, player);
+		return newLevel;
 	}
 	
 	/**
