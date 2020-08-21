@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -58,6 +60,7 @@ public class GameController {
 	private Image orangeKey;
 	private Image yellowKey;
 	private Image purpleKey;
+	private Image token;
 	
 	private Image playerSprite; // The current player sprite.
 	private Image floor;
@@ -70,6 +73,10 @@ public class GameController {
 	@FXML private Button btnInventory;
 	/** The quit button for the game. */
 	@FXML private Button btnQuit;
+	/** An label to show the token count. */
+	@FXML private Label lblToken; 
+	/** An image view to show the token icon. */
+	@FXML private ImageView imgViewToken; 
 	/* The canvas in the GUI. */ 
 	@FXML private Canvas canvas;
 	/** The graphic context of the canvas. */
@@ -92,6 +99,7 @@ public class GameController {
 		orangeKey = new Image(new File (ITEM_FILE_PATH + "OrangeKey.png").toURI().toString());
 		yellowKey = new Image(new File (ITEM_FILE_PATH + "YellowKey.png").toURI().toString());
 		purpleKey = new Image(new File (ITEM_FILE_PATH + "purpleKey.png").toURI().toString());
+		token = new Image(new File (ITEM_FILE_PATH + "Token.png").toURI().toString());
 		
 		// Environment.
 		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
@@ -101,6 +109,7 @@ public class GameController {
 		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
 		
 		playerSprite = playerDefault;
+		imgViewToken.setImage(token);
 	}
 	
 	/**
@@ -193,6 +202,15 @@ public class GameController {
 				player.setX(newX);
 				player.setY(newY);
 				player.addInventory("Purple Key");
+				levelElements[newY][newX] = " ";
+				break;
+			case "T":
+				player.setX(newX);
+				player.setY(newY);
+				// Increment token count and show it on screen.
+				int newTokenCount = player.getNumTokens() + 1;
+				player.setNumTokens(newTokenCount);
+				lblToken.setText(newTokenCount + "");
 				levelElements[newY][newX] = " ";
 				break;
 			// HAZARDS.
@@ -329,6 +347,9 @@ public class GameController {
 			case "PK":
 				gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
+			case "T":
+				gc.drawImage(token, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;
 			// HAZARDS.
 			case "WTR":
 				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
@@ -360,6 +381,7 @@ public class GameController {
 			levelElements = currentLevel.getLevelElements();
 			player = currentLevel.getPlayer();
 			playerSprite = playerDefault;
+			lblToken.setText("0");
 			drawLevel();
 		}
 	}
@@ -372,6 +394,7 @@ public class GameController {
 		levelElements = currentLevel.getLevelElements();
 		player = currentLevel.getPlayer();
 		playerSprite = playerDefault;
+		lblToken.setText("0");
 		drawLevel();
 	}
 	
