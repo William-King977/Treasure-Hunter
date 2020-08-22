@@ -28,7 +28,7 @@ public class Item {
 	 * Gets the x-coordinate location of the item.
 	 * @return The x-coordinate as an integer.
 	 */
-	public int getItemX() {
+	public int getX() {
 		return itemX;
 	}
 
@@ -36,7 +36,7 @@ public class Item {
 	 * Gets the y-coordinate location of the item.
 	 * @return The y-coordinate as an integer.
 	 */
-	public int getItemY() {
+	public int getY() {
 		return itemY;
 	}
 

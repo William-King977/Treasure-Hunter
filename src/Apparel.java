@@ -28,7 +28,7 @@ public class Apparel {
 	 * Gets the x-coordinate location of the apparel.
 	 * @return The x-coordinate as an integer.
 	 */
-	public int getApparelX() {
+	public int getX() {
 		return apparelX;
 	}
 
@@ -36,7 +36,7 @@ public class Apparel {
 	 * Gets the y-coordinate location of the apparel.
 	 * @return The y-coordinate as an integer.
 	 */
-	public int getApparelY() {
+	public int getY() {
 		return apparelY;
 	}
 

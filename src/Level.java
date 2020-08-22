@@ -28,6 +28,9 @@ public class Level {
 	/** A list of items. Accessed by their location on the level. */
 	private Item[][] items;
 	
+	/** A list of hazards. Accessed by their location on the level. */
+	private Hazard[][] hazards;
+	
 	/**
 	 * Constructor for the Level class.
 	 * @param levelElements Array holding each element needed to draw the level.
@@ -36,15 +39,17 @@ public class Level {
 	 * @param doors A list of all doors in the level.
 	 * @param apparels A list of all apparels in the level.
 	 * @param items A list of all items in the level.
+	 * @param hazards A list of all hazards in the level.
 	 */
 	public Level(String[][] levelElements, int levelNumber, Player player, 
-			Door[][] doors, Apparel[][] apparels, Item[][] items) {
+			Door[][] doors, Apparel[][] apparels, Item[][] items, Hazard[][] hazards) {
 		this.levelElements = levelElements;
 		this.levelNumber = levelNumber;
 		this.player = player;
 		this.doors = doors;
 		this.apparels = apparels;
 		this.items = items;
+		this.hazards = hazards;
 		
 		// Height and width will be fixed, so this is fine.
 		levelHeight = levelElements.length;
@@ -100,7 +105,7 @@ public class Level {
 	}
 
 	/**
-	 * Gets the a list of all the doors in the level.
+	 * Gets a list of all the doors in the level.
 	 * @return All of the doors as an array.
 	 */
 	public Door[][] getDoors() {
@@ -108,7 +113,7 @@ public class Level {
 	}
 	
 	/**
-	 * Gets the a list of all the apparels in the level.
+	 * Gets a list of all the apparels in the level.
 	 * @return All of the apparels as an array.
 	 */
 	public Apparel[][] getApparels() {
@@ -116,10 +121,18 @@ public class Level {
 	}
 	
 	/**
-	 * Gets the a list of all the items in the level.
+	 * Gets a list of all the items in the level.
 	 * @return All of the items as an array.
 	 */
 	public Item[][] getItems() {
 		return items;
+	}
+	
+	/**
+	 * Gets a list of all the hazards in the level.
+	 * @return All of the hazards as an array.
+	 */
+	public Hazard[][] getHazards() {
+		return hazards;
 	}
 }

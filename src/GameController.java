@@ -48,6 +48,8 @@ public class GameController {
 	private Apparel[][] apparels;
 	/** An array holding all the items in a level. */
 	private Item[][] items;
+	/** An array holding all the hazards in a level. */
+	private Hazard[][] hazards;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
@@ -274,26 +276,31 @@ public class GameController {
 				}
 				break;
 			// HAZARDS.
-			case "F":
-				switch (apparelEquipped) {
-					case "Fire Boots":
-						player.setX(newX);
-						player.setY(newY);
+			case "H":
+				Hazard hazard = hazards[newY][newX];
+				switch (hazard.getType()) {
+					case WATER:
+						switch (apparelEquipped) {
+							case "Flippers":
+								player.setX(newX);
+								player.setY(newY);
+								break;
+							default:
+								// DEATH.
+								restartLevel();
+						}
 						break;
-					default:
-						// DEATH.
-						restartLevel();
-				}
-				break;
-			case "WTR":
-				switch (apparelEquipped) {
-					case "Flippers":
-						player.setX(newX);
-						player.setY(newY);
+					case FIRE:
+						switch (apparelEquipped) {
+							case "Fire Boots":
+								player.setX(newX);
+								player.setY(newY);
+								break;
+							default:
+								// DEATH.
+								restartLevel();
+						}
 						break;
-					default:
-						// DEATH.
-						restartLevel();
 				}
 				break;
 			case "E":
@@ -441,11 +448,16 @@ public class GameController {
 				}
 				break;
 			// HAZARDS.
-			case "WTR":
-				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-				break;
-			case "F":
-				gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+			case "H":
+				Hazard hazard = hazards[row][col];
+				switch (hazard.getType()) {
+					case WATER:
+						gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case FIRE:
+						gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+				}
 				break;
 		}
 	}
@@ -507,9 +519,11 @@ public class GameController {
 			levelElements = currentLevel.getLevelElements();
 			player = currentLevel.getPlayer();
 			playerSprite = playerDefault;
+			
 			doors = currentLevel.getDoors();
 			apparels = currentLevel.getApparels();
 			items = currentLevel.getItems();
+			hazards = currentLevel.getHazards();
 			lblToken.setText("0");
 			drawLevel();
 		}
@@ -523,9 +537,11 @@ public class GameController {
 		levelElements = currentLevel.getLevelElements();
 		player = currentLevel.getPlayer();
 		playerSprite = playerDefault;
+		
 		doors = currentLevel.getDoors(); 
 		apparels = currentLevel.getApparels();
 		items = currentLevel.getItems();
+		hazards = currentLevel.getHazards();
 		lblToken.setText("0");
 		drawLevel();
 	}
