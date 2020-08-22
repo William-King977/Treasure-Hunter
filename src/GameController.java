@@ -44,6 +44,10 @@ public class GameController {
 	private String[][] levelElements;
 	/** An array holding all the doors in a level. */
 	private Door[][] doors;
+	/** An array holding all the apparels in a level. */
+	private Apparel[][] apparels;
+	/** An array holding all the items in a level. */
+	private Item[][] items;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
@@ -181,8 +185,8 @@ public class GameController {
 	public void isMoveValid(int newX, int newY) {
 		String element = levelElements[newY][newX];
 		String[] equippedItems =  player.getEquippedItems();
-		String apparel = equippedItems[0]; // For water/fire hazards.
-		String item = equippedItems[1]; // For coloured doors.
+		String apparelEquipped = equippedItems[0]; // For water/fire hazards.
+		String itemEquipped = equippedItems[1]; // For coloured doors.
 		switch (element) {
 			case "W":
 				// No nothing.
@@ -192,37 +196,39 @@ public class GameController {
 				loadNewLevel();
 				break;
 			// APPAREL.
-			case "FLP":
+			case "A":
+				Apparel apparel = apparels[newY][newX];
+				switch (apparel.getType()) {
+				case FLIPPERS:
+					player.addInventory("Flippers");
+					break;
+				case FIREBOOTS:
+					player.addInventory("Fire Boots");
+					break;
+				}
 				player.setX(newX);
 				player.setY(newY);
-				player.addInventory("Flippers");
 				levelElements[newY][newX] = " "; // Make it disappear.
 				break;
-			case "FB":
-				player.setX(newX);
-				player.setY(newY);
-				player.addInventory("Fire Boots");
-				levelElements[newY][newX] = " ";
-				break;
 			// ITEMS.
-			case "OK":
+			case "I":
+				Item item = items[newY][newX];
+				switch (item.getType()) {
+					case YELLOWKEY:
+						player.addInventory("Yellow Key");
+						break;
+					case ORANGEKEY:
+						player.addInventory("Orange Key");
+						break;
+					case PURPLEKEY:
+						player.addInventory("Purple Key");
+						break;
+				}
 				player.setX(newX);
 				player.setY(newY);
-				player.addInventory("Orange Key");
-				levelElements[newY][newX] = " "; 
+				levelElements[newY][newX] = " "; // Make it disappear.
 				break;
-			case "YK":
-				player.setX(newX);
-				player.setY(newY);
-				player.addInventory("Yellow Key");
-				levelElements[newY][newX] = " ";
-				break;
-			case "PK":
-				player.setX(newX);
-				player.setY(newY);
-				player.addInventory("Purple Key");
-				levelElements[newY][newX] = " ";
-				break;
+			// TOKENS.
 			case "T":
 				player.setX(newX);
 				player.setY(newY);
@@ -237,20 +243,20 @@ public class GameController {
 				Door door = doors[newY][newX];
 				switch (door.getType()) {
 					case YELLOW:
-						if (item.equals("Yellow Key")) {
-							player.useItem(item);
+						if (itemEquipped.equals("Yellow Key")) {
+							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						}
 						break;
 					case ORANGE:
-						if (item.equals("Orange Key")) {
-							player.useItem(item);
+						if (itemEquipped.equals("Orange Key")) {
+							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						}
 						break;
 					case PURPLE:
-						if (item.equals("Purple Key")) {
-							player.useItem(item);
+						if (itemEquipped.equals("Purple Key")) {
+							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						}
 						break;
@@ -269,7 +275,7 @@ public class GameController {
 				break;
 			// HAZARDS.
 			case "F":
-				switch (apparel) {
+				switch (apparelEquipped) {
 					case "Fire Boots":
 						player.setX(newX);
 						player.setY(newY);
@@ -280,7 +286,7 @@ public class GameController {
 				}
 				break;
 			case "WTR":
-				switch (apparel) {
+				switch (apparelEquipped) {
 					case "Flippers":
 						player.setX(newX);
 						player.setY(newY);
@@ -385,22 +391,33 @@ public class GameController {
 				gc.drawImage(goal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
 			// APPAREL.
-			case "FLP":
-				gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-				break;
-			case "FB":
-				gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+			case "A":
+				Apparel apparel = apparels[row][col];
+				switch (apparel.getType()) {
+				case FLIPPERS:
+					gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+					break;
+				case FIREBOOTS:
+					gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+					break;
+				}
 				break;
 			// ITEMS.
-			case "OK":
-				gc.drawImage(orangeKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+			case "I":
+				Item item = items[row][col];
+				switch (item.getType()) {
+					case YELLOWKEY:
+						gc.drawImage(yellowKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case ORANGEKEY:
+						gc.drawImage(orangeKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case PURPLEKEY:
+						gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+				}
 				break;
-			case "YK":
-				gc.drawImage(yellowKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-				break;
-			case "PK":
-				gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-				break;
+			// TOKEN.
 			case "T":
 				gc.drawImage(token, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
@@ -491,6 +508,8 @@ public class GameController {
 			player = currentLevel.getPlayer();
 			playerSprite = playerDefault;
 			doors = currentLevel.getDoors();
+			apparels = currentLevel.getApparels();
+			items = currentLevel.getItems();
 			lblToken.setText("0");
 			drawLevel();
 		}
@@ -504,7 +523,9 @@ public class GameController {
 		levelElements = currentLevel.getLevelElements();
 		player = currentLevel.getPlayer();
 		playerSprite = playerDefault;
-		doors = currentLevel.getDoors(); // Not really needed, but just in case...
+		doors = currentLevel.getDoors(); 
+		apparels = currentLevel.getApparels();
+		items = currentLevel.getItems();
 		lblToken.setText("0");
 		drawLevel();
 	}

@@ -38,27 +38,11 @@ public class Door {
 	}
 
 	/**
-	 * Sets the x-coordinate location of the door.
-	 * @param doorX The x-coordinate to be set.
-	 */
-	public void setX(int doorX) {
-		this.doorX = doorX;
-	}
-
-	/**
 	 * Gets the y-coordinate location of the door.
 	 * @return The y-coordinate as an integer.
 	 */
 	public int getY() {
 		return doorY;
-	}
-
-	/**
-	 * Sets the y-coordinate location of the door.
-	 * @param doorY The y-coordinate to be set.
-	 */
-	public void setY(int doorY) {
-		this.doorY = doorY;
 	}
 	
 	/**

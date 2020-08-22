@@ -131,6 +131,8 @@ public class FileHandling {
 	    // Read miscellaneous game objects (that require more details).
 	    Player player = null;
 	    Door[][] doors = new Door[levelHeight][levelWidth];
+	    Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
+	    Item[][] items = new Item[levelHeight][levelWidth];
 	    
 	    while(in.hasNextLine()) {
 		    String elementType = in.next();
@@ -141,21 +143,50 @@ public class FileHandling {
 				    int playerY = in.nextInt();
 				    // Construct the player.
 				    player = new Player(playerX, playerY);
-				    in.nextLine();
 				    break;
-		    	case "ENEMY":
-		    		// Read enemies, construct them and add them to a list.
-		    		in.nextLine();
+		    	case "APPAREL":
+		    		int apparelX = in.nextInt();
+		    		int apparelY = in.nextInt();
+		    		String aType = in.next();
+		    		ApparelType apparelType = null;
+		    		switch (aType) {
+			    		case "FLIPPERS":
+			    			apparelType = ApparelType.FLIPPERS;
+			    			break;
+			    		case "FIREBOOTS":
+			    			apparelType = ApparelType.FIREBOOTS;
+			    			break;
+		    		}
+		    		Apparel newApparel = new Apparel(apparelX, apparelY, apparelType);
+		    		apparels[apparelY][apparelX] = newApparel;
+		    		break;
+		    	case "ITEM":
+		    		int itemX = in.nextInt();
+		    		int itemY = in.nextInt();
+		    		String iType = in.next();
+		    		ItemType itemType = null;
+		    		switch (iType) {
+			    		case "YELLOWKEY":
+			    			itemType = ItemType.YELLOWKEY;
+			    			break;
+			    		case "ORANGEKEY":
+			    			itemType = ItemType.ORANGEKEY;
+			    			break;
+			    		case "PURPLEKEY":
+			    			itemType = ItemType.PURPLEKEY;
+			    			break;
+		    		}
+		    		Item newItem = new Item(itemX, itemY, itemType);
+		    		items[itemY][itemX] = newItem;
 		    		break;
 		    	case "DOOR":
 		    		// Read doors, construct them and add them to a list.
 		    		int doorX = in.nextInt();
 		    		int doorY = in.nextInt();
-		    		String type = in.next();
+		    		String dType = in.next();
 		    		int numTokens = in.nextInt();
-		    		
 		    		DoorType doorType = null;
-		    		switch (type) {
+		    		switch (dType) {
 			    		case "YELLOW":
 			    			doorType = DoorType.YELLOW;
 			    			break;
@@ -169,17 +200,19 @@ public class FileHandling {
 			    			doorType = DoorType.TOKEN;
 			    			break;
 		    		}
-		    		
 		    		Door newDoor = new Door(doorX, doorY, doorType, numTokens);
 		    		doors[doorY][doorX] = newDoor;
-		    		in.nextLine();
+		    		break;
+		    	case "ENEMY":
+		    		// Read enemies, construct them and add them to a list.
 		    		break;
 		    }
+		    in.nextLine();
 	    }
 	    in.close();
 	    
 	    // Construct the level.
-	    Level newLevel = new Level(levelElements, levelNum, player, doors);
+	    Level newLevel = new Level(levelElements, levelNum, player, doors, apparels, items);
 		return newLevel;
 	}
 	
