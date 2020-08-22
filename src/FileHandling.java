@@ -134,6 +134,7 @@ public class FileHandling {
 	    Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
 	    Item[][] items = new Item[levelHeight][levelWidth];
 	    Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
+	    Portal[][] portals = new Portal[levelHeight][levelWidth];
 	    
 	    while(in.hasNextLine()) {
 		    String elementType = in.next();
@@ -219,6 +220,15 @@ public class FileHandling {
 		    		}
 		    		Hazard newHazard = new Hazard(hazardX, hazardY, hazardType);
 		    		hazards[hazardY][hazardX] = newHazard;
+		    		break;
+		    	case "PORTAL":
+		    		int portalX = in.nextInt();
+		    		int portalY = in.nextInt();
+		    		int destX = in.nextInt();
+		    		int destY = in.nextInt();
+		    		Portal newPortal = new Portal(portalX, portalY, destX, destY);
+		    		portals[portalY][portalX] = newPortal;
+		    		break;
 		    	case "ENEMY":
 		    		// Read enemies, construct them and add them to a list.
 		    		break;
@@ -228,7 +238,8 @@ public class FileHandling {
 	    in.close();
 	    
 	    // Construct the level.
-	    Level newLevel = new Level(levelElements, levelNum, player, doors, apparels, items, hazards);
+	    Level newLevel = new Level(levelElements, levelNum, player, doors, 
+	    		apparels, items, hazards, portals);
 		return newLevel;
 	}
 	

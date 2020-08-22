@@ -50,6 +50,8 @@ public class GameController {
 	private Item[][] items;
 	/** An array holding all the hazards in a level. */
 	private Hazard[][] hazards;
+	/** An array holding all the portals in a level. */
+	private Portal[][] portals;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
@@ -87,6 +89,7 @@ public class GameController {
 	private Image goal;
 	private Image water;
 	private Image fire;
+	private Image portal;
 	
 	/** The inventory button for the game. */
 	@FXML private Button btnInventory;
@@ -132,6 +135,7 @@ public class GameController {
 		water = new Image(new File (TEXTURE_FILE_PATH + "Water.png").toURI().toString());
 		fire = new Image(new File (TEXTURE_FILE_PATH + "Fire.png").toURI().toString());
 		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
+		portal = new Image(new File (TEXTURE_FILE_PATH + "Portal.png").toURI().toString());
 		
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);
@@ -303,6 +307,13 @@ public class GameController {
 						break;
 				}
 				break;
+			case "P":
+				Portal portal = portals[newY][newX];
+				int destX = portal.getDestX();
+				int destY = portal.getDestY();
+				player.setX(destX);
+				player.setY(destY);
+				break;
 			case "E":
 				// DEATH.
 				restartLevel();
@@ -459,6 +470,9 @@ public class GameController {
 						break;
 				}
 				break;
+			case "P":
+				gc.drawImage(portal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+				break;	
 		}
 	}
 	
@@ -524,6 +538,7 @@ public class GameController {
 			apparels = currentLevel.getApparels();
 			items = currentLevel.getItems();
 			hazards = currentLevel.getHazards();
+			portals = currentLevel.getPortals();
 			lblToken.setText("0");
 			drawLevel();
 		}
@@ -542,6 +557,7 @@ public class GameController {
 		apparels = currentLevel.getApparels();
 		items = currentLevel.getItems();
 		hazards = currentLevel.getHazards();
+		portals = currentLevel.getPortals();
 		lblToken.setText("0");
 		drawLevel();
 	}
