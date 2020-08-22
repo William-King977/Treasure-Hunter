@@ -14,6 +14,8 @@ import java.util.Scanner;
 public class FileHandling {
 	/** File location of the data files. */
 	private final static String DATA_FILE_PATH = "DataFiles/";
+	/** File location of the level text files. */
+	private final static String LEVEL_FILE_PATH = "DataFiles/Levels/";
 	
 	/**
 	 * Saves the username of the currently logged in user to a text file.
@@ -96,7 +98,7 @@ public class FileHandling {
 	 * @return The level the user specifies.
 	 */
 	public static Level getLevel(int levelNum) {
-		String filePath = DATA_FILE_PATH + "Levels/Level " + levelNum + ".txt";
+		String filePath = LEVEL_FILE_PATH + "Level " + levelNum + ".txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
 	    try {
@@ -128,6 +130,7 @@ public class FileHandling {
 	    
 	    // Read miscellaneous game objects (that require more details).
 	    Player player = null;
+	    Door[][] doors = new Door[levelHeight][levelWidth];
 	    
 	    while(in.hasNextLine()) {
 		    String elementType = in.next();
@@ -146,6 +149,29 @@ public class FileHandling {
 		    		break;
 		    	case "DOOR":
 		    		// Read doors, construct them and add them to a list.
+		    		int doorX = in.nextInt();
+		    		int doorY = in.nextInt();
+		    		String type = in.next();
+		    		int numTokens = in.nextInt();
+		    		
+		    		DoorType doorType = null;
+		    		switch (type) {
+			    		case "YELLOW":
+			    			doorType = DoorType.YELLOW;
+			    			break;
+			    		case "ORANGE":
+			    			doorType = DoorType.ORANGE;
+			    			break;
+			    		case "PURPLE":
+			    			doorType = DoorType.PURPLE;
+			    			break;
+			    		case "TOKEN":
+			    			doorType = DoorType.TOKEN;
+			    			break;
+		    		}
+		    		
+		    		Door newDoor = new Door(doorX, doorY, doorType, numTokens);
+		    		doors[doorY][doorX] = newDoor;
 		    		in.nextLine();
 		    		break;
 		    }
@@ -153,7 +179,7 @@ public class FileHandling {
 	    in.close();
 	    
 	    // Construct the level.
-	    Level newLevel = new Level(levelElements, levelNum, player);
+	    Level newLevel = new Level(levelElements, levelNum, player, doors);
 		return newLevel;
 	}
 	

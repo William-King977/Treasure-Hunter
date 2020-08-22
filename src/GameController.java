@@ -27,6 +27,8 @@ public class GameController {
 	private final static String PLAYER_FILE_PATH = "DataFiles/Player Sprites/";
 	/** File location of the items. */
 	private final static String ITEM_FILE_PATH = "DataFiles/Items/";
+	/** File location of the doors. */
+	private final static String DOOR_FILE_PATH = "DataFiles/Doors/";
 	/** File location of the textures. */
 	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
 	/** The number marking the highest level in the game. */
@@ -40,6 +42,8 @@ public class GameController {
 
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
+	/** An array holding all the doors in a level. */
+	private Door[][] doors;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
@@ -51,10 +55,12 @@ public class GameController {
 	private int levelNum;
 	
 	// Loaded images
+	// SPRITES
 	private Image playerDefault;
 	private Image playerFlippers;
 	private Image playerFireBoots;
 	
+	// ITEMS
 	private Image fireBoots;
 	private Image flippers;
 	private Image orangeKey;
@@ -62,6 +68,13 @@ public class GameController {
 	private Image purpleKey;
 	private Image token;
 	
+	// DOORS.
+	private Image yellowDoor;
+	private Image orangeDoor;
+	private Image purpleDoor;
+	private Image tokenDoor;
+	
+	// ENVIRONMENT
 	private Image playerSprite; // The current player sprite.
 	private Image floor;
 	private Image wall;
@@ -100,6 +113,12 @@ public class GameController {
 		yellowKey = new Image(new File (ITEM_FILE_PATH + "YellowKey.png").toURI().toString());
 		purpleKey = new Image(new File (ITEM_FILE_PATH + "purpleKey.png").toURI().toString());
 		token = new Image(new File (ITEM_FILE_PATH + "Token.png").toURI().toString());
+		
+		// Doors
+		yellowDoor  = new Image(new File (DOOR_FILE_PATH + "YellowDoor.png").toURI().toString());
+		orangeDoor  = new Image(new File (DOOR_FILE_PATH + "OrangeDoor.png").toURI().toString());
+		purpleDoor  = new Image(new File (DOOR_FILE_PATH + "PurpleDoor.png").toURI().toString());
+		tokenDoor  = new Image(new File (DOOR_FILE_PATH + "TokenDoor.png").toURI().toString());
 		
 		// Environment.
 		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
@@ -213,6 +232,41 @@ public class GameController {
 				lblToken.setText(newTokenCount + "");
 				levelElements[newY][newX] = " ";
 				break;
+			// DOOR
+			case "D":
+				Door door = doors[newY][newX];
+				switch (door.getType()) {
+					case YELLOW:
+						if (item.equals("Yellow Key")) {
+							player.useItem(item);
+							levelElements[newY][newX] = " ";
+						}
+						break;
+					case ORANGE:
+						if (item.equals("Orange Key")) {
+							player.useItem(item);
+							levelElements[newY][newX] = " ";
+						}
+						break;
+					case PURPLE:
+						if (item.equals("Purple Key")) {
+							player.useItem(item);
+							levelElements[newY][newX] = " ";
+						}
+						break;
+					case TOKEN:
+						int doorCost = door.getNumTokens();
+						int currentTokens = player.getNumTokens();
+						// Checks if the player has enough tokens.
+						if (currentTokens >= doorCost) {
+							int newTokens = currentTokens - doorCost;
+							player.setNumTokens(newTokens);
+							lblToken.setText(newTokens + "");
+							levelElements[newY][newX] = " ";
+						} 
+						break;
+				}
+				break;
 			// HAZARDS.
 			case "F":
 				switch (apparel) {
@@ -296,7 +350,7 @@ public class GameController {
 		for (int row = yUpBound; row <= yDownBound; row++) {
 	    	for (int col = xLeftBound; col <= xRightBound; col++) {
 	    		String element = levelElements[row][col];
-	    		drawElements(element, tempCol, tempRow);
+	    		drawElements(element, tempCol, tempRow, row, col);
 	    		tempCol++;
 	    	}
 	    	
@@ -308,10 +362,8 @@ public class GameController {
 	    	tempRow++;
 	    }
 	
-		// Draw player at current location (always in the middle of the canvas (locally)).
-		playerX = GAME_BOUNDS;
-	    playerY = GAME_BOUNDS;
-		gc.drawImage(playerSprite, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+		// Draw player sprite (after using an item or moving).
+		drawPlayerSprite();
 	}
 	
 	/**
@@ -319,8 +371,10 @@ public class GameController {
 	 * @param element The acronym of the current element.
 	 * @param tempCol The local column the element is in.
 	 * @param tempRow The local row the element is in.
+	 * @param row The actual row the element is in.
+	 * @param col The actual column the element is in.
 	 */
-	public void drawElements(String element, int tempCol, int tempRow) {
+	public void drawElements(String element, int tempCol, int tempRow, int row, int col) {
 		// Draw the floor first (as a base).
 		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 		switch(element) {
@@ -350,6 +404,25 @@ public class GameController {
 			case "T":
 				gc.drawImage(token, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
+			// DOOR.
+			case "D":
+				// Fetch the correct door and draw it.
+				Door door = doors[row][col];
+				switch (door.getType()) {
+					case YELLOW:
+						gc.drawImage(yellowDoor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case ORANGE:
+						gc.drawImage(orangeDoor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case PURPLE:
+						gc.drawImage(purpleDoor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+					case TOKEN:
+						gc.drawImage(tokenDoor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						break;
+				}
+				break;
 			// HAZARDS.
 			case "WTR":
 				gc.drawImage(water, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
@@ -358,6 +431,42 @@ public class GameController {
 				gc.drawImage(fire, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
 		}
+	}
+	
+	/**
+	 * Redraws the player sprite after an action is performed (movement or using an item).
+	 */
+	public void drawPlayerSprite() {
+		String[] equippedItems = player.getEquippedItems();
+		String apparel = equippedItems[0];
+		String item = equippedItems[1];
+		
+		// Change the sprite if an item has been used.
+		// Otherwise the sprite stays the same.
+		switch (apparel) {
+			case "Flippers":
+				switch (item) {
+					case " ":
+						playerSprite = playerFlippers;
+						break;
+				}
+				break;
+			case "Fire Boots":
+				switch (item) {
+					case " ":
+						playerSprite = playerFireBoots;
+						break;
+				}
+				break;
+			default:
+				switch (item) {
+					case " ":
+						playerSprite = playerDefault;
+						break;
+				}
+		}
+		// Draw the sprite.
+		gc.drawImage(playerSprite, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
 	}
 	
 	/**
@@ -381,6 +490,7 @@ public class GameController {
 			levelElements = currentLevel.getLevelElements();
 			player = currentLevel.getPlayer();
 			playerSprite = playerDefault;
+			doors = currentLevel.getDoors();
 			lblToken.setText("0");
 			drawLevel();
 		}
@@ -394,6 +504,7 @@ public class GameController {
 		levelElements = currentLevel.getLevelElements();
 		player = currentLevel.getPlayer();
 		playerSprite = playerDefault;
+		doors = currentLevel.getDoors(); // Not really needed, but just in case...
 		lblToken.setText("0");
 		drawLevel();
 	}

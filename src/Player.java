@@ -128,6 +128,38 @@ public class Player {
 				equippedItems[1] = newItem;
 		}
 	}
+	
+	/**
+	 * Consumes the item the player uses.
+	 * This removes that item from the user's equipped items and inventory.
+	 * @param item The item that was used.
+	 */
+	public void useItem(String item) {
+		// Remove from equipped items.
+		equippedItems[1] = " ";
+		
+		// Remove from the inventory.
+		int inventoryLength = inventory.length;
+		boolean itemFound = false;
+		
+		String[] updatedInventory = new String[inventoryLength - 1];
+		
+		// Used so that the items are added correctly, while
+		// being able to go through all of the items in the old inventory.
+		int locIndex = 0;
+		for (int i = 0; i < inventoryLength; i++) {
+			if (!itemFound && inventory[i].equals(item)) {
+				// Skips the first occurrence of the used item,
+				// so it doesn't get added to the updated list.
+				itemFound = true;
+			} else {
+				updatedInventory[locIndex] = inventory[i];
+				locIndex++;
+			}
+		}
+		
+		inventory = updatedInventory;
+	}
 
 	/**
 	 * Gets the number of tokens the player currently has.

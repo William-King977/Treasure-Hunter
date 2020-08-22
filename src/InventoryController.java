@@ -186,7 +186,7 @@ public class InventoryController {
 					default:
 						playerSprite = playerFireBoots;
 						break;
-					}
+				}
 				break;
 			default:
 				switch (item) {
