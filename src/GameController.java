@@ -8,10 +8,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -39,6 +41,26 @@ public class GameController {
 	private static int GRID_CELL_HEIGHT = 50;
 	/** The number of square cells shown on the screen. */
 	private final static int GAME_BOUNDS = 3;
+	
+	// Message Prompts.
+	private final String YELLOW_KEY_MSG = "\nYou picked up a yellow key.";
+	private final String ORANGE_KEY_MSG = "\nYou picked up an orange key.";
+	private final String PURPLE_KEY_MSG = "\nYou picked up a purple key.";
+	private final String FLIPPERS_MSG = "\nYou picked up a pair of flippers.";
+	private final String FIRE_BOOTS_MSG = "\nYou picked up a pair of fire boots.";
+	private final String TOKEN_MSG = "\nYou picked up 1 token.";
+	private final String PORTAL_MSG = "\nYou went through a portal, taking "
+			+ "you to a different part of the level.";
+	
+	private final String COLOUR_DOOR_LOCKED = "\nThis door is locked. Perhaps a key of the same colour "
+			+ "would open it?";
+	private final String TOKEN_DOOR_LOCKED = "\nThis door requires tokens to unlock "
+			+ "and you don't have enough. Tokens Required: ";
+	
+	private final String WATER_DEATH_MSG = "\nYou fell into a deep pond. Without wearing the "
+			+ "appropriate equipment, you drowned. Restarting level...\n";
+	private final String FIRE_DEATH_MSG = "\nWithout any protection, you burned to a "
+			+ "crisp as you walked into the fire pit. Restarting level...\n";
 
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
@@ -97,6 +119,8 @@ public class GameController {
 	@FXML private Button btnQuit;
 	/** An label to show the token count. */
 	@FXML private Label lblToken; 
+	/** A text area to prompt the user of their actions and the level status. */
+	@FXML private TextArea txtLevelPrompt; 
 	/** An image view to show the token icon. */
 	@FXML private ImageView imgViewToken; 
 	/* The canvas in the GUI. */ 
@@ -154,18 +178,22 @@ public class GameController {
 		// Going UP needs to lower the index and vice versa.
 		switch (event.getCode()) {
 			case UP:
+			case W:
 				playerNewY = player.getY() - 1;
 	        	isMoveValid(player.getX(), playerNewY);
 				break;
 			case DOWN:
+			case S:
 				playerNewY = player.getY() + 1;
 				isMoveValid(player.getX(), playerNewY);
 	        	break;
 			case LEFT:
+			case A:
 		    	playerNewX = player.getX() - 1;
 		    	isMoveValid(playerNewX, player.getY());
 	        	break;
 		    case RIGHT:
+		    case D:
 		    	playerNewX = player.getX() + 1;
 		    	isMoveValid(playerNewX, player.getY());
 	        	break;	        
@@ -199,6 +227,7 @@ public class GameController {
 				break;
 			case "G":
 				// Level Complete
+				txtLevelPrompt.appendText("\nLevel " + levelNum + " completed!\n");
 				loadNewLevel();
 				break;
 			// APPAREL.
@@ -206,9 +235,11 @@ public class GameController {
 				Apparel apparel = apparels[newY][newX];
 				switch (apparel.getType()) {
 				case FLIPPERS:
+					txtLevelPrompt.appendText(FLIPPERS_MSG);
 					player.addInventory("Flippers");
 					break;
 				case FIREBOOTS:
+					txtLevelPrompt.appendText(FIRE_BOOTS_MSG);
 					player.addInventory("Fire Boots");
 					break;
 				}
@@ -221,12 +252,15 @@ public class GameController {
 				Item item = items[newY][newX];
 				switch (item.getType()) {
 					case YELLOWKEY:
+						txtLevelPrompt.appendText(YELLOW_KEY_MSG);
 						player.addInventory("Yellow Key");
 						break;
 					case ORANGEKEY:
+						txtLevelPrompt.appendText(ORANGE_KEY_MSG);
 						player.addInventory("Orange Key");
 						break;
 					case PURPLEKEY:
+						txtLevelPrompt.appendText(PURPLE_KEY_MSG);
 						player.addInventory("Purple Key");
 						break;
 				}
@@ -236,13 +270,14 @@ public class GameController {
 				break;
 			// TOKENS.
 			case "T":
-				player.setX(newX);
-				player.setY(newY);
+				txtLevelPrompt.appendText(TOKEN_MSG);
 				// Increment token count and show it on screen.
 				int newTokenCount = player.getNumTokens() + 1;
 				player.setNumTokens(newTokenCount);
 				lblToken.setText(newTokenCount + "");
 				levelElements[newY][newX] = " ";
+				player.setX(newX);
+				player.setY(newY);
 				break;
 			// DOOR
 			case "D":
@@ -252,18 +287,24 @@ public class GameController {
 						if (itemEquipped.equals("Yellow Key")) {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
+						} else {
+							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case ORANGE:
 						if (itemEquipped.equals("Orange Key")) {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
+						} else {
+							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case PURPLE:
 						if (itemEquipped.equals("Purple Key")) {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
+						} else {
+							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case TOKEN:
@@ -275,7 +316,9 @@ public class GameController {
 							player.setNumTokens(newTokens);
 							lblToken.setText(newTokens + "");
 							levelElements[newY][newX] = " ";
-						} 
+						} else {
+							txtLevelPrompt.appendText(TOKEN_DOOR_LOCKED + doorCost);
+						}
 						break;
 				}
 				break;
@@ -291,6 +334,7 @@ public class GameController {
 								break;
 							default:
 								// DEATH.
+								txtLevelPrompt.appendText(WATER_DEATH_MSG);
 								restartLevel();
 						}
 						break;
@@ -302,12 +346,14 @@ public class GameController {
 								break;
 							default:
 								// DEATH.
+								txtLevelPrompt.appendText(FIRE_DEATH_MSG);
 								restartLevel();
 						}
 						break;
 				}
 				break;
 			case "P":
+				txtLevelPrompt.appendText(PORTAL_MSG);
 				Portal portal = portals[newY][newX];
 				int destX = portal.getDestX();
 				int destY = portal.getDestY();
@@ -540,6 +586,7 @@ public class GameController {
 			hazards = currentLevel.getHazards();
 			portals = currentLevel.getPortals();
 			lblToken.setText("0");
+			txtLevelPrompt.appendText("Welcome to Level " + levelNum);
 			drawLevel();
 		}
 	}
@@ -559,6 +606,7 @@ public class GameController {
 		hazards = currentLevel.getHazards();
 		portals = currentLevel.getPortals();
 		lblToken.setText("0");
+		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
 		drawLevel();
 	}
 	

@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
+// NOTE: In a 2-D Array sense, Y is row and X is the column. So array[Y][X].
+
 /**
  * The FileReader class holds all file reading related methods. 
  * @author William King
