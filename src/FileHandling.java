@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
@@ -137,6 +138,8 @@ public class FileHandling {
 	    Item[][] items = new Item[levelHeight][levelWidth];
 	    Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
 	    Portal[][] portals = new Portal[levelHeight][levelWidth];
+	    ArrayList<Enemy> alEnemies = new ArrayList<>(); // Will be converted to an array.
+	    
 	    
 	    while(in.hasNextLine()) {
 		    String elementType = in.next();
@@ -232,7 +235,28 @@ public class FileHandling {
 		    		portals[portalY][portalX] = newPortal;
 		    		break;
 		    	case "ENEMY":
-		    		// Read enemies, construct them and add them to a list.
+		    		int enemyX = in.nextInt();
+		    		int enemyY = in.nextInt();
+		    		String eType = in.next();
+		    		String moveDirection = in.next();
+		    		EnemyType enemyType = null;
+		    		switch (eType) {
+			    		case "STRAIGHT":
+			    			enemyType = EnemyType.STRAIGHT;
+			    			break;
+			    		case "WALL":
+			    			enemyType = EnemyType.WALL;
+			    			break;
+			    		case "DUMB":
+			    			enemyType = EnemyType.DUMB;
+			    			break;
+			    		case "SMART":
+			    			enemyType = EnemyType.SMART;
+			    			break;
+		    		}
+		    		
+		    		Enemy newEnemy = new Enemy(enemyX, enemyY, enemyType, moveDirection);
+		    		alEnemies.add(newEnemy);
 		    		break;
 		    }
 		    in.nextLine();
@@ -241,7 +265,7 @@ public class FileHandling {
 	    
 	    // Construct the level.
 	    Level newLevel = new Level(levelElements, levelNum, player, doors, 
-	    		apparels, items, hazards, portals);
+	    		apparels, items, hazards, portals, (Enemy[]) alEnemies.toArray());
 		return newLevel;
 	}
 	

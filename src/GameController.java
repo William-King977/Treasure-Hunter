@@ -74,6 +74,8 @@ public class GameController {
 	private Hazard[][] hazards;
 	/** An array holding all the portals in a level. */
 	private Portal[][] portals;
+	/** An array holding all the enemies in a level. */
+	private Enemy[] enemies;
 	
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
@@ -223,7 +225,7 @@ public class GameController {
 		String itemEquipped = equippedItems[1]; // For coloured doors.
 		switch (element) {
 			case "W":
-				// No nothing.
+				moveEnemies();
 				break;
 			case "G":
 				// Level Complete
@@ -246,6 +248,7 @@ public class GameController {
 				player.setX(newX);
 				player.setY(newY);
 				levelElements[newY][newX] = " "; // Make it disappear.
+				moveEnemies();
 				break;
 			// ITEMS.
 			case "I":
@@ -267,6 +270,7 @@ public class GameController {
 				player.setX(newX);
 				player.setY(newY);
 				levelElements[newY][newX] = " "; // Make it disappear.
+				moveEnemies();
 				break;
 			// TOKENS.
 			case "T":
@@ -321,6 +325,7 @@ public class GameController {
 						}
 						break;
 				}
+				moveEnemies();
 				break;
 			// HAZARDS.
 			case "H":
@@ -331,6 +336,7 @@ public class GameController {
 							case "Flippers":
 								player.setX(newX);
 								player.setY(newY);
+								moveEnemies();
 								break;
 							default:
 								// DEATH.
@@ -343,6 +349,7 @@ public class GameController {
 							case "Fire Boots":
 								player.setX(newX);
 								player.setY(newY);
+								moveEnemies();
 								break;
 							default:
 								// DEATH.
@@ -359,6 +366,7 @@ public class GameController {
 				int destY = portal.getDestY();
 				player.setX(destX);
 				player.setY(destY);
+				moveEnemies();
 				break;
 			case "E":
 				// DEATH.
@@ -367,6 +375,31 @@ public class GameController {
 			default:
 				player.setX(newX);
 				player.setY(newY);
+				moveEnemies();
+		}
+	}
+	
+	/**
+	 * Moves every enemy in the level after the player has made a move.
+	 */
+	public void moveEnemies() {
+		for (int i = 0; i < enemies.length; i++) {
+			Enemy enemy = enemies[i];
+			int enemyX = enemy.getX();
+			int enemyY = enemy.getY();
+			EnemyType type = enemy.getType();
+			switch (type) {
+				case STRAIGHT:
+					String direction = enemy.getDirection();
+					// Change to opposite direction if they hit a wall/obstacle.
+					break;
+				case WALL:
+					break;
+				case DUMB:
+					break;
+				case SMART:
+					break;
+			}
 		}
 	}
 	
@@ -519,6 +552,9 @@ public class GameController {
 			case "P":
 				gc.drawImage(portal, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;	
+			case "E":
+				// DRAW ENEMY.
+				break;
 		}
 	}
 	
@@ -585,6 +621,8 @@ public class GameController {
 			items = currentLevel.getItems();
 			hazards = currentLevel.getHazards();
 			portals = currentLevel.getPortals();
+			enemies = currentLevel.getEnemies();
+			
 			lblToken.setText("0");
 			txtLevelPrompt.appendText("Welcome to Level " + levelNum);
 			drawLevel();
@@ -605,6 +643,8 @@ public class GameController {
 		items = currentLevel.getItems();
 		hazards = currentLevel.getHazards();
 		portals = currentLevel.getPortals();
+		enemies = currentLevel.getEnemies();
+		
 		lblToken.setText("0");
 		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
 		drawLevel();

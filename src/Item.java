@@ -41,7 +41,8 @@ public class Item {
 	}
 
 	/**
-	 * @return the type
+	 * Gets the item's type (yellow key, etc.).
+	 * @return The item type as an enum.
 	 */
 	public ItemType getType() {
 		return type;

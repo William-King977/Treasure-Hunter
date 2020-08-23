@@ -34,6 +34,9 @@ public class Level {
 	/** A list of portals. Accessed by their location on the level. */
 	private Portal[][] portals;
 	
+	/** A list of enemies. */
+	private Enemy[] enemies;
+	
 	/**
 	 * Constructor for the Level class.
 	 * @param levelElements Array holding each element needed to draw the level.
@@ -43,10 +46,11 @@ public class Level {
 	 * @param apparels A list of all apparels in the level.
 	 * @param items A list of all items in the level.
 	 * @param hazards A list of all hazards in the level.
+	 * @param enemies A list of all enemies in the level.
 	 */
 	public Level(String[][] levelElements, int levelNumber, Player player, 
 			Door[][] doors, Apparel[][] apparels, Item[][] items, Hazard[][] hazards, 
-			Portal[][] portals) {
+			Portal[][] portals, Enemy[] enemies) {
 		this.levelElements = levelElements;
 		this.levelNumber = levelNumber;
 		this.player = player;
@@ -55,6 +59,7 @@ public class Level {
 		this.items = items;
 		this.hazards = hazards;
 		this.portals = portals;
+		this.enemies = enemies;
 		
 		// Height and width will be fixed, so this is fine.
 		levelHeight = levelElements.length;
@@ -147,5 +152,13 @@ public class Level {
 	 */
 	public Portal[][] getPortals() {
 		return portals;
+	}
+	
+	/**
+	 * Gets a list of all the enemies in the level.
+	 * @return All of the enemies as an array.
+	 */
+	public Enemy[] getEnemies() {
+		return enemies;
 	}
 }
