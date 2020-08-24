@@ -8,4 +8,5 @@ A retro style game made in JavaFX. Name will change because I'm not good with na
 - Water by Forkart (https://opengameart.org/content/tileable-grass-and-water).
 - Fire/Larva by LuminousDragonGames (https://opengameart.org/content/2-seamless-lava-tiles).
 - Floor by Sploder (The Algorithm Crew game asset).
+
 Everything else was designed in Piskel.
