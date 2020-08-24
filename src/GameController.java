@@ -33,6 +33,8 @@ public class GameController {
 	private final static String DOOR_FILE_PATH = "DataFiles/Doors/";
 	/** File location of the textures. */
 	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
+	/** File location of the enemy sprites. */
+	private final static String ENEMY_FILE_PATH = "DataFiles/Enemies/";
 	/** The number marking the highest level in the game. */
 	private final static int MAX_LEVEL = 2;
 	/** Size of the cell width. */
@@ -61,6 +63,8 @@ public class GameController {
 			+ "appropriate equipment, you drowned. Restarting level...\n";
 	private final String FIRE_DEATH_MSG = "\nWithout any protection, you burned to a "
 			+ "crisp as you walked into the fire pit. Restarting level...\n";
+	private final String ENEMY_DEATH_MSG = "\nAn enemy ripped you into two, putting an "
+			+ "end to your adventure. Restarting level...\n";
 
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
@@ -85,6 +89,8 @@ public class GameController {
 	private Player player;
 	/** The number of the level selected. */
 	private int levelNum;
+	/** Used to check if an enemy has moved to the same position as the player. */
+	private boolean enemyOnPlayer;
 	
 	// Loaded images
 	// SPRITES
@@ -114,6 +120,12 @@ public class GameController {
 	private Image water;
 	private Image fire;
 	private Image portal;
+	
+	// ENEMIES
+	private Image straightEnemy;
+	private Image wallEnemy;
+	private Image dumbEnemy;
+	private Image smartEnemy;
 	
 	/** The inventory button for the game. */
 	@FXML private Button btnInventory;
@@ -163,6 +175,13 @@ public class GameController {
 		goal = new Image(new File (TEXTURE_FILE_PATH + "Treasure Chest.png").toURI().toString());
 		portal = new Image(new File (TEXTURE_FILE_PATH + "Portal.png").toURI().toString());
 		
+		// Enemies
+		straightEnemy = new Image(new File (ENEMY_FILE_PATH + "Straight.png").toURI().toString());
+		wallEnemy = new Image(new File (ENEMY_FILE_PATH + "Wall.png").toURI().toString());
+		dumbEnemy = new Image(new File (ENEMY_FILE_PATH + "Dumb.png").toURI().toString());
+		smartEnemy = new Image(new File (ENEMY_FILE_PATH + "Smart.png").toURI().toString());
+		
+		enemyOnPlayer = false;
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);
 	}
@@ -219,13 +238,13 @@ public class GameController {
 	 * @param newY The new y-coordinate.
 	 */
 	public void isMoveValid(int newX, int newY) {
+		// Fetches the element the player moves into.
 		String element = levelElements[newY][newX];
 		String[] equippedItems =  player.getEquippedItems();
 		String apparelEquipped = equippedItems[0]; // For water/fire hazards.
 		String itemEquipped = equippedItems[1]; // For coloured doors.
 		switch (element) {
 			case "W":
-				moveEnemies();
 				break;
 			case "G":
 				// Level Complete
@@ -248,7 +267,6 @@ public class GameController {
 				player.setX(newX);
 				player.setY(newY);
 				levelElements[newY][newX] = " "; // Make it disappear.
-				moveEnemies();
 				break;
 			// ITEMS.
 			case "I":
@@ -270,7 +288,6 @@ public class GameController {
 				player.setX(newX);
 				player.setY(newY);
 				levelElements[newY][newX] = " "; // Make it disappear.
-				moveEnemies();
 				break;
 			// TOKENS.
 			case "T":
@@ -325,7 +342,6 @@ public class GameController {
 						}
 						break;
 				}
-				moveEnemies();
 				break;
 			// HAZARDS.
 			case "H":
@@ -342,6 +358,7 @@ public class GameController {
 								// DEATH.
 								txtLevelPrompt.appendText(WATER_DEATH_MSG);
 								restartLevel();
+								return;
 						}
 						break;
 					case FIRE:
@@ -355,6 +372,7 @@ public class GameController {
 								// DEATH.
 								txtLevelPrompt.appendText(FIRE_DEATH_MSG);
 								restartLevel();
+								return;
 						}
 						break;
 				}
@@ -366,16 +384,25 @@ public class GameController {
 				int destY = portal.getDestY();
 				player.setX(destX);
 				player.setY(destY);
-				moveEnemies();
 				break;
+			// If the player moves into an enemy.
 			case "E":
 				// DEATH.
+				txtLevelPrompt.appendText(ENEMY_DEATH_MSG);
 				restartLevel();
-				break;
+				return;
 			default:
 				player.setX(newX);
 				player.setY(newY);
-				moveEnemies();
+		}
+		// Moves the enemies and check if the any of them 
+		// have moved on the player's position.
+		moveEnemies();
+		if (enemyOnPlayer) {
+			enemyOnPlayer = false;
+			txtLevelPrompt.appendText(ENEMY_DEATH_MSG);
+			restartLevel();
+			return;
 		}
 	}
 	
@@ -388,10 +415,14 @@ public class GameController {
 			int enemyX = enemy.getX();
 			int enemyY = enemy.getY();
 			EnemyType type = enemy.getType();
+			
+			// Move enemies, then check if they 'landed' on the player.
 			switch (type) {
 				case STRAIGHT:
-					String direction = enemy.getDirection();
-					// Change to opposite direction if they hit a wall/obstacle.
+					enemy.moveStraightEnemy(levelElements);
+					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
+						enemyOnPlayer = true;
+					}
 					break;
 				case WALL:
 					break;
@@ -554,6 +585,25 @@ public class GameController {
 				break;	
 			case "E":
 				// DRAW ENEMY.
+				for (Enemy elem : enemies) {
+					if (elem.getX() == col && elem.getY() == row) {
+						switch (elem.getType()) {
+							case STRAIGHT:
+								gc.drawImage(straightEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+								break;
+							case WALL:
+								gc.drawImage(wallEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+								break;
+							case DUMB:
+								gc.drawImage(dumbEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+								break;
+							case SMART:
+								gc.drawImage(smartEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+								break;
+						}
+						break;
+					}
+				}
 				break;
 		}
 	}

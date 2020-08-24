@@ -138,8 +138,7 @@ public class FileHandling {
 	    Item[][] items = new Item[levelHeight][levelWidth];
 	    Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
 	    Portal[][] portals = new Portal[levelHeight][levelWidth];
-	    ArrayList<Enemy> alEnemies = new ArrayList<>(); // Will be converted to an array.
-	    
+	    ArrayList<Enemy> alEnemies = new ArrayList<Enemy>(); // Will be converted to an array.
 	    
 	    while(in.hasNextLine()) {
 		    String elementType = in.next();
@@ -263,9 +262,13 @@ public class FileHandling {
 	    }
 	    in.close();
 	    
+	    // Convert enemies arraylist to an array.
+	    Enemy[] enemies = new Enemy[alEnemies.size()];
+	    enemies = alEnemies.toArray(enemies);
+	    
 	    // Construct the level.
 	    Level newLevel = new Level(levelElements, levelNum, player, doors, 
-	    		apparels, items, hazards, portals, (Enemy[]) alEnemies.toArray());
+	    		apparels, items, hazards, portals, enemies);
 		return newLevel;
 	}
 	

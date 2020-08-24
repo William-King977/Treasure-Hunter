@@ -84,4 +84,71 @@ public class Enemy {
 	public void setDirection(String moveDirection) {
 		this.moveDirection = moveDirection;
 	}
+	
+	/**
+	 * Determines the straight enemy's move based on its current location.
+	 * @param level An array holding all the elements of the level.
+	 */
+	public void moveStraightEnemy(String[][] level) {
+		// Set them as the previous values. Only one needs to change.
+		int newX = enemyX;
+		int newY = enemyY;
+		
+		// Clear the enemy from it's previous position.
+		level[newY][newX] = " ";
+		
+		switch (moveDirection) {
+			case "UP":
+				newY--;
+				break;
+			case "DOWN":
+				newY++;
+				break;
+			case "LEFT":
+				newX--;
+				break;
+			case "RIGHT":
+				newX++;
+				break;
+		}
+		
+		// Check if they've hit a wall/object. 
+		String object = level[newY][newX];
+		switch (object) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+			case "E":
+				// Change direction if they hit an object.
+				switch (moveDirection) {
+					case "UP":
+						moveDirection = "DOWN";
+						break;
+					case "DOWN":
+						moveDirection = "UP";
+						break;
+					case "LEFT":
+						moveDirection = "RIGHT";
+						break;
+					case "RIGHT":
+						moveDirection = "LEFT";
+						break;
+				}
+				// Run the method again with the changed direction.
+				// With this method, the code will run indefinitely if the 
+				// enemy is placed in a place where it's impossible to move.
+				moveStraightEnemy(level);
+				break;
+			// Move to the new position.
+			default:
+				enemyX = newX;
+				enemyY = newY;
+				level[newY][newX] = "E";
+		}
+	}
 }
