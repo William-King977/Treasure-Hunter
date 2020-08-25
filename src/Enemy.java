@@ -99,22 +99,48 @@ public class Enemy {
 		// Clear the enemy from it's previous position.
 		levelElements[newY][newX] = " ";
 		
+		// Used to check if there's anything behind the enemy.
+		int backX = enemyX;
+		int backY = enemyY;
+		
+		// Calculate indexes based on the enemy's direction.
 		switch (moveDirection) {
 			case "UP":
 				newY--;
+				backY++;
 				break;
 			case "DOWN":
 				newY++;
+				backY--;
 				break;
 			case "LEFT":
 				newX--;
+				backX++;
 				break;
 			case "RIGHT":
 				newX++;
+				backX--;
 				break;
 		}
 		
-		// Check if they've hit a wall/object. 
+		// Check if there's an object behind the enemy.
+		String backObject = levelElements[backY][backX];
+		boolean isBackObject = false;
+		switch (backObject) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+			case "E":
+				isBackObject = true;
+				break;
+		}
+		
+		// Check if the enemy has hit an object.
 		String object = levelElements[newY][newX];
 		switch (object) {
 			case "W":
@@ -125,31 +151,35 @@ public class Enemy {
 			case "T":
 			case "P":
 			case "H":
-				// Change to opposite direction if they hit an object.
-				switch (moveDirection) {
-					case "UP":
-						moveDirection = "DOWN";
-						break;
-					case "DOWN":
-						moveDirection = "UP";
-						break;
-					case "LEFT":
-						moveDirection = "RIGHT";
-						break;
-					case "RIGHT":
-						moveDirection = "LEFT";
-						break;
+			case "E":
+				// Enemy doesn't move if it's trapped (objects in between it).
+				if (isBackObject) {
+					levelElements[enemyY][enemyX] = "E";
+				} else {
+					// Change to opposite direction if they hit an object.
+					switch (moveDirection) {
+						case "UP":
+							moveDirection = "DOWN";
+							break;
+						case "DOWN":
+							moveDirection = "UP";
+							break;
+						case "LEFT":
+							moveDirection = "RIGHT";
+							break;
+						case "RIGHT":
+							moveDirection = "LEFT";
+							break;
+					}
+					// Run the method again with the changed direction.
+					moveStraightEnemy(levelElements);
 				}
-				// Run the method again with the changed direction.
-				// With this method, the code will run indefinitely if the 
-				// enemy is placed in a place where it's impossible to move.
-				moveStraightEnemy(levelElements);
 				break;
 			// Move to the new position.
 			default:
 				enemyX = newX;
 				enemyY = newY;
-				levelElements[newY][newX] = "E";
+				levelElements[enemyY][enemyX] = "E";
 		}
 	}
 	
@@ -162,15 +192,18 @@ public class Enemy {
 		int newX = enemyX;
 		int newY = enemyY;
 		
-		// Indexes of the left/right/front of the enemy (before moving).
-		// Used to check if there's a wall next to it or in front of it.
+		// Indexes of the left/right/front/back of the enemy (before moving).
+		// Used to check if there's a wall next to it, in front or behind it.
 		// Set it with the original values.
 		int leftX = enemyX;
 		int leftY = enemyY;
 		int rightX = enemyX;
 		int rightY = enemyY;
+		
 		int frontX = enemyX;
 		int frontY = enemyY;
+		int backX = enemyX;
+		int backY = enemyY;
 		
 		// Clear the enemy from it's previous position.
 		levelElements[enemyY][enemyX] = " ";
@@ -182,35 +215,41 @@ public class Enemy {
 				leftX--;
 				rightX++;
 				frontY = newY;
+				backY++;
 				break;
 			case "DOWN":
 				newY++;
 				leftX--;
 				rightX++;
 				frontY = newY;
+				backY--;
 				break;
 			case "LEFT":
 				newX--;
 				leftY++;
 				rightY--;
 				frontX = newX;
+				backX++;
 				break;
 			case "RIGHT":
 				newX++;
 				leftY--;
 				rightY++;
 				frontX = newX;
+				backX--;
 				break;
 		}
 		
-		// Check if there's an object in front or adjacent to the enemy. 
+		// Check if there's an object in front, behind or adjacent to the enemy. 
 		String leftObject = levelElements[leftY][leftX];
 		String rightObject = levelElements[rightY][rightX];
 		String frontObject = levelElements[frontY][frontX];
+		String backObject = levelElements[backY][backX];
 		
 		boolean isLeftObject = false;
 		boolean isRightObject = false;
 		boolean isFrontObject = false;
+		boolean isBackObject = false;
 		
 		switch (leftObject) {
 			case "W":
@@ -221,6 +260,7 @@ public class Enemy {
 			case "T":
 			case "P":
 			case "H":
+			case "E":
 				isLeftObject = true;
 				break;
 		}
@@ -233,6 +273,7 @@ public class Enemy {
 			case "T":
 			case "P":
 			case "H":
+			case "E":
 				isRightObject = true;
 				break;
 		}
@@ -245,14 +286,32 @@ public class Enemy {
 			case "T":
 			case "P":
 			case "H":
+			case "E":
 				isFrontObject = true;
+				break;
+		}
+		switch (backObject) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+			case "E":
+				isBackObject = true;
 				break;
 		}
 		
 		// This set of IF conditions change the enemy's direction depending
 		// how they are blocked. If the enemy isn't blocked, then it will move.
+		// If the enemy is trapped.
+		if (isLeftObject && isRightObject && isFrontObject && isBackObject) {
+			// Add the 'E' back to the enemy's position (doesn't move).
+			levelElements[enemyY][enemyX] = "E";
 		// Change to opposite direction if they hit a dead end.
-		if (isLeftObject && isRightObject && isFrontObject) {
+		} else if (isLeftObject && isRightObject && isFrontObject) {
 			switch (moveDirection) {
 				case "UP":
 					moveDirection = "DOWN";
@@ -268,8 +327,6 @@ public class Enemy {
 					break;
 			}
 			// Run the method again with the changed direction.
-			// With this method, the code will run indefinitely if the 
-			// enemy is placed in a place where it's impossible to move.
 			moveWallEnemy(levelElements);
 		// If they hit a left corner.
 		} else if (isFrontObject && isLeftObject) {
@@ -305,7 +362,7 @@ public class Enemy {
 					break;
 			}
 			moveWallEnemy(levelElements);
-		// If there's an object in front (but nothing else).
+		// If there's an object in front (and nothing else).
 		} else if (isFrontObject) {
 			// Used to generate a random index to make the enemy turn in
 			// 2 possible directions. This avoids the wall enemy from becoming 
