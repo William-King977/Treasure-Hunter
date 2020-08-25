@@ -425,6 +425,10 @@ public class GameController {
 					}
 					break;
 				case WALL:
+					enemy.moveWallEnemy(levelElements);
+					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
+						enemyOnPlayer = true;
+					}
 					break;
 				case DUMB:
 					break;

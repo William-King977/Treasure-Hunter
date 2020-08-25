@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Models an enemy in the game.
  * @author William King
@@ -12,7 +14,7 @@ public class Enemy {
 	/** Specifies the type of enemy this is. */
 	private EnemyType type;
 	
-	/** The direction that the enemy moves towards (only for straight enemies). */
+	/** The direction that the enemy moves towards. */
 	private String moveDirection;
 	
 	/**
@@ -70,7 +72,7 @@ public class Enemy {
 	}
 	
 	/**
-	 * Gets the direction that the enemy moves towards (only for straight enemies).
+	 * Gets the direction that the enemy moves towards.
 	 * @return The movement direction as a string.
 	 */
 	public String getDirection() {
@@ -86,16 +88,16 @@ public class Enemy {
 	}
 	
 	/**
-	 * Determines the straight enemy's move based on its current location.
-	 * @param level An array holding all the elements of the level.
+	 * Determines a straight enemy's move based on its current location.
+	 * @param levelElements An array holding all the elements in the level.
 	 */
-	public void moveStraightEnemy(String[][] level) {
+	public void moveStraightEnemy(String[][] levelElements) {
 		// Set them as the previous values. Only one needs to change.
 		int newX = enemyX;
 		int newY = enemyY;
 		
 		// Clear the enemy from it's previous position.
-		level[newY][newX] = " ";
+		levelElements[newY][newX] = " ";
 		
 		switch (moveDirection) {
 			case "UP":
@@ -113,7 +115,7 @@ public class Enemy {
 		}
 		
 		// Check if they've hit a wall/object. 
-		String object = level[newY][newX];
+		String object = levelElements[newY][newX];
 		switch (object) {
 			case "W":
 			case "G":
@@ -123,8 +125,7 @@ public class Enemy {
 			case "T":
 			case "P":
 			case "H":
-			case "E":
-				// Change direction if they hit an object.
+				// Change to opposite direction if they hit an object.
 				switch (moveDirection) {
 					case "UP":
 						moveDirection = "DOWN";
@@ -142,13 +143,201 @@ public class Enemy {
 				// Run the method again with the changed direction.
 				// With this method, the code will run indefinitely if the 
 				// enemy is placed in a place where it's impossible to move.
-				moveStraightEnemy(level);
+				moveStraightEnemy(levelElements);
 				break;
 			// Move to the new position.
 			default:
 				enemyX = newX;
 				enemyY = newY;
-				level[newY][newX] = "E";
+				levelElements[newY][newX] = "E";
+		}
+	}
+	
+	/**
+	 * Determines a wall enemy's move based on its current location.
+	 * @param levelElements An array holding all the elements in the level.
+	 */
+	public void moveWallEnemy(String[][] levelElements) {
+		// Set them as the previous values. Only one needs to change.
+		int newX = enemyX;
+		int newY = enemyY;
+		
+		// Indexes of the left/right/front of the enemy (before moving).
+		// Used to check if there's a wall next to it or in front of it.
+		// Set it with the original values.
+		int leftX = enemyX;
+		int leftY = enemyY;
+		int rightX = enemyX;
+		int rightY = enemyY;
+		int frontX = enemyX;
+		int frontY = enemyY;
+		
+		// Clear the enemy from it's previous position.
+		levelElements[enemyY][enemyX] = " ";
+		
+		// Calculate indexes based on the enemy's current position.
+		switch (moveDirection) {
+			case "UP":
+				newY--;
+				leftX--;
+				rightX++;
+				frontY = newY;
+				break;
+			case "DOWN":
+				newY++;
+				leftX--;
+				rightX++;
+				frontY = newY;
+				break;
+			case "LEFT":
+				newX--;
+				leftY++;
+				rightY--;
+				frontX = newX;
+				break;
+			case "RIGHT":
+				newX++;
+				leftY--;
+				rightY++;
+				frontX = newX;
+				break;
+		}
+		
+		// Check if there's an object in front or adjacent to the enemy. 
+		String leftObject = levelElements[leftY][leftX];
+		String rightObject = levelElements[rightY][rightX];
+		String frontObject = levelElements[frontY][frontX];
+		
+		boolean isLeftObject = false;
+		boolean isRightObject = false;
+		boolean isFrontObject = false;
+		
+		switch (leftObject) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+				isLeftObject = true;
+				break;
+		}
+		switch (rightObject) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+				isRightObject = true;
+				break;
+		}
+		switch (frontObject) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+				isFrontObject = true;
+				break;
+		}
+		
+		// This set of IF conditions change the enemy's direction depending
+		// how they are blocked. If the enemy isn't blocked, then it will move.
+		// Change to opposite direction if they hit a dead end.
+		if (isLeftObject && isRightObject && isFrontObject) {
+			switch (moveDirection) {
+				case "UP":
+					moveDirection = "DOWN";
+					break;
+				case "DOWN":
+					moveDirection = "UP";
+					break;
+				case "LEFT":
+					moveDirection = "RIGHT";
+					break;
+				case "RIGHT":
+					moveDirection = "LEFT";
+					break;
+			}
+			// Run the method again with the changed direction.
+			// With this method, the code will run indefinitely if the 
+			// enemy is placed in a place where it's impossible to move.
+			moveWallEnemy(levelElements);
+		// If they hit a left corner.
+		} else if (isFrontObject && isLeftObject) {
+			switch (moveDirection) {
+			case "UP":
+				moveDirection = "RIGHT";
+				break;
+			case "DOWN":
+				moveDirection = "RIGHT";
+				break;
+			case "LEFT":
+				moveDirection = "UP";
+				break;
+			case "RIGHT":
+				moveDirection = "DOWN";
+				break;
+			}
+			moveWallEnemy(levelElements);
+		// If they hit a right corner.
+		} else if (isFrontObject && isRightObject) {
+			switch (moveDirection) {
+				case "UP":
+					moveDirection = "LEFT";
+					break;
+				case "DOWN":
+					moveDirection = "LEFT";
+					break;
+				case "LEFT":
+					moveDirection = "DOWN";
+					break;
+				case "RIGHT":
+					moveDirection = "UP";
+					break;
+			}
+			moveWallEnemy(levelElements);
+		// If there's an object in front (but nothing else).
+		} else if (isFrontObject) {
+			// Used to generate a random index to make the enemy turn in
+			// 2 possible directions. This avoids the wall enemy from becoming 
+			// a straight enemy in certain cases.
+			Random rand  = new Random();
+			String[] possibleDirections = {"UP", "DOWN", "LEFT", "RIGHT"};
+			int randomNum;
+			
+			switch (moveDirection) {
+				case "UP":
+					randomNum = 2 + rand.nextInt(2); // Move left or right.
+					moveDirection = possibleDirections[randomNum];
+					break;
+				case "DOWN":
+					randomNum = 2 + rand.nextInt(2);
+					moveDirection = possibleDirections[randomNum];
+					break;
+				case "LEFT":
+					randomNum = rand.nextInt(2); // Move up or down.
+					moveDirection = possibleDirections[randomNum];
+					break;
+				case "RIGHT":
+					randomNum = rand.nextInt(2);
+					moveDirection = possibleDirections[randomNum];
+					break;
+			}
+			moveWallEnemy(levelElements);
+		// If it's a clear path.
+		} else {
+			enemyX = newX;
+			enemyY = newY;
+			levelElements[enemyY][enemyX] = "E";
 		}
 	}
 }
