@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -412,8 +411,6 @@ public class GameController {
 	public void moveEnemies() {
 		for (int i = 0; i < enemies.length; i++) {
 			Enemy enemy = enemies[i];
-			int enemyX = enemy.getX();
-			int enemyY = enemy.getY();
 			EnemyType type = enemy.getType();
 			
 			// Move enemies, then check if they 'landed' on the player.
@@ -481,11 +478,11 @@ public class GameController {
 			xLeftBoundChange = true; // It needs to reset in the for loop.
 			xLeftBound = 0;
 		}
-		if (xRightBound > levelHeight) {
-			xRightBound = levelHeight;
+		if (xRightBound > levelWidth) {
+			xRightBound = levelWidth;
 		} 	
-	    if (yDownBound > levelWidth) {
-	    	yDownBound = levelWidth;
+	    if (yDownBound > levelHeight) {
+	    	yDownBound = levelHeight;
 		} 
 	    if (yUpBound < 0) {
 	    	tempRow = yUpBound * -1;

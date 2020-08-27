@@ -116,12 +116,12 @@ public class FileHandling {
 	    in.useDelimiter(",");
 	    
 	    // Read the level's height and width first.
-	    int levelWidth = in.nextInt();
-    	int levelHeight = in.nextInt();
+	    int levelHeight = in.nextInt();
+    	int levelWidth = in.nextInt();
 	    in.nextLine();
 	    
 	    // Then read the level elements.
-	    String[][] levelElements = new String[levelWidth][levelHeight];
+	    String[][] levelElements = new String[levelHeight][levelWidth];
 	    
 	    for (int row = 0; row < levelHeight; row++) {
 	    	for (int col = 0; col < levelWidth; col++) {

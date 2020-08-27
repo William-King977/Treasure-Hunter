@@ -16,8 +16,8 @@ public enum EnemyType {
 	DUMB,
 	
 	/** A smart following enemy. Moves towards the player by finding the shortest
-	 * path (and doesn't get stuck). If no path is possible, then a random, but valid
-	 * move will be made. */
+	 * path (and doesn't get stuck). If no path is possible, then it will move
+	 * as if it were a dumb targeting enemy. */
 	SMART,
 
 }

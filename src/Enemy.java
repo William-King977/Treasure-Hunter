@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Models an enemy in the game.
@@ -128,20 +127,7 @@ public class Enemy {
 		
 		// Check if there's an object behind the enemy.
 		String backObject = levelElements[backY][backX];
-		boolean isBackObject = false;
-		switch (backObject) {
-			case "W":
-			case "G":
-			case "A":
-			case "I":
-			case "D":
-			case "T":
-			case "P":
-			case "H":
-			case "E":
-				isBackObject = true;
-				break;
-		}
+		boolean isBackObject = isObject(backObject);
 		
 		// Check if the enemy has hit an object.
 		String object = levelElements[newY][newX];
@@ -249,63 +235,10 @@ public class Enemy {
 		String frontObject = levelElements[frontY][frontX];
 		String backObject = levelElements[backY][backX];
 		
-		boolean isLeftObject = false;
-		boolean isRightObject = false;
-		boolean isFrontObject = false;
-		boolean isBackObject = false;
-		
-		switch (leftObject) {
-			case "W":
-			case "G":
-			case "A":
-			case "I":
-			case "D":
-			case "T":
-			case "P":
-			case "H":
-			case "E":
-				isLeftObject = true;
-				break;
-		}
-		switch (rightObject) {
-			case "W":
-			case "G":
-			case "A":
-			case "I":
-			case "D":
-			case "T":
-			case "P":
-			case "H":
-			case "E":
-				isRightObject = true;
-				break;
-		}
-		switch (frontObject) {
-			case "W":
-			case "G":
-			case "A":
-			case "I":
-			case "D":
-			case "T":
-			case "P":
-			case "H":
-			case "E":
-				isFrontObject = true;
-				break;
-		}
-		switch (backObject) {
-			case "W":
-			case "G":
-			case "A":
-			case "I":
-			case "D":
-			case "T":
-			case "P":
-			case "H":
-			case "E":
-				isBackObject = true;
-				break;
-		}
+		boolean isLeftObject = isObject(leftObject);
+		boolean isRightObject = isObject(rightObject);
+		boolean isFrontObject = isObject(frontObject);
+		boolean isBackObject = isObject(backObject);
 		
 		// This set of IF conditions change the enemy's direction depending
 		// how they are blocked. If the enemy isn't blocked, then it will move.
@@ -545,37 +478,40 @@ public class Enemy {
 			}
 		}
 		
-		// Stores the path to the player.
-		// Probably not needed, because the remaining contents of the 
-		// stack is basically the path (from player to enemy...).
-		ArrayList<String> path = new ArrayList<>();
+		// Use an arraylist to find a path (i.e. check if the player is reachable).
+		ArrayList<Node> currentCells = new ArrayList<Node>();
+		ArrayList<Integer> nodeScores = new ArrayList<Integer>();
+		boolean playerReachable = false;
+		Node solutionNode = null; // Holds the last node
 		
-		// Use stack to find a solution (i.e. check if the player is reachable).
-		boolean solvable = false;
-		Stack<Node> currentCells = new Stack<Node>();
+		// Add the enemy position first (as a node).
 		Node startNode = new Node(enemyX, enemyY, 0, null);
-		currentCells.push(startNode);
+		currentCells.add(startNode);
 		lvlElementsCopy[enemyY][enemyX] = "V"; // Set as visited.
 		
 		// Enter a loop until a decision is deduced.
-		while (!solvable) {
-			// If it's unsolvable.
+		while (!playerReachable) {
+			// If the player is unreachable.
 			if (currentCells.size() == 0) {
 				break;
 			}
 			
-			Node currentNode = currentCells.peek();
+			// Get the scores for each current node.
+			for (Node elem : currentCells) {
+				int heuristicScore = getEuclideanHeuristic(elem, playerX, playerY);
+				nodeScores.add(heuristicScore + elem.getCost());
+			}
+			
+			// Get the current node with the smallest cost.
+			int minIndex = nodeScores.indexOf(Collections.min(nodeScores));
+			Node currentNode = currentCells.remove(minIndex);
 			int nodeX = currentNode.getX();
 			int nodeY = currentNode.getY();
 			
 			// If the top item is the player position.
 			if ((nodeX == playerX) && (nodeY == playerY)) {
-				solvable = true;
-				System.out.println("Yep");
-				for (int i = 0; i < levelHeight; i++) {
-					System.out.println(Arrays.toString(lvlElementsCopy[i]));
-
-				}
+				playerReachable = true;
+				solutionNode = currentNode;
 				break;
 			} 
 			
@@ -595,94 +531,78 @@ public class Enemy {
 			String frontObject = lvlElementsCopy[frontY][frontX];
 			String backObject = lvlElementsCopy[backY][backX];
 			
-			boolean isLeftObject = false;
-			boolean isRightObject = false;
-			boolean isFrontObject = false;
-			boolean isBackObject = false;
-			
-			switch (leftObject) {
-				case "W":
-				case "G":
-				case "A":
-				case "I":
-				case "D":
-				case "T":
-				case "P":
-				case "H":
-				case "E":
-				case "V":
-					isLeftObject = true;
-					break;
-			}
-			switch (rightObject) {
-				case "W":
-				case "G":
-				case "A":
-				case "I":
-				case "D":
-				case "T":
-				case "P":
-				case "H":
-				case "E":
-				case "V":
-					isRightObject = true;
-					break;
-			}
-			switch (frontObject) {
-				case "W":
-				case "G":
-				case "A":
-				case "I":
-				case "D":
-				case "T":
-				case "P":
-				case "H":
-				case "E":
-				case "V":
-					isFrontObject = true;
-					break;
-			}
-			switch (backObject) {
-				case "W":
-				case "G":
-				case "A":
-				case "I":
-				case "D":
-				case "T":
-				case "P":
-				case "H":
-				case "E":
-				case "V":
-					isBackObject = true;
-					break;
-			}
+			boolean isLeftObject = isObject(leftObject);
+			boolean isRightObject = isObject(rightObject);
+			boolean isFrontObject = isObject(frontObject);
+			boolean isBackObject = isObject(backObject);
 			
 			// If the right is clear and not visited.
 			if (!isRightObject) {
 				Node newNode = new Node(rightX, rightY, currentNode.getCost() + 1, currentNode);
-				currentCells.push(newNode);
+				currentCells.add(newNode);
 				lvlElementsCopy[rightY][rightX] = "V";
+			}
 			// If the left is clear and not visited.
-			} else if (!isLeftObject) {
+			if (!isLeftObject) {
 				Node newNode = new Node(leftX, leftY, currentNode.getCost() + 1, currentNode);
-				currentCells.push(newNode);
+				currentCells.add(newNode);
 				lvlElementsCopy[leftY][leftX] = "V";
+			}
 			// If the front is clear and not visited.
-			} else if (!isFrontObject) {
+			if (!isFrontObject) {
 				Node newNode = new Node(frontX, frontY, currentNode.getCost() + 1, currentNode);
-				currentCells.push(newNode);
+				currentCells.add(newNode);
 				lvlElementsCopy[frontY][frontX] = "V";
+			}
 			// If the back is clear and not visited.
-			} else if (!isBackObject) {
+			if (!isBackObject) {
 				Node newNode = new Node(backX, backY, currentNode.getCost() + 1, currentNode);
-				currentCells.push(newNode);
+				currentCells.add(newNode);
 				lvlElementsCopy[backY][backX] = "V";
-			// If it gets to here, then there is no clear path from this node.
-			} else {
-				currentCells.pop();
 			}
 		}
-		System.out.println("Is the player reachable? " + solvable);
+		
+		// Move the smart enemy if the player is reachable.
+		if (playerReachable) {
+			// Hold the path of nodes in an arraylist.
+			ArrayList<Node> solutionPath = new ArrayList<Node>();
+			while (!(solutionNode.getAncestorNode() == null)) {
+				solutionPath.add(solutionNode);
+				solutionNode = solutionNode.getAncestorNode();
+			}
+			// The next move to be made is the last item in the arraylist.
+			Node nextMove = solutionPath.get(solutionPath.size() - 1);
+			levelElements[enemyY][enemyX] = " ";
+			enemyX = nextMove.getX();
+			enemyY = nextMove.getY();
+			levelElements[enemyY][enemyX] = "E";
+		// Otherwise, move it as if it were a dumb enemy.
+		} else {
+			moveDumbEnemy(levelElements, playerX, playerY);
+		}
+	}
+	
+	/**
+	 * Checks if the passed in string is an object or a floor.
+	 * @param object The level object as a string. 
+	 * @return True if its an object, otherwise false (if it's clear).
+	 */
+	private boolean isObject(String object) {
+		switch (object) {
+			case "W":
+			case "G":
+			case "A":
+			case "I":
+			case "D":
+			case "T":
+			case "P":
+			case "H":
+			case "E":
+			case "V": // Represents a visited cell (path finding).
+				return true;
+			default:
+				return false;
+		}
 	}
 	
 	/**
