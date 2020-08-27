@@ -437,6 +437,10 @@ public class GameController {
 					}
 					break;
 				case SMART:
+					enemy.moveSmartEnemy(levelElements, player.getX(), player.getY());
+					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
+						enemyOnPlayer = true;
+					}
 					break;
 			}
 		}
@@ -732,10 +736,9 @@ public class GameController {
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
             primaryStage.showAndWait();
             
-            // Update the player sprite.
+            // Update the level with the changed sprite.
             playerSprite = inventoryWindow.getPlayerSprite();
-            gc.drawImage(floor, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
-            gc.drawImage(playerSprite, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
+            drawLevel();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.

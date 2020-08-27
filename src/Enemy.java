@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Models an enemy in the game.
@@ -522,5 +525,183 @@ public class Enemy {
 				levelElements[enemyY][enemyX] = "E";
 				break;
 		}
+	}
+	
+	/**
+	 * Determines a smart enemy's move based on its current location and the player's location.
+	 * @param levelElements An array holding all the elements in the level.
+	 * @param playerX The x-coordinate location of the player.
+	 * @param playerY The y-coordinate location of the player.
+	 */
+	public void moveSmartEnemy(String[][] levelElements, int playerX, int playerY) {
+		// Make a (hard) copy of the level elements array.
+		int levelHeight = levelElements.length;
+		int levelWidth = levelElements[0].length; 
+		String[][] lvlElementsCopy = new String[levelHeight][levelWidth];
+		
+		for (int i = 0; i < levelHeight; i++) {
+			for (int j = 0; j < levelWidth; j++) {
+				lvlElementsCopy[i][j] = levelElements[i][j];
+			}
+		}
+		
+		// Stores the path to the player.
+		// Probably not needed, because the remaining contents of the 
+		// stack is basically the path (from player to enemy...).
+		ArrayList<String> path = new ArrayList<>();
+		
+		// Use stack to find a solution (i.e. check if the player is reachable).
+		boolean solvable = false;
+		Stack<Node> currentCells = new Stack<Node>();
+		Node startNode = new Node(enemyX, enemyY, 0, null);
+		currentCells.push(startNode);
+		lvlElementsCopy[enemyY][enemyX] = "V"; // Set as visited.
+		
+		// Enter a loop until a decision is deduced.
+		while (!solvable) {
+			// If it's unsolvable.
+			if (currentCells.size() == 0) {
+				break;
+			}
+			
+			Node currentNode = currentCells.peek();
+			int nodeX = currentNode.getX();
+			int nodeY = currentNode.getY();
+			
+			// If the top item is the player position.
+			if ((nodeX == playerX) && (nodeY == playerY)) {
+				solvable = true;
+				System.out.println("Yep");
+				for (int i = 0; i < levelHeight; i++) {
+					System.out.println(Arrays.toString(lvlElementsCopy[i]));
+
+				}
+				break;
+			} 
+			
+			// Check if there's an object in front, behind or adjacent to the enemy. 
+			int leftX = nodeX - 1;
+			int leftY = nodeY;
+			int rightX = nodeX + 1;
+			int rightY = nodeY;
+			
+			int frontX = nodeX;
+			int frontY = nodeY - 1;
+			int backX = nodeX;
+			int backY = nodeY + 1;
+			
+			String leftObject = lvlElementsCopy[leftY][leftX];
+			String rightObject = lvlElementsCopy[rightY][rightX];
+			String frontObject = lvlElementsCopy[frontY][frontX];
+			String backObject = lvlElementsCopy[backY][backX];
+			
+			boolean isLeftObject = false;
+			boolean isRightObject = false;
+			boolean isFrontObject = false;
+			boolean isBackObject = false;
+			
+			switch (leftObject) {
+				case "W":
+				case "G":
+				case "A":
+				case "I":
+				case "D":
+				case "T":
+				case "P":
+				case "H":
+				case "E":
+				case "V":
+					isLeftObject = true;
+					break;
+			}
+			switch (rightObject) {
+				case "W":
+				case "G":
+				case "A":
+				case "I":
+				case "D":
+				case "T":
+				case "P":
+				case "H":
+				case "E":
+				case "V":
+					isRightObject = true;
+					break;
+			}
+			switch (frontObject) {
+				case "W":
+				case "G":
+				case "A":
+				case "I":
+				case "D":
+				case "T":
+				case "P":
+				case "H":
+				case "E":
+				case "V":
+					isFrontObject = true;
+					break;
+			}
+			switch (backObject) {
+				case "W":
+				case "G":
+				case "A":
+				case "I":
+				case "D":
+				case "T":
+				case "P":
+				case "H":
+				case "E":
+				case "V":
+					isBackObject = true;
+					break;
+			}
+			
+			// If the right is clear and not visited.
+			if (!isRightObject) {
+				Node newNode = new Node(rightX, rightY, currentNode.getCost() + 1, currentNode);
+				currentCells.push(newNode);
+				lvlElementsCopy[rightY][rightX] = "V";
+			// If the left is clear and not visited.
+			} else if (!isLeftObject) {
+				Node newNode = new Node(leftX, leftY, currentNode.getCost() + 1, currentNode);
+				currentCells.push(newNode);
+				lvlElementsCopy[leftY][leftX] = "V";
+			// If the front is clear and not visited.
+			} else if (!isFrontObject) {
+				Node newNode = new Node(frontX, frontY, currentNode.getCost() + 1, currentNode);
+				currentCells.push(newNode);
+				lvlElementsCopy[frontY][frontX] = "V";
+			// If the back is clear and not visited.
+			} else if (!isBackObject) {
+				Node newNode = new Node(backX, backY, currentNode.getCost() + 1, currentNode);
+				currentCells.push(newNode);
+				lvlElementsCopy[backY][backX] = "V";
+			// If it gets to here, then there is no clear path from this node.
+			} else {
+				currentCells.pop();
+			}
+		}
+		System.out.println("Is the player reachable? " + solvable);
+	}
+	
+	/**
+	 * Gets the Euclidean distance between the node position and the player's
+	 * position, and uses this as the heuristic.
+	 * @param currentNode The node that the heuristic is calculated for.
+	 * @param playerX The x-coordinate location of the player.
+	 * @param playerY The y-coordinate location of the player.
+	 * @return The calculated heuristic as an integer.
+	 */
+	private int getEuclideanHeuristic(Node currentNode, int playerX, int playerY) {
+		int nodeX = currentNode.getX();
+		int nodeY = currentNode.getY();
+		
+		// Calculate differences, then the Euclidean distance.
+		int xSqrdDiff = (nodeX - playerX) * (nodeX - playerX);
+		int ySqrdDiff = (nodeY - playerY) * (nodeY - playerY);
+		int euclidDist = (int) Math.sqrt(xSqrdDiff + ySqrdDiff);
+		
+		return euclidDist;
 	}
 }
