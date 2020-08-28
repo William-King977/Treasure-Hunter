@@ -654,14 +654,6 @@ public class GameController {
 	}
 	
 	/**
-	 * Sets the level the player has selected.
-	 * @param levelNum The level number as an integer.
-	 */
-	public void setLevelNumber(int levelNum) {
-		this.levelNum = levelNum;
-	}
-	
-	/**
 	 * Sets up the elements for the next level.
 	 */
 	public void loadNewLevel() {
@@ -670,6 +662,18 @@ public class GameController {
 			// GAME COMPLETE!
 		} else {
 			levelNum++;
+			// Change if the highest level the user can access is less than 
+			// the current value. NOTE: It's possible to complete the whole
+			// game and wanting to play again via New Game.
+			int userCurrentLevel = currentUser.getCurrentLevel();
+			if (levelNum > userCurrentLevel) {
+				// Edit the user's level number and apply the change to the text file.
+				String strOldUser = currentUser.toStringDetail();
+				currentUser.setCurrentLevel(levelNum);
+				String strNewUser = currentUser.toStringDetail();
+				FileHandling.editUser(strOldUser, strNewUser);
+			} 
+			
 			currentLevel = FileHandling.getLevel(levelNum);
 			levelElements = currentLevel.getLevelElements();
 			player = currentLevel.getPlayer();
@@ -683,7 +687,7 @@ public class GameController {
 			enemies = currentLevel.getEnemies();
 			
 			lblToken.setText("0");
-			txtLevelPrompt.appendText("Welcome to Level " + levelNum);
+			txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
 			drawLevel();
 		}
 	}
@@ -742,6 +746,22 @@ public class GameController {
             e.printStackTrace();
             System.exit(-1);
 		}
+	}
+	
+	/**
+	 * Sets the level the player has selected.
+	 * @param levelNum The level number as an integer.
+	 */
+	public void setLevelNumber(int levelNum) {
+		this.levelNum = levelNum;
+	}
+	
+	/**
+	 * Sets the user who is playing the game.
+	 * @param user The user to be set.
+	 */
+	public void setCurrentUser(User user) {
+		this.currentUser = user;
 	}
 	
 	/**

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ public class MainMenuController {
 	
 	/** Title for the Login page. */
 	private final String LOGIN_TITLE = "The Game";
+	/** Stores the details of the logged in user. */
+	private User currentUser;
 	
 	/** A button that opens the latest state of the game. */
 	@FXML private Button btnContinue;
@@ -33,6 +36,16 @@ public class MainMenuController {
 	@FXML private Button btnDeleteProfile;
 	/** The logout button for the main menu. */
 	@FXML private Button btnLogout;
+	
+	/**
+	 * Fetches the details of the logged in user.
+	 * This method will run automatically.
+	 */
+	public void initialize() {
+		String currentUsername = FileHandling.getCurrentUser();
+		LinkedHashMap<String, User> users = FileHandling.getUsers();
+		currentUser = users.get(currentUsername);
+	}
 	
 	/**
 	 * Loads the user's latest accessed state.
@@ -56,6 +69,7 @@ public class MainMenuController {
 			// NOTE: Restart level basically loads the level AFTER
 			// the level number is set. The Initialize method runs first, which
 			// causes the level number to be always 0.
+			gameWindow.setCurrentUser(currentUser);
 			gameWindow.setLevelNumber(1);
 			gameWindow.restartLevel();
 			

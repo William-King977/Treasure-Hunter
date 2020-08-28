@@ -1,6 +1,8 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -298,5 +300,48 @@ public class FileHandling {
             System.out.println("Cannot write to " + filePath); 
             System.exit(-1);
         } 
+	}
+	
+	/**
+	 * A user is edited by replacing the details of the previous user with the new one.
+	 * @param oldUser The string details of the old user.
+	 * @param newUser The string details of the edited user.
+	 */
+	public static void editUser(String oldUser, String newUser) {
+		String filePath = DATA_FILE_PATH + "User.txt";
+		
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String oldContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write old file contents to a string.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	oldContent = oldContent + line + System.lineSeparator();
+		        line = reader.readLine();
+		    }
+		    // Replace old user with the new one within the textfile.
+		    String newContent = oldContent.replace(oldUser, newUser);
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
 	}
 }
