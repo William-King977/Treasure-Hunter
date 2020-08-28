@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
  * @author William King
  */
 public class MainMenuController {
-	
 	/** Title for the Login page. */
 	private final String LOGIN_TITLE = "The Game";
 	/** Stores the details of the logged in user. */
@@ -76,9 +74,12 @@ public class MainMenuController {
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
-			// primaryStage.setTitle(CREATE_PROFILE_PICTURE_TITLE);
-			primaryStage.initModality(Modality.APPLICATION_MODAL);
-            primaryStage.showAndWait();
+			// primaryStage.setTitle(THE_GAME_TITLE);
+			primaryStage.show();
+			
+			// Close the main menu.
+			Stage stage = (Stage) btnNewGame.getScene().getWindow();
+			stage.close();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.
@@ -97,6 +98,32 @@ public class MainMenuController {
 	 * Displays a menu of levels that are available for the user.
 	 */
 	public void levelSelectButtonAction() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/LevelSelect.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			LevelSelectController levelSelectMenu = fxmlLoader.<LevelSelectController> getController();
+			// Pass down the user, then adjust the available levels.
+			levelSelectMenu.setCurrentUser(currentUser);
+			levelSelectMenu.adjustAvailableLevels();
+			
+			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(LEVEL_SELECT_TITLE);
+			primaryStage.show();
+			
+			// Close the main menu.
+			Stage stage = (Stage) btnLevelSelect.getScene().getWindow();
+			stage.close();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 	
 	/**

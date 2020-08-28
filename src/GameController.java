@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,6 +35,8 @@ public class GameController {
 	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
 	/** File location of the enemy sprites. */
 	private final static String ENEMY_FILE_PATH = "DataFiles/Enemies/";
+	/** Title for the Main Menu. */
+	private final String MAIN_MENU_TITLE = "Main Menu";
 	/** The number marking the highest level in the game. */
 	private final static int MAX_LEVEL = 2;
 	/** Size of the cell width. */
@@ -765,11 +768,26 @@ public class GameController {
 	}
 	
 	/**
-	 * Saves the current state of the game, then closes the game window.
+	 * Closes the game window, then opens the main menu.
 	 */
 	public void quitButtonAction() {
 		// Closes the window.
 		Stage stage = (Stage) btnQuit.getScene().getWindow();
 		stage.close();
+		
+		try {
+			Stage primaryStage = new Stage();
+			Parent root = FXMLLoader.load(getClass()
+					.getResource("FXMLFiles/MainMenu.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle(MAIN_MENU_TITLE);
+			primaryStage.show(); // Displays the new stage.
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 }
