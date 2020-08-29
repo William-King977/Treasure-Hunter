@@ -34,6 +34,15 @@ public class Enemy {
 	}
 	
 	/**
+	 * Gets a string of the Enemy's full details for file saving.
+	 * @return A string of the Enemy's full details.
+	 */
+	public String toStringDetail() {
+		String strEnemy = "ENEMY," + enemyX + "," + enemyY + "," + type + "," + moveDirection + ",";
+		return strEnemy;
+	}
+	
+	/**
 	 * Gets the enemy's current x-coordinate location.
 	 * @return The x-coordinate as an integer.
 	 */
@@ -489,7 +498,7 @@ public class Enemy {
 		currentCells.add(startNode);
 		lvlElementsCopy[enemyY][enemyX] = "V"; // Set as visited.
 		
-		// Enter a loop until a decision is deduced.
+		// Enter a loop until a decision has been deduced.
 		while (!playerReachable) {
 			// If the player is unreachable.
 			if (currentCells.size() == 0) {
@@ -512,7 +521,7 @@ public class Enemy {
 			if ((nodeX == playerX) && (nodeY == playerY)) {
 				playerReachable = true;
 				solutionNode = currentNode;
-				break;
+				continue;
 			} 
 			
 			// Check if there's an object in front, behind or adjacent to the enemy. 

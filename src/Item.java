@@ -23,6 +23,15 @@ public class Item {
 		this.itemY = itemY;
 		this.type = type;
 	}
+	
+	/**
+	 * Gets a string of the Item's full details for file saving.
+	 * @return A string of the Item's full details.
+	 */
+	public String toStringDetail() {
+		String strItem = "ITEM," + itemX + "," + itemY + "," + type + ",";
+		return strItem;
+	}
 
 	/**
 	 * Gets the x-coordinate location of the item.

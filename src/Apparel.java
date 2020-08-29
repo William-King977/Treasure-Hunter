@@ -23,6 +23,15 @@ public class Apparel {
 		this.apparelY = apparelY;
 		this.type = type;
 	}
+	
+	/**
+	 * Gets a string of the Apparel's full details for file saving.
+	 * @return A string of the Apparel's full details.
+	 */
+	public String toStringDetail() {
+		String strApparel = "APPAREL," + apparelX + "," + apparelY + "," + type + ",";
+		return strApparel;
+	}
 
 	/**
 	 * Gets the x-coordinate location of the apparel.

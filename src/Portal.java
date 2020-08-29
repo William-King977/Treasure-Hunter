@@ -32,6 +32,15 @@ public class Portal {
 	}
 	
 	/**
+	 * Gets a string of the Portal's full details for file saving.
+	 * @return A string of the Portal's full details.
+	 */
+	public String toStringDetail() {
+		String strPortal = "PORTAL," + portalX + "," + portalY + "," + destX + "," + destY + ",";
+		return strPortal;
+	}
+	
+	/**
 	 * Gets the x-coordinate location of the portal.
 	 * @return The x-coordinate as an integer.
 	 */

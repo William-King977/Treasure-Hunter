@@ -67,6 +67,66 @@ public class Level {
 	}
 	
 	/**
+	 * Gets a string of the Level's full details for file saving.
+	 * @return A string of the Level's full details in its current state.
+	 */
+	public String toStringDetail() {
+		String strLevel = levelNumber + "," + player.toStringDetail() + ",";
+		
+		// Convert doors to a string, then concatenate them to strLevel.
+		for (int i = 0; i < doors.length; i++) {
+			for (int j = 0; j < doors[0].length; i++) {
+				if (doors[i][j] != null) {
+					strLevel = strLevel + doors[i][j].toStringDetail();
+				}
+			}
+		}
+		
+		// Convert apparels to a string, then concatenate them to strLevel.
+		for (int i = 0; i < apparels.length; i++) {
+			for (int j = 0; j < apparels[0].length; i++) {
+				if (apparels[i][j] != null) {
+					strLevel = strLevel + apparels[i][j].toStringDetail();
+				}
+			}
+		}
+		
+		// Convert items to a string, then concatenate them to strLevel.
+		for (int i = 0; i < items.length; i++) {
+			for (int j = 0; j < items[0].length; i++) {
+				if (items[i][j] != null) {
+					strLevel = strLevel + items[i][j].toStringDetail();
+				}
+			}
+		}
+		
+		// Convert hazards to a string, then concatenate them to strLevel.
+		for (int i = 0; i < hazards.length; i++) {
+			for (int j = 0; j < hazards[0].length; i++) {
+				if (hazards[i][j] != null) {
+					strLevel = strLevel + hazards[i][j].toStringDetail();
+				}
+			}
+		}
+		
+		// Convert portals to a string, then concatenate them to strLevel.
+		for (int i = 0; i < portals.length; i++) {
+			for (int j = 0; j < portals[0].length; i++) {
+				if (portals[i][j] != null) {
+					strLevel = strLevel + portals[i][j].toStringDetail();
+				}
+			}
+		}
+		
+		// Convert enemies to a string, then concatenate them to strLevel.
+		for (Enemy elem : enemies) {
+			strLevel = strLevel + elem.toStringDetail();
+		}
+		
+		return strLevel;
+	}
+	
+	/**
 	 * Gets the elements (and their position) used for the level. 
 	 * @return An array of elements for the level.
 	 */

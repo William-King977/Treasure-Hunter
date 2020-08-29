@@ -25,6 +25,15 @@ public class Hazard {
 	}
 	
 	/**
+	 * Gets a string of the Hazard's full details for file saving.
+	 * @return A string of the Hazard's full details.
+	 */
+	public String toStringDetail() {
+		String strHazard = "HAZARD," + hazardX + "," + hazardY + "," + type + ",";
+		return strHazard;
+	}
+	
+	/**
 	 * Gets the x-coordinate location of the hazard.
 	 * @return The x-coordinate as an integer.
 	 */

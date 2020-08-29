@@ -752,6 +752,12 @@ public class GameController {
 	}
 	
 	/**
+	 * Opens a window that allows the user to save the current state of the game.
+	 */
+	public void saveGame() {
+	}
+	
+	/**
 	 * Sets the level the player has selected.
 	 * @param levelNum The level number as an integer.
 	 */

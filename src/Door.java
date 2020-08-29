@@ -28,6 +28,15 @@ public class Door {
 		this.type = type;
 		this.numTokens = numTokens;
 	}
+	
+	/**
+	 * Gets a string of the Door's full details for file saving.
+	 * @return A string of the Door's full details.
+	 */
+	public String toStringDetail() {
+		String strDoor = "DOOR," + doorX + "," + doorY + "," + type + "," + numTokens + ",";
+		return strDoor;
+	}
 
 	/**
 	 * Gets the x-coordinate location of the door.

@@ -40,6 +40,36 @@ public class Player {
 			this.equippedItems[i] = " ";
 		}
 	}
+	
+	/**
+	 * Gets a string of the Player's full details for file saving.
+	 * @return A string of the Player's full details.
+	 */
+	public String toStringDetail() {
+		// Ensures inventory items are in format of 'item;item;item...'
+		String strInventory = "";
+		for (int i = 0; i < inventory.length; i++) {
+			if (i == 0) {
+				strInventory = inventory[0];
+			} else {
+				strInventory = strInventory + ";" + inventory[i];
+			}
+		}
+		
+		// Ensures equipped items are in format of 'item;item...'
+		String strEquippedItems = "";
+		for (int i = 0; i < equippedItems.length; i++) {
+			if (i == 0) {
+				strEquippedItems = equippedItems[0];
+			} else {
+				strEquippedItems = strEquippedItems + ";" + equippedItems[i];
+			}
+		}
+		
+		String strPlayer = playerX + "," + playerY + "," + strInventory + 
+				"," + strEquippedItems + "," + numTokens + ",";
+		return strPlayer;
+	}
 
 	/**
 	 * Gets the player's current x-coordinate position.
