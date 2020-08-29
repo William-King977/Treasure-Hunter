@@ -48,6 +48,18 @@ public class Alerts {
 	}
 	
 	/**
+	 * An alert pop-up that tells the user that there is no input in the 
+	 * description field when saving their game.
+	 */
+	public static void descriptionNotEntered() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error: Description Not Entered.");
+		alert.setHeaderText(null);
+		alert.setContentText("Please enter a description for your saved game.");	
+		alert.showAndWait();
+	}
+	
+	/**
 	 * An alert pop-up that tells the user that the their profile has 
 	 * been created successfully.
 	 */
@@ -55,7 +67,18 @@ public class Alerts {
     	Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("User Created Successfully.");
 		alert.setHeaderText(null);
-		alert.setContentText("The user has been created successfully.");
+		alert.setContentText("This user has been created successfully.");
+		alert.showAndWait();
+	}
+	
+	/**
+	 * An alert pop-up that tells the user that their game has been saved.
+	 */
+	public static void gameSaved() {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Game Saved Successfully.");
+		alert.setHeaderText(null);
+		alert.setContentText("Your game has been saved successfully.");
 		alert.showAndWait();
 	}
 }

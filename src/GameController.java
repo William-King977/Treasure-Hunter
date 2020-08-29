@@ -736,7 +736,7 @@ public class GameController {
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
-			// primaryStage.setTitle(CREATE_PROFILE_PICTURE_TITLE);
+			// primaryStage.setTitle(INVENTORY_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
             primaryStage.showAndWait();
             
@@ -754,7 +754,31 @@ public class GameController {
 	/**
 	 * Opens a window that allows the user to save the current state of the game.
 	 */
-	public void saveGame() {
+	public void saveGameButtonAction() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/SaveGame.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			SaveGameController saveGameWindow = fxmlLoader.<SaveGameController> getController();
+			
+			// Pass down the player's username and the level.
+			saveGameWindow.setLevel(currentLevel);
+			saveGameWindow.setPlayerUsername(currentUser.getUsername());
+			
+			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(SAVE_GAME_TITLE);
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+            primaryStage.showAndWait();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 	
 	/**

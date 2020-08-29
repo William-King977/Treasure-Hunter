@@ -264,7 +264,7 @@ public class FileHandling {
 	    }
 	    in.close();
 	    
-	    // Convert enemies arraylist to an array.
+	    // Convert enemies array list to an array.
 	    Enemy[] enemies = new Enemy[alEnemies.size()];
 	    enemies = alEnemies.toArray(enemies);
 	    
@@ -276,7 +276,7 @@ public class FileHandling {
 	
 	/**
 	 * A new user is created by adding their details at the end
-	 * of their respective textfile.
+	 * of their respective text file.
 	 * @param newUser Details of the new registered user.
 	 */
 	public static void createUser(String newUser) {
@@ -330,7 +330,7 @@ public class FileHandling {
 		    	oldContent = oldContent + line + System.lineSeparator();
 		        line = reader.readLine();
 		    }
-		    // Replace old user with the new one within the textfile.
+		    // Replace old user with the new one within the text file.
 		    String newContent = oldContent.replace(oldUser, newUser);
 		    writer = new FileWriter(filePath);
 		    writer.write(newContent);
@@ -343,5 +343,33 @@ public class FileHandling {
             e.printStackTrace();
             System.exit(-1);
 	    }
+	}
+	
+	/**
+	 * A new game state is created by adding their details at the end
+	 * of their respective text file.
+	 * @param newGameState Details of the saved game state.
+	 */
+	public static void saveGameState(String newGameState) {
+		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
+		
+		File file = null;
+		FileWriter fileWriter = null;
+		BufferedWriter buffWriter = null;
+		PrintWriter printWriter = null;
+		try { 
+			file = new File(filePath);
+			fileWriter = new FileWriter(file, true);
+			buffWriter = new BufferedWriter(fileWriter);
+			printWriter = new PrintWriter(buffWriter);
+			
+			// Writes the game state then adds a new line. 
+			printWriter.print(newGameState);
+			printWriter.println("");
+			printWriter.close();
+        } catch (IOException e) { 
+            System.out.println("Cannot write to " + filePath); 
+            System.exit(-1);
+        } 
 	}
 }

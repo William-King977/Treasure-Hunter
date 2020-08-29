@@ -75,7 +75,7 @@ public class Level {
 		
 		// Convert doors to a string, then concatenate them to strLevel.
 		for (int i = 0; i < doors.length; i++) {
-			for (int j = 0; j < doors[0].length; i++) {
+			for (int j = 0; j < doors[0].length; j++) {
 				if (doors[i][j] != null) {
 					strLevel = strLevel + doors[i][j].toStringDetail();
 				}
@@ -84,7 +84,7 @@ public class Level {
 		
 		// Convert apparels to a string, then concatenate them to strLevel.
 		for (int i = 0; i < apparels.length; i++) {
-			for (int j = 0; j < apparels[0].length; i++) {
+			for (int j = 0; j < apparels[0].length; j++) {
 				if (apparels[i][j] != null) {
 					strLevel = strLevel + apparels[i][j].toStringDetail();
 				}
@@ -93,16 +93,26 @@ public class Level {
 		
 		// Convert items to a string, then concatenate them to strLevel.
 		for (int i = 0; i < items.length; i++) {
-			for (int j = 0; j < items[0].length; i++) {
+			for (int j = 0; j < items[0].length; j++) {
 				if (items[i][j] != null) {
 					strLevel = strLevel + items[i][j].toStringDetail();
 				}
 			}
 		}
 		
+		// Convert tokens to a string, then concatenate them to strLevel.
+		for (int i = 0; i < levelElements.length; i++) {
+			for (int j = 0; j < levelElements[0].length; j++) {
+				if (levelElements[i][j].equals("T")) {
+					String strToken = "TOKEN," + i + "," + j + ",";
+					strLevel = strLevel + strToken;
+				}
+			}
+		}
+		
 		// Convert hazards to a string, then concatenate them to strLevel.
 		for (int i = 0; i < hazards.length; i++) {
-			for (int j = 0; j < hazards[0].length; i++) {
+			for (int j = 0; j < hazards[0].length; j++) {
 				if (hazards[i][j] != null) {
 					strLevel = strLevel + hazards[i][j].toStringDetail();
 				}
@@ -111,7 +121,7 @@ public class Level {
 		
 		// Convert portals to a string, then concatenate them to strLevel.
 		for (int i = 0; i < portals.length; i++) {
-			for (int j = 0; j < portals[0].length; i++) {
+			for (int j = 0; j < portals[0].length; j++) {
 				if (portals[i][j] != null) {
 					strLevel = strLevel + portals[i][j].toStringDetail();
 				}
