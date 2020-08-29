@@ -55,7 +55,7 @@ public class InventoryController {
 	/** Holds the player's sprite. */
 	private Image playerSprite;
 	
-	/** A list view to show the player's inventory */
+	/** A list view to show the player's inventory. */
 	@FXML private ListView<String> lstInventory;
 	
 	/** An image view to show the player sprite. */

@@ -18,7 +18,7 @@ public class Player {
 	private String[] inventory = {};
 	
 	/** The items the player is currently equipped with. 
-	 * Index 0 holds apparel and index*/
+	 * Index 0 holds apparel and index. */
 	private String[] equippedItems;
 	
 	/** The number of tokens the player has currently collected. */
@@ -110,6 +110,14 @@ public class Player {
 	public String[] getInventory() {
 		return inventory;
 	}
+	
+	/**
+	 * Sets the player's current inventory when loading a game state.
+	 * @param The player's inventory as a string array.
+	 */
+	public void setInventory(String[] inventory) {
+		this.inventory = inventory;
+	}
 
 	/**
 	 * Adds a new item to the player's inventory.
@@ -140,7 +148,15 @@ public class Player {
 	public String[] getEquippedItems() {
 		return equippedItems;
 	}
-
+	
+	/**
+	 * Sets the player's currently equipped items when loading a game state.
+	 * @param The player's equipped items as a string array.
+	 */
+	public void setEquippedItems(String[] equippedItems) {
+		this.equippedItems = equippedItems;
+	}
+	
 	/**
 	 * Adds a new item to the user's currently equipped items.
 	 * @param equippedItems The equipped items to be set.
