@@ -408,7 +408,7 @@ public class FileHandling {
 	    	int playerX = readState.nextInt();
 	    	int playerY = readState.nextInt();
 	    	String strInventory = readState.next().trim();
-	    	String strEquipped = readState.next().trim();
+	    	String strEquipped = readState.next();
 	    	int numPlayerTokens = readState.nextInt();
 	    	String[] inventory = {};
 	    	String[] equippedItems = {};

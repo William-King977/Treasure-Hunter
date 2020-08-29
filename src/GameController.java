@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,9 +97,23 @@ public class GameController {
 	
 	// Loaded images
 	// SPRITES
+	// Default with items.
 	private Image playerDefault;
+	private Image playerOrangeKey;
+	private Image playerYellowKey;
+	private Image playerPurpleKey;
+	
+	// Flippers with items.
 	private Image playerFlippers;
+	private Image flippersOrangeKey;
+	private Image flippersYellowKey;
+	private Image flippersPurpleKey;
+	
+	// Fire boots with items.
 	private Image playerFireBoots;
+	private Image fireBootsOrangeKey;
+	private Image fireBootsYellowKey;
+	private Image fireBootsPurpleKey;
 	
 	// ITEMS
 	private Image fireBoots;
@@ -152,8 +167,20 @@ public class GameController {
 		// Load the graphics.
 		// Player Sprites.
 		playerDefault = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
+		playerOrangeKey = new Image(new File (PLAYER_FILE_PATH + "DefaultOrangeKey.png").toURI().toString());
+		playerYellowKey = new Image(new File (PLAYER_FILE_PATH + "DefaultYellowKey.png").toURI().toString());
+		playerPurpleKey = new Image(new File (PLAYER_FILE_PATH + "DefaultPurpleKey.png").toURI().toString());
+		
+		
 		playerFlippers = new Image(new File (PLAYER_FILE_PATH + "Flippers.png").toURI().toString());
+		flippersOrangeKey = new Image(new File (PLAYER_FILE_PATH + "FlippersOrangeKey.png").toURI().toString());
+		flippersYellowKey = new Image(new File (PLAYER_FILE_PATH + "FlippersYellowKey.png").toURI().toString());
+		flippersPurpleKey = new Image(new File (PLAYER_FILE_PATH + "FlippersPurpleKey.png").toURI().toString());
+		
 		playerFireBoots = new Image(new File (PLAYER_FILE_PATH + "FireBoots.png").toURI().toString());
+		fireBootsOrangeKey = new Image(new File (PLAYER_FILE_PATH + "FireBootsOrangeKey.png").toURI().toString());
+		fireBootsYellowKey = new Image(new File (PLAYER_FILE_PATH + "FireBootsYellowKey.png").toURI().toString());
+		fireBootsPurpleKey = new Image(new File (PLAYER_FILE_PATH + "FireBootsPurpleKey.png").toURI().toString());
 		
 		// Items
 		fireBoots = new Image(new File (ITEM_FILE_PATH + "FireBoots.png").toURI().toString());
@@ -622,34 +649,61 @@ public class GameController {
 	
 	/**
 	 * Redraws the player sprite after an action is performed (movement or using an item).
+	 * Or when loading a game state.
 	 */
 	public void drawPlayerSprite() {
 		String[] equippedItems = player.getEquippedItems();
 		String apparel = equippedItems[0];
 		String item = equippedItems[1];
 		
-		// Change the sprite if an item has been used.
-		// Otherwise the sprite stays the same.
+		// Change the sprite based on the equipped items.
 		switch (apparel) {
 			case "Flippers":
 				switch (item) {
-					case " ":
+					case "Orange Key":
+						playerSprite = flippersOrangeKey;
+						break;
+					case "Yellow Key":
+						playerSprite = flippersYellowKey;
+						break;
+					case "Purple Key":
+						playerSprite = flippersPurpleKey;
+						break;
+					default:
 						playerSprite = playerFlippers;
 						break;
 				}
 				break;
 			case "Fire Boots":
 				switch (item) {
-					case " ":
+					case "Orange Key":
+						playerSprite = fireBootsOrangeKey;
+						break;
+					case "Yellow Key":
+						playerSprite = fireBootsYellowKey;
+						break;
+					case "Purple Key":
+						playerSprite = fireBootsPurpleKey;
+						break;
+					default:
 						playerSprite = playerFireBoots;
 						break;
 				}
 				break;
 			default:
 				switch (item) {
-					case " ":
-						playerSprite = playerDefault;
-						break;
+				case "Orange Key":
+					playerSprite = playerOrangeKey;
+					break;
+				case "Yellow Key":
+					playerSprite = playerYellowKey;
+					break;
+				case "Purple Key":
+					playerSprite = playerPurpleKey;
+					break;
+				default:
+					playerSprite = playerDefault;
+					break;
 				}
 		}
 		// Draw the sprite.
@@ -713,6 +767,28 @@ public class GameController {
 		
 		lblToken.setText("0");
 		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+		drawLevel();
+	}
+	
+	/**
+	 * Loads in a save state and adjust the game level based on it.
+	 * @param level The level fetched from the game state.
+	 */
+	public void loadGameState(Level level) {
+		currentLevel = level;
+		levelNum = level.getLevelNumber();
+		levelElements = currentLevel.getLevelElements();
+		player = currentLevel.getPlayer();
+		
+		doors = currentLevel.getDoors(); 
+		apparels = currentLevel.getApparels();
+		items = currentLevel.getItems();
+		hazards = currentLevel.getHazards();
+		portals = currentLevel.getPortals();
+		enemies = currentLevel.getEnemies();
+		
+		lblToken.setText(player.getNumTokens() + "");
+		txtLevelPrompt.appendText("Welcome back to Level " + levelNum + ".");
 		drawLevel();
 	}
 	

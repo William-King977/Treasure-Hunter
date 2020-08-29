@@ -92,24 +92,32 @@ public class MainMenuController {
 	 * Displays a menu of saved states that the user can continue from.
 	 */
 	public void loadGameButtonAction() {	
-		// Closes the window.
-		Stage stage = (Stage) btnLoadGame.getScene().getWindow();
-		stage.close();
-		
 		try {
-			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass()
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
 					.getResource("FXMLFiles/LoadGameWindow.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			LoadGameController loadGame = fxmlLoader.<LoadGameController> getController();
+			// Pass down the user.
+			loadGame.setCurrentUser(currentUser);
+			loadGame.showGameStates();
+			
 			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(LOAD_GAME_TITLE);
-			primaryStage.show(); // Displays the new stage.
+			primaryStage.show();
+			
+			// Close the main menu.
+			Stage stage = (Stage) btnLoadGame.getScene().getWindow();
+			stage.close();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.
             e.printStackTrace();
             System.exit(-1);
-		}	
+		}
 	}
 	
 	/**

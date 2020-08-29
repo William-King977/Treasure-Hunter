@@ -44,8 +44,8 @@
                   <Insets left="20.0" />
                </HBox.margin>
                <children>
-                  <ListView fx:id="lstGameStates" prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#loadButtonAction" text="Load">
+                  <ListView fx:id="lstGameStates" onMouseClicked="#gameStateSelectAction" prefHeight="200.0" prefWidth="200.0" />
+                  <Button fx:id="btnLoad" disable="true" mnemonicParsing="false" onAction="#loadButtonAction" text="Load">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>

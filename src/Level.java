@@ -76,7 +76,7 @@ public class Level {
 		// Convert doors to a string, then concatenate them to strLevel.
 		for (int i = 0; i < doors.length; i++) {
 			for (int j = 0; j < doors[0].length; j++) {
-				if (doors[i][j] != null) {
+				if (doors[i][j] != null && levelElements[i][j].equals("D")) {
 					strLevel = strLevel + doors[i][j].toStringDetail();
 				}
 			}
@@ -85,7 +85,7 @@ public class Level {
 		// Convert apparels to a string, then concatenate them to strLevel.
 		for (int i = 0; i < apparels.length; i++) {
 			for (int j = 0; j < apparels[0].length; j++) {
-				if (apparels[i][j] != null) {
+				if (apparels[i][j] != null && levelElements[i][j].equals("A")) {
 					strLevel = strLevel + apparels[i][j].toStringDetail();
 				}
 			}
@@ -94,7 +94,7 @@ public class Level {
 		// Convert items to a string, then concatenate them to strLevel.
 		for (int i = 0; i < items.length; i++) {
 			for (int j = 0; j < items[0].length; j++) {
-				if (items[i][j] != null) {
+				if (items[i][j] != null && levelElements[i][j].equals("I")) {
 					strLevel = strLevel + items[i][j].toStringDetail();
 				}
 			}
@@ -104,7 +104,7 @@ public class Level {
 		for (int i = 0; i < levelElements.length; i++) {
 			for (int j = 0; j < levelElements[0].length; j++) {
 				if (levelElements[i][j].equals("T")) {
-					String strToken = "TOKEN," + i + "," + j + ",";
+					String strToken = "TOKEN," + j + "," + i + ",";
 					strLevel = strLevel + strToken;
 				}
 			}
@@ -113,7 +113,7 @@ public class Level {
 		// Convert hazards to a string, then concatenate them to strLevel.
 		for (int i = 0; i < hazards.length; i++) {
 			for (int j = 0; j < hazards[0].length; j++) {
-				if (hazards[i][j] != null) {
+				if (hazards[i][j] != null && levelElements[i][j].equals("H")) {
 					strLevel = strLevel + hazards[i][j].toStringDetail();
 				}
 			}
@@ -122,7 +122,7 @@ public class Level {
 		// Convert portals to a string, then concatenate them to strLevel.
 		for (int i = 0; i < portals.length; i++) {
 			for (int j = 0; j < portals[0].length; j++) {
-				if (portals[i][j] != null) {
+				if (portals[i][j] != null && levelElements[i][j].equals("P")) {
 					strLevel = strLevel + portals[i][j].toStringDetail();
 				}
 			}
