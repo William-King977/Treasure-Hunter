@@ -34,7 +34,7 @@ public class Door {
 	 * @return A string of the Door's full details.
 	 */
 	public String toStringDetail() {
-		String strDoor = "DOOR," + doorX + "," + doorY + "," + type + "," + numTokens + ",";
+		String strDoor = "DOOR," + doorX + ":" + doorY + ":" + type + ":" + numTokens + ",";
 		return strDoor;
 	}
 

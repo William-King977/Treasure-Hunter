@@ -36,7 +36,7 @@ public class Portal {
 	 * @return A string of the Portal's full details.
 	 */
 	public String toStringDetail() {
-		String strPortal = "PORTAL," + portalX + "," + portalY + "," + destX + "," + destY + ",";
+		String strPortal = "PORTAL," + portalX + ":" + portalY + ":" + destX + ":" + destY + ",";
 		return strPortal;
 	}
 	

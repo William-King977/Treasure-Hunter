@@ -29,7 +29,7 @@ public class Apparel {
 	 * @return A string of the Apparel's full details.
 	 */
 	public String toStringDetail() {
-		String strApparel = "APPAREL," + apparelX + "," + apparelY + "," + type + ",";
+		String strApparel = "APPAREL," + apparelX + ":" + apparelY + ":" + type + ",";
 		return strApparel;
 	}
 

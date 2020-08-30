@@ -66,8 +66,8 @@ public class Player {
 			}
 		}
 		
-		String strPlayer = playerX + "," + playerY + "," + strInventory + 
-				"," + strEquippedItems + "," + numTokens + ",";
+		String strPlayer = playerX + ":" + playerY + ":" + strInventory + 
+				":" + strEquippedItems + ":" + numTokens + ",";
 		return strPlayer;
 	}
 

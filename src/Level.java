@@ -71,7 +71,7 @@ public class Level {
 	 * @return A string of the Level's full details in its current state.
 	 */
 	public String toStringDetail() {
-		String strLevel = levelNumber + "," + player.toStringDetail() + ",";
+		String strLevel = levelNumber + "," + player.toStringDetail();
 		
 		// Convert doors to a string, then concatenate them to strLevel.
 		for (int i = 0; i < doors.length; i++) {

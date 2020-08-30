@@ -38,7 +38,7 @@ public class Enemy {
 	 * @return A string of the Enemy's full details.
 	 */
 	public String toStringDetail() {
-		String strEnemy = "ENEMY," + enemyX + "," + enemyY + "," + type + "," + moveDirection + ",";
+		String strEnemy = "ENEMY," + enemyX + ":" + enemyY + ":" + type + ":" + moveDirection + ",";
 		return strEnemy;
 	}
 	

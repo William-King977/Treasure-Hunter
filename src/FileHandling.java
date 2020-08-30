@@ -49,8 +49,8 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 	    try {
-	    	//Opens the file for reading
-			in = new Scanner (inputFile);
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
@@ -70,8 +70,8 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 	    try {
-	    	//Opens the file for reading
-			in = new Scanner (inputFile);
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
@@ -107,8 +107,8 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 	    try {
-	    	//Opens the file for reading
-			in = new Scanner (inputFile);
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
@@ -153,110 +153,37 @@ public class FileHandling {
 				    player = new Player(playerX, playerY);
 				    break;
 		    	case "APPAREL":
-		    		int apparelX = in.nextInt();
-		    		int apparelY = in.nextInt();
-		    		String aType = in.next();
-		    		ApparelType apparelType = null;
-		    		switch (aType) {
-			    		case "FLIPPERS":
-			    			apparelType = ApparelType.FLIPPERS;
-			    			break;
-			    		case "FIREBOOTS":
-			    			apparelType = ApparelType.FIREBOOTS;
-			    			break;
-		    		}
-		    		Apparel newApparel = new Apparel(apparelX, apparelY, apparelType);
+		    		Apparel newApparel = readApparel(in.next());
+		    		int apparelX = newApparel.getX();
+		    		int apparelY = newApparel.getY();
 		    		apparels[apparelY][apparelX] = newApparel;
 		    		break;
 		    	case "ITEM":
-		    		int itemX = in.nextInt();
-		    		int itemY = in.nextInt();
-		    		String iType = in.next();
-		    		ItemType itemType = null;
-		    		switch (iType) {
-			    		case "YELLOWKEY":
-			    			itemType = ItemType.YELLOWKEY;
-			    			break;
-			    		case "ORANGEKEY":
-			    			itemType = ItemType.ORANGEKEY;
-			    			break;
-			    		case "PURPLEKEY":
-			    			itemType = ItemType.PURPLEKEY;
-			    			break;
-		    		}
-		    		Item newItem = new Item(itemX, itemY, itemType);
+		    		Item newItem = readItem(in.next());
+		    		int itemX = newItem.getX();
+		    		int itemY = newItem.getY();
 		    		items[itemY][itemX] = newItem;
 		    		break;
 		    	case "DOOR":
-		    		// Read doors, construct them and add them to a list.
-		    		int doorX = in.nextInt();
-		    		int doorY = in.nextInt();
-		    		String dType = in.next();
-		    		int numTokens = in.nextInt();
-		    		DoorType doorType = null;
-		    		switch (dType) {
-			    		case "YELLOW":
-			    			doorType = DoorType.YELLOW;
-			    			break;
-			    		case "ORANGE":
-			    			doorType = DoorType.ORANGE;
-			    			break;
-			    		case "PURPLE":
-			    			doorType = DoorType.PURPLE;
-			    			break;
-			    		case "TOKEN":
-			    			doorType = DoorType.TOKEN;
-			    			break;
-		    		}
-		    		Door newDoor = new Door(doorX, doorY, doorType, numTokens);
+		    		Door newDoor = readDoor(in.next());
+	    			int doorX = newDoor.getX();
+	    			int doorY = newDoor.getY();
 		    		doors[doorY][doorX] = newDoor;
 		    		break;
 		    	case "HAZARD":
-		    		int hazardX = in.nextInt();
-		    		int hazardY = in.nextInt();
-		    		String hType = in.next();
-		    		HazardType hazardType = null;
-		    		switch (hType) {
-			    		case "WATER":
-			    			hazardType = HazardType.WATER;
-			    			break;
-			    		case "FIRE":
-			    			hazardType = HazardType.FIRE;
-			    			break;
-		    		}
-		    		Hazard newHazard = new Hazard(hazardX, hazardY, hazardType);
+		    		Hazard newHazard = readHazard(in.next());
+		    		int hazardX = newHazard.getX();
+		    		int hazardY = newHazard.getY();
 		    		hazards[hazardY][hazardX] = newHazard;
 		    		break;
 		    	case "PORTAL":
-		    		int portalX = in.nextInt();
-		    		int portalY = in.nextInt();
-		    		int destX = in.nextInt();
-		    		int destY = in.nextInt();
-		    		Portal newPortal = new Portal(portalX, portalY, destX, destY);
+		    		Portal newPortal = readPortal(in.next());
+		    		int portalX = newPortal.getX();
+		    		int portalY = newPortal.getY();
 		    		portals[portalY][portalX] = newPortal;
 		    		break;
 		    	case "ENEMY":
-		    		int enemyX = in.nextInt();
-		    		int enemyY = in.nextInt();
-		    		String eType = in.next();
-		    		String moveDirection = in.next();
-		    		EnemyType enemyType = null;
-		    		switch (eType) {
-			    		case "STRAIGHT":
-			    			enemyType = EnemyType.STRAIGHT;
-			    			break;
-			    		case "WALL":
-			    			enemyType = EnemyType.WALL;
-			    			break;
-			    		case "DUMB":
-			    			enemyType = EnemyType.DUMB;
-			    			break;
-			    		case "SMART":
-			    			enemyType = EnemyType.SMART;
-			    			break;
-		    		}
-		    		
-		    		Enemy newEnemy = new Enemy(enemyX, enemyY, enemyType, moveDirection);
+		    		Enemy newEnemy = readEnemy(in.next());
 		    		alEnemies.add(newEnemy);
 		    		break;
 		    }
@@ -272,6 +199,45 @@ public class FileHandling {
 	    Level newLevel = new Level(levelElements, levelNum, player, doors, 
 	    		apparels, items, hazards, portals, enemies);
 		return newLevel;
+	}
+	
+	/**
+	 * Reads in the base of a specified level (only walls and goal elements).
+	 * @param levelNum The specified level as an integer.
+	 * @return A 2D array of level elements.
+	 */
+	public static String[][] readLevelBase(int levelNum) {
+		// Read in the level text file (the level base).
+		String filePath = LEVEL_FILE_PATH + "Base Level " + levelNum + ".txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
+	    try {
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    // Read the level's details.
+	    in.useDelimiter(",");
+	    int levelHeight = in.nextInt();
+    	int levelWidth = in.nextInt();
+    	in.nextLine();
+    	
+    	String[][] levelElements = new String[levelHeight][levelWidth];
+    	
+    	for (int row = 0; row < levelHeight; row++) {
+	    	for (int col = 0; col < levelWidth; col++) {
+	    		String element = in.next();
+	    		levelElements[row][col] = element;
+	    	}
+	    	in.nextLine(); // Needed if you change delimiter.
+	    }
+    	
+    	in.close();
+    	return levelElements;
 	}
 	
 	/**
@@ -380,82 +346,47 @@ public class FileHandling {
 	 */
 	public static GameState[] getGameStates(String username) {
 		// Read in the game states text file.
-		String gameStateFilePath = DATA_FILE_PATH + "SavedGameStates.txt";
-		File stateFile = new File(gameStateFilePath);
-		Scanner readState = null;
+		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
 	    try {
 	    	// Opens the file for reading
-			readState = new Scanner (stateFile);
+			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
-			System.out.println("Cannot open " + gameStateFilePath);
+			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
 	    
-	    readState.useDelimiter(",");
+	    in.useDelimiter(",");
+	    // Store states in an array list. It will be converted to an array.
 	    ArrayList<GameState> gameStates = new ArrayList<>();
 	    
 	    // Read each saved state made by the user.
-	    while (readState.hasNextLine()) {
+	    while (in.hasNextLine()) {
+	    	// Fetch the line (game state as a string) and 
+	    	// read it using a separate scanner.
+	    	String strGameState = in.nextLine();
+	    	Scanner readState = new Scanner(strGameState);
+	    	readState.useDelimiter(",");
+	    	
+	    	// Check if it's the user's save state.
 	    	String user = readState.next();
 	    	if (!user.equals(username)) {
 	    		continue;
 	    	}
 	    	
+	    	// Read the game state details.
 	    	String description = readState.next();
 	    	int levelNum = readState.nextInt();
-	    	// Fetch the player's details.
-	    	int playerX = readState.nextInt();
-	    	int playerY = readState.nextInt();
-	    	String strInventory = readState.next().trim();
-	    	String strEquipped = readState.next();
-	    	int numPlayerTokens = readState.nextInt();
-	    	String[] inventory = {};
-	    	String[] equippedItems = {};
-	    	
+	   
 	    	// Construct the player.
-	    	Player player = new Player(playerX, playerY);
-	    	player.setNumTokens(numPlayerTokens);
+	    	Player player = readPlayer(readState.next());
 	    	
-	    	// If it's not empty, then populate the lists.
-	    	if (!strInventory.isEmpty()) {
-	    		inventory = addItems(strInventory);
-	    		player.setInventory(inventory);
-	    	}
-	    	
-	    	if (!strEquipped.isEmpty()) {
-	    		equippedItems = addItems(strEquipped);
-	    		player.setEquippedItems(equippedItems);
-	    	}
-	    	
-	    	// Read in the level text file (the level base).
-	    	// PUT THIS IN A SEPERATE METHOD?
-			String levelFilePath = LEVEL_FILE_PATH + "Base Level " + levelNum + ".txt";
-			File levelFile = new File(levelFilePath);
-			Scanner readLevel = null;
-		    try {
-		    	// Opens the file for reading
-				readLevel = new Scanner (levelFile);
-			// Catch an exception if the file does not exist and exit the program.
-			} catch (FileNotFoundException e) {
-				System.out.println("Cannot open " + levelFilePath);
-				System.exit(-1);
-			}
-		    
-		    // Read the level's details.
-		    readLevel.useDelimiter(",");
-		    int levelHeight = readLevel.nextInt();
-	    	int levelWidth = readLevel.nextInt();
-	    	String[][] levelElements = new String[levelHeight][levelWidth];
-	    	
-	    	for (int row = 0; row < levelHeight; row++) {
-		    	for (int col = 0; col < levelWidth; col++) {
-		    		String element = readLevel.next();
-		    		levelElements[row][col] = element;
-		    	}
-		    	readLevel.nextLine(); // Needed if you change delimiter.
-		    }
-	    	readLevel.close();
+	    	// Fetch the level base.
+	    	String[][] levelElements = readLevelBase(levelNum);
+	    	int levelHeight = levelElements.length;
+	    	int levelWidth = levelElements[0].length;
 	    	
 	    	// Read miscellaneous game objects (that require more details).
 		    Door[][] doors = new Door[levelHeight][levelWidth];
@@ -470,114 +401,44 @@ public class FileHandling {
 	    		String element = readState.next();
 	    		switch (element) {
 		    		case "DOOR":
-		    			int doorX = readState.nextInt();
-			    		int doorY = readState.nextInt();
-			    		String dType = readState.next();
-			    		int numTokens = readState.nextInt();
-			    		DoorType doorType = null;
-			    		switch (dType) {
-				    		case "YELLOW":
-				    			doorType = DoorType.YELLOW;
-				    			break;
-				    		case "ORANGE":
-				    			doorType = DoorType.ORANGE;
-				    			break;
-				    		case "PURPLE":
-				    			doorType = DoorType.PURPLE;
-				    			break;
-				    		case "TOKEN":
-				    			doorType = DoorType.TOKEN;
-				    			break;
-			    		}
-			    		Door newDoor = new Door(doorX, doorY, doorType, numTokens);
+		    			Door newDoor = readDoor(readState.next());
+		    			int doorX = newDoor.getX();
+		    			int doorY = newDoor.getY();
 			    		doors[doorY][doorX] = newDoor;
 			    		levelElements[doorY][doorX] = "D";
 		    			break;
 		    		case "APPAREL":
-			    		int apparelX = readState.nextInt();
-			    		int apparelY = readState.nextInt();
-			    		String aType = readState.next();
-			    		ApparelType apparelType = null;
-			    		switch (aType) {
-				    		case "FLIPPERS":
-				    			apparelType = ApparelType.FLIPPERS;
-				    			break;
-				    		case "FIREBOOTS":
-				    			apparelType = ApparelType.FIREBOOTS;
-				    			break;
-			    		}
-			    		Apparel newApparel = new Apparel(apparelX, apparelY, apparelType);
+			    		Apparel newApparel = readApparel(readState.next());
+			    		int apparelX = newApparel.getX();
+			    		int apparelY = newApparel.getY();
 			    		apparels[apparelY][apparelX] = newApparel;
 			    		levelElements[apparelY][apparelX] = "A";
 			    		break;
 			    	case "ITEM":
-			    		int itemX = readState.nextInt();
-			    		int itemY = readState.nextInt();
-			    		String iType = readState.next();
-			    		ItemType itemType = null;
-			    		switch (iType) {
-				    		case "YELLOWKEY":
-				    			itemType = ItemType.YELLOWKEY;
-				    			break;
-				    		case "ORANGEKEY":
-				    			itemType = ItemType.ORANGEKEY;
-				    			break;
-				    		case "PURPLEKEY":
-				    			itemType = ItemType.PURPLEKEY;
-				    			break;
-			    		}
-			    		Item newItem = new Item(itemX, itemY, itemType);
+			    		Item newItem = readItem(readState.next());
+			    		int itemX = newItem.getX();
+			    		int itemY = newItem.getY();
 			    		items[itemY][itemX] = newItem;
 			    		levelElements[itemY][itemX] = "I";
 			    		break;
 			    	case "HAZARD":
-			    		int hazardX = readState.nextInt();
-			    		int hazardY = readState.nextInt();
-			    		String hType = readState.next();
-			    		HazardType hazardType = null;
-			    		switch (hType) {
-				    		case "WATER":
-				    			hazardType = HazardType.WATER;
-				    			break;
-				    		case "FIRE":
-				    			hazardType = HazardType.FIRE;
-				    			break;
-			    		}
-			    		Hazard newHazard = new Hazard(hazardX, hazardY, hazardType);
+			    		Hazard newHazard = readHazard(readState.next());
+			    		int hazardX = newHazard.getX();
+			    		int hazardY = newHazard.getY();
 			    		hazards[hazardY][hazardX] = newHazard;
 			    		levelElements[hazardY][hazardX] = "H";
 			    		break;
 			    	case "PORTAL":
-			    		int portalX = readState.nextInt();
-			    		int portalY = readState.nextInt();
-			    		int destX = readState.nextInt();
-			    		int destY = readState.nextInt();
-			    		Portal newPortal = new Portal(portalX, portalY, destX, destY);
+			    		Portal newPortal = readPortal(readState.next());
+			    		int portalX = newPortal.getX();
+			    		int portalY = newPortal.getY();
 			    		portals[portalY][portalX] = newPortal;
 			    		levelElements[portalY][portalX] = "P";
 			    		break;
 			    	case "ENEMY":
-			    		int enemyX = readState.nextInt();
-			    		int enemyY = readState.nextInt();
-			    		String eType = readState.next();
-			    		String moveDirection = readState.next();
-			    		EnemyType enemyType = null;
-			    		switch (eType) {
-				    		case "STRAIGHT":
-				    			enemyType = EnemyType.STRAIGHT;
-				    			break;
-				    		case "WALL":
-				    			enemyType = EnemyType.WALL;
-				    			break;
-				    		case "DUMB":
-				    			enemyType = EnemyType.DUMB;
-				    			break;
-				    		case "SMART":
-				    			enemyType = EnemyType.SMART;
-				    			break;
-			    		}
-			    		
-			    		Enemy newEnemy = new Enemy(enemyX, enemyY, enemyType, moveDirection);
+			    		Enemy newEnemy = readEnemy(readState.next());
+			    		int enemyX = newEnemy.getX();
+			    		int enemyY = newEnemy.getY();
 			    		alEnemies.add(newEnemy);
 			    		levelElements[enemyY][enemyX] = "E";
 		    			break;
@@ -588,6 +449,7 @@ public class FileHandling {
 		    			break;
 	    		}
 	    	}
+	    	
 	    	 // Convert enemies array list to an array.
 		    Enemy[] enemies = new Enemy[alEnemies.size()];
 		    enemies = alEnemies.toArray(enemies);
@@ -599,8 +461,11 @@ public class FileHandling {
 		    // Construct the game state.
 		    GameState newState = new GameState(username, description, newLevel);
 	    	gameStates.add(newState);
+	    	
+	    	// Close the scanner for the current line.
+	    	readState.close();
 	    }
-	    readState.close();
+	    in.close();
 	    
 	    // Convert game state array list to an array.
 	    GameState[] gameStatesArray = new GameState[gameStates.size()];
@@ -609,41 +474,255 @@ public class FileHandling {
 	}
 	
 	/**
+	 * Reads in and constructs the player based on the string elements passed in.
+	 * Only used for reading the player from a saved state.
+	 * @param strPlayer A string holding the player's details.
+	 * @return A player object.
+	 */
+	public static Player readPlayer(String strPlayer) {
+		// Scanner to read the player's details.
+	    Scanner in = new Scanner(strPlayer);
+	    in.useDelimiter(":");
+	    
+	    int playerX = in.nextInt();
+    	int playerY = in.nextInt();
+    	String strInventory = in.next();
+    	String strEquipped = in.next();
+    	int numPlayerTokens = in.nextInt();
+    	String[] inventory = {};
+    	String[] equippedItems = {};
+    	
+    	// Construct the player.
+    	Player newPlayer = new Player(playerX, playerY);
+    	newPlayer.setNumTokens(numPlayerTokens);
+    	
+    	// If it's not empty, then populate the inventory/equipped items.
+    	if (!strInventory.isEmpty()) {
+    		inventory = addItems(strInventory);
+    		newPlayer.setInventory(inventory);
+    	}
+    	
+    	if (!strEquipped.isEmpty()) {
+    		equippedItems = addItems(strEquipped);
+    		newPlayer.setEquippedItems(equippedItems);
+    	}
+    	
+    	in.close();
+    	return newPlayer;
+	}
+	
+	/**
+	 * Reads in and constructs a door based on the string elements passed in.
+	 * @param strDoor A string holding the door's details.
+	 * @return A door object.
+	 */
+	public static Door readDoor(String strDoor) {
+		// Scanner to read the door's details.
+	    Scanner in = new Scanner(strDoor);
+	    in.useDelimiter(":");
+	    
+		int doorX = in.nextInt();
+		int doorY = in.nextInt();
+		String dType = in.next();
+		int numTokens = in.nextInt();
+		DoorType doorType = null;
+		switch (dType) {
+    		case "YELLOW":
+    			doorType = DoorType.YELLOW;
+    			break;
+    		case "ORANGE":
+    			doorType = DoorType.ORANGE;
+    			break;
+    		case "PURPLE":
+    			doorType = DoorType.PURPLE;
+    			break;
+    		case "TOKEN":
+    			doorType = DoorType.TOKEN;
+    			break;
+		}
+		
+		in.close();
+		Door newDoor = new Door(doorX, doorY, doorType, numTokens);
+		return newDoor;
+	}
+	
+	/**
+	 * Reads in and constructs an apparel based on the string elements passed in.
+	 * @param strApparel A string holding the apparel's details.
+	 * @return An apparel object.
+	 */
+	public static Apparel readApparel(String strApparel) {
+		// Scanner to read the apparel's details.
+	    Scanner in = new Scanner(strApparel);
+	    in.useDelimiter(":");
+	    
+		int apparelX = in.nextInt();
+		int apparelY = in.nextInt();
+		String aType = in.next();
+		ApparelType apparelType = null;
+		switch (aType) {
+    		case "FLIPPERS":
+    			apparelType = ApparelType.FLIPPERS;
+    			break;
+    		case "FIREBOOTS":
+    			apparelType = ApparelType.FIREBOOTS;
+    			break;
+		}
+		
+		in.close();
+		Apparel newApparel = new Apparel(apparelX, apparelY, apparelType);
+		return newApparel;
+	}
+	
+	/**
+	 * Reads in and constructs an item based on the string elements passed in.
+	 * @param strItem A string holding the item's details.
+	 * @return An item object.
+	 */
+	public static Item readItem(String strItem) {
+		// Scanner to read the item's details.
+	    Scanner in = new Scanner(strItem);
+	    in.useDelimiter(":");
+	    
+		int itemX = in.nextInt();
+		int itemY = in.nextInt();
+		String iType = in.next();
+		ItemType itemType = null;
+		switch (iType) {
+    		case "YELLOWKEY":
+    			itemType = ItemType.YELLOWKEY;
+    			break;
+    		case "ORANGEKEY":
+    			itemType = ItemType.ORANGEKEY;
+    			break;
+    		case "PURPLEKEY":
+    			itemType = ItemType.PURPLEKEY;
+    			break;
+		}
+		
+		in.close();
+		Item newItem = new Item(itemX, itemY, itemType);
+		return newItem;
+	}
+	
+	/**
+	 * Reads in and constructs a hazard based on the string elements passed in.
+	 * @param strHazard A string holding the hazard's details.
+	 * @return A hazard object.
+	 */
+	public static Hazard readHazard(String strHazard) {
+		// Scanner to read the hazard's details.
+	    Scanner in = new Scanner(strHazard);
+	    in.useDelimiter(":");
+	    
+		int hazardX = in.nextInt();
+		int hazardY = in.nextInt();
+		String hType = in.next();
+		HazardType hazardType = null;
+		switch (hType) {
+    		case "WATER":
+    			hazardType = HazardType.WATER;
+    			break;
+    		case "FIRE":
+    			hazardType = HazardType.FIRE;
+    			break;
+		}
+		
+		in.close();
+		Hazard newHazard = new Hazard(hazardX, hazardY, hazardType);
+		return newHazard;
+	}
+	
+	/**
+	 * Reads in and constructs a portal based on the string elements passed in.
+	 * @param strPortal A string holding the portal's details.
+	 * @return A portal object.
+	 */
+	public static Portal readPortal(String strPortal) {
+		// Scanner to read the portal's details.
+	    Scanner in = new Scanner(strPortal);
+	    in.useDelimiter(":");
+	    
+		int portalX = in.nextInt();
+		int portalY = in.nextInt();
+		int destX = in.nextInt();
+		int destY = in.nextInt();
+		in.close();
+		
+		Portal newPortal = new Portal(portalX, portalY, destX, destY);
+		return newPortal;
+	}
+	
+	/**
+	 * Reads in and constructs an enemy based on the string elements passed in.
+	 * @param strEnemy A string holding the enemy's details.
+	 * @return An enemy object.
+	 */
+	public static Enemy readEnemy(String strEnemy) {
+		// Scanner to read the enemy's details.
+	    Scanner in = new Scanner(strEnemy);
+	    in.useDelimiter(":");
+	    
+	    int enemyX = in.nextInt();
+		int enemyY = in.nextInt();
+		String eType = in.next();
+		String moveDirection = in.next();
+		EnemyType enemyType = null;
+		switch (eType) {
+    		case "STRAIGHT":
+    			enemyType = EnemyType.STRAIGHT;
+    			break;
+    		case "WALL":
+    			enemyType = EnemyType.WALL;
+    			break;
+    		case "DUMB":
+    			enemyType = EnemyType.DUMB;
+    			break;
+    		case "SMART":
+    			enemyType = EnemyType.SMART;
+    			break;
+		}
+		
+		in.close();
+		Enemy newEnemy = new Enemy(enemyX, enemyY, enemyType, moveDirection);
+		return newEnemy;
+	}
+	
+	/**
 	 * Reads the individual items from a string that are separated by a delimiter.
+	 * Used to read the player's inventory/equipped items when loading a save state.
 	 * @param itemSet The single string of items.
 	 * @return A string array of items.
 	 */
 	public static String[] addItems(String itemSet) {
-		// New scanner to read individual items.
-	    Scanner readItems = new Scanner(itemSet);
+		// Scanner to read individual items.
+	    Scanner in = new Scanner(itemSet);
 		int numItems = 0;
-	    
-	    // Delimiter change to read individual items.
-		readItems.useDelimiter(";");
+		in.useDelimiter(";");
 	    
 	    // Reads through each item to check how many there are.
-	    while (readItems.hasNext()) {
+	    while (in.hasNext()) {
 	    	numItems++;
-	    	readItems.next();
+	    	in.next();
 	    }
 	    
 	    // Closes the file stream after reading all the items.
-	    readItems.close();
+	    in.close();
 	    
 	    String[] itemsArray = new String[numItems];
 	    
-	    // readItems is redeclared so that its contents can be inserted 
+	    // Scanner 'in' is redeclared so that its contents can be inserted 
 	    // into the array. (.next() was used on it earlier).
-	    readItems = new Scanner(itemSet);
-	    readItems.useDelimiter(";");
+	    in = new Scanner(itemSet);
+	    in.useDelimiter(";");
 	    
 	    // Insert the items into the array.
 	    for (int i = 0; i < numItems; i++) {
-	    	String item = readItems.next();
+	    	String item = in.next();
 	    	itemsArray[i] = item;
 	    }
 	    
-	    readItems.close();
+	    in.close();
 	    return itemsArray;
 	}
 }

@@ -29,7 +29,7 @@ public class Hazard {
 	 * @return A string of the Hazard's full details.
 	 */
 	public String toStringDetail() {
-		String strHazard = "HAZARD," + hazardX + "," + hazardY + "," + type + ",";
+		String strHazard = "HAZARD," + hazardX + ":" + hazardY + ":" + type + ",";
 		return strHazard;
 	}
 	
