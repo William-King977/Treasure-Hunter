@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="361.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LeaderboardController">
+   <top>
+      <VBox alignment="TOP_CENTER" prefHeight="85.0" prefWidth="455.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Game">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Leaderboard">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
+   <bottom>
+      <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tblLeaderboard" prefHeight="200.0" prefWidth="311.0">
+              <columns>
+                  <TableColumn fx:id="colRank" editable="false" prefWidth="41.59997308254242" sortable="false" text="Rank" />
+                <TableColumn fx:id="colPlayer" editable="false" prefWidth="140.00007247924805" sortable="false" text="Player" />
+                <TableColumn fx:id="colTime" editable="false" minWidth="4.79998779296875" prefWidth="157.5999725341797" sortable="false" text="Time" />
+              </columns>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <CheckBox fx:id="cbLevel1" mnemonicParsing="false" onAction="#cbLevel1Action" selected="true" text="Level 1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="cbLevel2" mnemonicParsing="false" onAction="#cbLevel2Action" text="Level 2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="87.0" prefWidth="117.0">
+                     <children>
+                        <CheckBox fx:id="cbWholeGame" mnemonicParsing="false" onAction="#cbWholeGameAction" text="Whole Game">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+</BorderPane>

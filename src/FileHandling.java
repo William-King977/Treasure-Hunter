@@ -135,7 +135,7 @@ public class FileHandling {
 	 * Fetches all the total game completion times from each user.
 	 * @return LinkedHashMap of all the times.
 	 */
-	public static LinkedHashMap<String, LeaderboardTime> getTotalTimes() {
+	public static LinkedHashMap<String, LeaderboardTime> getTotalGameTimes() {
 		String filePath = TIME_FILE_PATH + "Total Time.txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;

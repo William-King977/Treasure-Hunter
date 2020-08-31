@@ -228,7 +228,7 @@ public class GameController {
 		smartEnemy = new Image(new File (ENEMY_FILE_PATH + "Smart.png").toURI().toString());
 		
 		// Set other values.
-		gameTimes = FileHandling.getTotalTimes();
+		gameTimes = FileHandling.getTotalGameTimes();
 		enemyOnPlayer = false;
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);

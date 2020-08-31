@@ -155,9 +155,27 @@ public class MainMenuController {
 	
 	/**
 	 * Displays a menu of leaderboards to select. They show the top 3
-	 * best times for each level 
+	 * best times for each level.
 	 */
 	public void leaderboardsButtonAction() {
+		try {
+			// Close the main menu.
+			Stage stage = (Stage) btnLevelSelect.getScene().getWindow();
+			stage.close();
+			
+			Stage primaryStage = new Stage();
+			Parent root = FXMLLoader.load(getClass()
+					.getResource("FXMLFiles/Leaderboard.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(LEADERBOARD_TITLE);
+			primaryStage.show();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
 	}
 	
 	/**

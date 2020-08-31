@@ -1,2 +1,3 @@
 BigZ,2,
-Lalas,1,
+Lalas,2,
+KingBigW,2,
