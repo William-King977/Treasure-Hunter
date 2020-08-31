@@ -36,10 +36,13 @@ public class LevelSelectController {
 		String buttonName = buttonPressed.getId();
 		
 		// Get the level number based on the button pressed.
-		int levelNumber = -1; 
+		// Set if game completion time should be saved.
+		int levelNumber = -1;
+		boolean isTotalTimeValid = false;
 		switch (buttonName) {
 			case "btnLevel1":
 				levelNumber = 1;
+				isTotalTimeValid = true;
 				break;
 			case "btnLevel2":
 				levelNumber = 2;
@@ -58,7 +61,8 @@ public class LevelSelectController {
 			// Adjust the level number parameter and pass down the user.
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.setLevelNumber(levelNumber);
-			gameWindow.restartLevel();
+			gameWindow.setTotalTimeValid(isTotalTimeValid);
+			gameWindow.startGame();
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();

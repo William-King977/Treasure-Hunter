@@ -49,7 +49,12 @@ public class LoadGameController {
 		// Fetch the selected game state from the array.
 		int selectedIndex = lstGameStates.getSelectionModel().getSelectedIndex();
 		GameState selectedState = gameStates[selectedIndex];
-		Level level = selectedState.getLevel(); // Get the level.
+		
+		// Get the elements required to start the game.
+		Level level = selectedState.getLevel();
+		long currentLevelTime = selectedState.getCurrentLevelTime();
+		long currentGameTime = selectedState.getCurrentGameTime();
+		boolean timeValid = selectedState.getTimeValid();
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
@@ -59,9 +64,10 @@ public class LoadGameController {
 			// Gets the controller for the FXML file.
 			GameController gameWindow = fxmlLoader.<GameController> getController();
 			
-			// Pass down the user and the level from the save state.
+			// Pass down the user, level and time elements from the save state.
 			gameWindow.setCurrentUser(currentUser);
-			gameWindow.loadGameState(level);
+			gameWindow.loadGameState(level, currentLevelTime, currentGameTime);
+			gameWindow.setTotalTimeValid(timeValid);
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();

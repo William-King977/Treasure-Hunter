@@ -1,6 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,6 +95,23 @@ public class GameController {
 	/** Used to check if an enemy has moved to the same position as the player. */
 	private boolean enemyOnPlayer;
 	
+	/** Holds the completion times for a single level (from every player). */
+	private LinkedHashMap<String, LeaderboardTime> levelTimes;
+	/** Holds the completion times for the game (from every player). */
+	private LinkedHashMap<String, LeaderboardTime> gameTimes;
+	
+	/** The start time of when the level was started (milliseconds). */
+	private long levelStartTime;
+	/** The time taken to complete the level. Updates if the player saves the game
+	 *  and decides to keep playing after saving. */
+	private long totalLevelTime;
+	/** The total amount of time taken to complete the game so far (milliseconds). */
+	private long totalGameTime;
+	/** Determines if the total time will be saved on the leaderboards. 
+	 *  Prevents players from selecting the last level, then having the
+	 *  completion time as their total time as well. */
+	private boolean totalTimeValid;
+	
 	// Loaded images
 	// SPRITES
 	// Default with items.
@@ -160,7 +177,7 @@ public class GameController {
 	private GraphicsContext gc;
 	
 	/**
-	 * Sets up the graphics. 
+	 * Sets up the graphics and gets the total level completion times. 
 	 * This method will run automatically.
 	 */
 	public void initialize() {
@@ -210,6 +227,8 @@ public class GameController {
 		dumbEnemy = new Image(new File (ENEMY_FILE_PATH + "Dumb.png").toURI().toString());
 		smartEnemy = new Image(new File (ENEMY_FILE_PATH + "Smart.png").toURI().toString());
 		
+		// Set other values.
+		gameTimes = FileHandling.getTotalTimes();
 		enemyOnPlayer = false;
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);
@@ -714,8 +733,20 @@ public class GameController {
 	 * Sets up the elements for the next level.
 	 */
 	public void loadNewLevel() {
+		// Save the level time and add it to the total time.
+		long finishedLevelTime = System.currentTimeMillis();
+		long timeElapsed = finishedLevelTime - levelStartTime;
+		totalLevelTime = totalLevelTime + timeElapsed;
+		totalGameTime = totalGameTime + totalLevelTime;
+		
+		// Save the level time.
+		saveLevelTime(levelNum);
+		
 		// Set up the level and its elements.
 		if (MAX_LEVEL == levelNum) {
+			if (totalTimeValid) {
+				saveTotalGameTime();
+			}
 			// GAME COMPLETE!
 		} else {
 			levelNum++;
@@ -745,6 +776,11 @@ public class GameController {
 			
 			lblToken.setText("0");
 			txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+			
+			// Reset the start and level time for the next level.
+			totalLevelTime = 0;
+			levelStartTime = System.currentTimeMillis();
+			
 			drawLevel();
 		}
 	}
@@ -771,10 +807,39 @@ public class GameController {
 	}
 	
 	/**
+	 * Loads the game level when the player accesses it via New Game or Level Select.
+	 */
+	public void startGame() {
+		currentLevel = FileHandling.getLevel(levelNum);
+		levelElements = currentLevel.getLevelElements();
+		player = currentLevel.getPlayer();
+		playerSprite = playerDefault;
+		
+		doors = currentLevel.getDoors(); 
+		apparels = currentLevel.getApparels();
+		items = currentLevel.getItems();
+		hazards = currentLevel.getHazards();
+		portals = currentLevel.getPortals();
+		enemies = currentLevel.getEnemies();
+		
+		lblToken.setText("0");
+		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+		
+		// Set the start and total time.
+		totalGameTime = 0;
+		totalLevelTime = 0;
+		levelStartTime = System.currentTimeMillis(); 
+		
+		drawLevel();
+	}
+	
+	/**
 	 * Loads in a save state and adjust the game level based on it.
 	 * @param level The level fetched from the game state.
+	 * @param currentLevelTime The time elapsed before the save state was made.
+	 * @param currentGameTime The total game time when the save state was made.
 	 */
-	public void loadGameState(Level level) {
+	public void loadGameState(Level level, long currentLevelTime, long currentGameTime) {
 		currentLevel = level;
 		levelNum = level.getLevelNumber();
 		levelElements = currentLevel.getLevelElements();
@@ -789,6 +854,12 @@ public class GameController {
 		
 		lblToken.setText(player.getNumTokens() + "");
 		txtLevelPrompt.appendText("Welcome back to Level " + levelNum + ".");
+		
+		// Adjust the start and total times.
+		totalLevelTime = currentLevelTime;
+		totalGameTime = currentGameTime;
+		levelStartTime = System.currentTimeMillis();
+		
 		drawLevel();
 	}
 	
@@ -831,6 +902,10 @@ public class GameController {
 	 * Opens a window that allows the user to save the current state of the game.
 	 */
 	public void saveGameButtonAction() {
+		// Calculate the current level time first.
+		long timeElapsed = System.currentTimeMillis() - levelStartTime;
+		totalLevelTime = totalLevelTime + timeElapsed;
+		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
 					.getResource("FXMLFiles/SaveGame.fxml"));
@@ -843,17 +918,74 @@ public class GameController {
 			saveGameWindow.setLevel(currentLevel);
 			saveGameWindow.setPlayerUsername(currentUser.getUsername());
 			
+			// Pass down the time variables.
+			saveGameWindow.setTimes(totalLevelTime, totalGameTime);
+			saveGameWindow.setTimeValid(totalTimeValid);
+			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(SAVE_GAME_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
             primaryStage.showAndWait();
+            
+            // Reset the start timer.
+            levelStartTime = System.currentTimeMillis();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.
             e.printStackTrace();
             System.exit(-1);
+		}
+	}
+	
+	/**
+	 * Saves the player's level completion time after completing a level.
+	 * @param levelNum The number of the completed level.
+	 */
+	public void saveLevelTime(int levelNum) {
+		// Get the times for the level.
+		levelTimes = FileHandling.getLevelTimes(levelNum);
+		String username = currentUser.getUsername();
+		
+		if (levelTimes.containsKey(username)) {
+			// Compare if the new time is better (smaller) than the old time.
+			// If so, replace the old time with the new time.
+			LeaderboardTime oldTime = levelTimes.get(username);
+			if (totalLevelTime < oldTime.getTime()) {
+				LeaderboardTime newTime = new LeaderboardTime(username, totalLevelTime);
+				String strOldTime = oldTime.toStringDetail();
+				String strNewTime = newTime.toStringDetail();
+				FileHandling.editLevelTime(strOldTime, strNewTime, levelNum);
+			}
+		// If the player has no existing level time.
+		} else {
+			LeaderboardTime newTime = new LeaderboardTime(username, totalLevelTime);
+			String strTime = newTime.toStringDetail();
+			FileHandling.addNewLevelTime(strTime, levelNum);
+		}
+	}
+	
+	/**
+	 * Saves the player's total game time after completing the game.
+	 */
+	public void saveTotalGameTime() {
+		String username = currentUser.getUsername();
+		if (gameTimes.containsKey(username)) {
+			// Compare if the new time is better (smaller) than the old time.
+			// If so, replace the old time with the new time.
+			LeaderboardTime oldTime = gameTimes.get(username);
+			if (totalGameTime < oldTime.getTime()) {
+				LeaderboardTime newTime = new LeaderboardTime(username, totalGameTime);
+				String strOldTime = oldTime.toStringDetail();
+				String strNewTime = newTime.toStringDetail();
+				FileHandling.editGameTime(strOldTime, strNewTime);
+			}
+		// If the player has no existing game completion time.
+		} else {
+			LeaderboardTime newTime = new LeaderboardTime(username, totalGameTime);
+			String strTime = newTime.toStringDetail();
+			FileHandling.addNewGameTime(strTime);
 		}
 	}
 	
@@ -871,6 +1003,16 @@ public class GameController {
 	 */
 	public void setCurrentUser(User user) {
 		this.currentUser = user;
+	}
+	
+	/**
+	 * Sets whether the player's total completion time of the game 
+	 * is valid or not. If not, then it won't be saved on the leaderboards.
+	 * @param totalTimeValid True if the player started at level 1 (via New 
+	 *                       Game or Level Select), otherwise false.
+	 */
+	public void setTotalTimeValid(boolean totalTimeValid) {
+		this.totalTimeValid = totalTimeValid;
 	}
 	
 	/**

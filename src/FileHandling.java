@@ -21,6 +21,8 @@ public class FileHandling {
 	private final static String DATA_FILE_PATH = "DataFiles/";
 	/** File location of the level text files. */
 	private final static String LEVEL_FILE_PATH = "DataFiles/Levels/";
+	/** File location of the leaderboard times text files. */
+	private final static String TIME_FILE_PATH = "DataFiles/Level Times/";
 	
 	/**
 	 * Saves the username of the currently logged in user to a text file.
@@ -61,8 +63,7 @@ public class FileHandling {
 	}
 	
 	/**
-	 * Fetches all the current users in the system and stores
-	 * them in a Linked Hashmap.
+	 * Fetches all the current users in the system and stores them in a Linked Hashmap.
 	 * @return LinkedHashMap of all users in the system.
 	 */
 	public static LinkedHashMap<String, User> getUsers() {
@@ -83,7 +84,6 @@ public class FileHandling {
 	    // The key is the username.
 	    LinkedHashMap<String, User> users = new LinkedHashMap<>();
 	    while (in.hasNextLine()) {
-	    	
 	    	String username = in.next();
 	    	int currentLevel = in.nextInt();
 	    	User user = new User(username); 
@@ -95,6 +95,73 @@ public class FileHandling {
 	    }
 	    in.close();
 		return users;
+	}
+	
+	/**
+	 * Fetches all the completion times of a specified level.
+	 * @param levelNum The specified level number.
+	 * @return LinkedHashMap of all the times.
+	 */
+	public static LinkedHashMap<String, LeaderboardTime> getLevelTimes(int levelNum) {
+		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
+	    try {
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    in.useDelimiter(",");
+	    // Read each time and store them in a linked hashmap.
+	    // The key is the username.
+	    LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
+	    while (in.hasNextLine()) {
+	    	String username = in.next();
+	    	long completionTime = in.nextInt();
+	    	LeaderboardTime newTime = new LeaderboardTime(username, completionTime); 
+	    	
+	    	times.put(username, newTime);
+	    	in.nextLine(); // Needed if you change delimiter.
+	    }
+	    in.close();
+		return times;
+	}
+	
+	/**
+	 * Fetches all the total game completion times from each user.
+	 * @return LinkedHashMap of all the times.
+	 */
+	public static LinkedHashMap<String, LeaderboardTime> getTotalTimes() {
+		String filePath = TIME_FILE_PATH + "Total Time.txt";
+		File inputFile = new File(filePath);
+		Scanner in = null;
+	    try {
+	    	// Opens the file for reading
+			in = new Scanner(inputFile);
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    in.useDelimiter(",");
+	    // Read each time and store them in a linked hashmap.
+	    // The key is the username.
+	    LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
+	    while (in.hasNextLine()) {
+	    	String username = in.next();
+	    	long completionTime = in.nextInt();
+	    	LeaderboardTime newTime = new LeaderboardTime(username, completionTime); 
+	    	
+	    	times.put(username, newTime);
+	    	in.nextLine(); // Needed if you change delimiter.
+	    }
+	    in.close();
+		return times;
 	}
 	
 	/**
@@ -269,6 +336,61 @@ public class FileHandling {
 	}
 	
 	/**
+	 * Writes in a new leaderboard time for a specified level.
+	 * @param newTime The new leaderboard time as a string.
+	 * @param levelNum The specified level number.
+	 */
+	public static void addNewLevelTime(String newTime, int levelNum) {
+		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
+		
+		File file = null;
+		FileWriter fileWriter = null;
+		BufferedWriter buffWriter = null;
+		PrintWriter printWriter = null;
+		try { 
+			file = new File(filePath);
+			fileWriter = new FileWriter(file, true);
+			buffWriter = new BufferedWriter(fileWriter);
+			printWriter = new PrintWriter(buffWriter);
+			
+			// Writes in the completion time then adds a new line. 
+			printWriter.print(newTime);
+			printWriter.println("");
+			printWriter.close();
+        } catch (IOException e) { 
+            System.out.println("Cannot write to " + filePath); 
+            System.exit(-1);
+        }
+	}
+	
+	/**
+	 * Writes in a new total game completion time.
+	 * @param newTime The new leaderboard time as a string.
+	 */
+	public static void addNewGameTime(String newTime) {
+		String filePath = TIME_FILE_PATH + "Total Time.txt";
+		
+		File file = null;
+		FileWriter fileWriter = null;
+		BufferedWriter buffWriter = null;
+		PrintWriter printWriter = null;
+		try { 
+			file = new File(filePath);
+			fileWriter = new FileWriter(file, true);
+			buffWriter = new BufferedWriter(fileWriter);
+			printWriter = new PrintWriter(buffWriter);
+			
+			// Writes in the completion time then adds a new line. 
+			printWriter.print(newTime);
+			printWriter.println("");
+			printWriter.close();
+        } catch (IOException e) { 
+            System.out.println("Cannot write to " + filePath); 
+            System.exit(-1);
+        }
+	}
+	
+	/**
 	 * A user is edited by replacing the details of the previous user with the new one.
 	 * @param oldUser The string details of the old user.
 	 * @param newUser The string details of the edited user.
@@ -298,6 +420,94 @@ public class FileHandling {
 		    }
 		    // Replace old user with the new one within the text file.
 		    String newContent = oldContent.replace(oldUser, newUser);
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Edits a player's completion time by replacing the old time with the new one.
+	 * @param oldTime The string details of the old time.
+	 * @param newTime The string details of the new time.
+	 * @param levelNum The specified level number.
+	 */
+	public static void editLevelTime(String oldTime, String newTime, int levelNum) {
+		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
+		
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String oldContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write old file contents to a string.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	oldContent = oldContent + line + System.lineSeparator();
+		        line = reader.readLine();
+		    }
+		    // Replace old time with the new one within the text file.
+		    String newContent = oldContent.replace(oldTime, newTime);
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Edits a player's total completion time by replacing the 
+	 * old time with the new one.
+	 * @param oldTime The string details of the old time.
+	 * @param newTime The string details of the new time.
+	 */
+	public static void editGameTime(String oldTime, String newTime) {
+		String filePath = TIME_FILE_PATH + "Total Time.txt";
+		
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String oldContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write old file contents to a string.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	oldContent = oldContent + line + System.lineSeparator();
+		        line = reader.readLine();
+		    }
+		    // Replace old time with the new one within the text file.
+		    String newContent = oldContent.replace(oldTime, newTime);
 		    writer = new FileWriter(filePath);
 		    writer.write(newContent);
 		    reader.close();
@@ -378,7 +588,11 @@ public class FileHandling {
 	    	
 	    	// Read the game state details.
 	    	String description = readState.next();
+	    	long currentLevelTime = readState.nextLong();
+	    	long currentGameTime = readState.nextLong();
+	    	boolean timeValid = readState.nextBoolean();
 	    	int levelNum = readState.nextInt();
+	  
 	   
 	    	// Construct the player.
 	    	Player player = readPlayer(readState.next());
@@ -459,7 +673,8 @@ public class FileHandling {
 		    apparels, items, hazards, portals, enemies);
 		    
 		    // Construct the game state.
-		    GameState newState = new GameState(username, description, newLevel);
+		    GameState newState = new GameState(username, description, currentLevelTime, 
+		    		currentGameTime, timeValid, newLevel);
 	    	gameStates.add(newState);
 	    	
 	    	// Close the scanner for the current line.

@@ -69,7 +69,8 @@ public class MainMenuController {
 			// causes the level number to be always 0.
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.setLevelNumber(1);
-			gameWindow.restartLevel();
+			gameWindow.setTotalTimeValid(true);
+			gameWindow.startGame();
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();

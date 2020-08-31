@@ -10,8 +10,15 @@ import javafx.stage.Stage;
 public class SaveGameController {
 	/** The character limit for the description text field. */
 	private final int DESCRIPTION_CHAR_LIMIT = 30;
+	
 	/** Holds the player's username. */
 	private String username;
+	/** The current amount of time spent on the level (milliseconds). */
+	private long currentLevelTime;
+	/** The current time spent playing the game (milliseconds). */
+	private long currentGameTime;
+	/** If the player's total game time should be saved or not. */
+	private boolean timeValid;
 	/** The current state of the level to be saved. */
 	private Level level;
 	
@@ -32,7 +39,8 @@ public class SaveGameController {
 		}
 		
 		// Save the game.
-		String strSaveState = username + "," + description + "," + level.toStringDetail();
+		String strSaveState = username + "," + description + "," + currentLevelTime + 
+				"," + currentGameTime + "," + timeValid + "," + level.toStringDetail();
 		FileHandling.saveGameState(strSaveState);
 		Alerts.gameSaved();
 		backButtonAction(); // Then close the page.
@@ -63,6 +71,25 @@ public class SaveGameController {
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+	
+	/**
+	 * Sets the values for both the current amount of time spent on the level
+	 * and the current total amount of time spent on playing the game. 
+	 * @param currentLevelTime The time spent on the level so far.
+	 * @param currentGameTime The time spent on the game so far.
+	 */
+	public void setTimes(long currentLevelTime, long currentGameTime) {
+		this.currentLevelTime = currentLevelTime;
+		this.currentGameTime = currentGameTime;
+	}
+	
+	/**
+	 * Sets if the total game completion time should be saved or not.
+	 * @param timeValid True if it's valid, otherwise false.
+	 */
+	public void setTimeValid(boolean timeValid) {
+		this.timeValid = timeValid;
 	}
 	
 	/**
