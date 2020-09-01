@@ -30,6 +30,7 @@ public class FileHandling {
 	 */
 	public static void setCurrentUser(String currentUser) {
 		String filePath = DATA_FILE_PATH + "CurrentUser.txt";
+		
 		try {
 			FileWriter myWriter = new FileWriter(filePath);
 			myWriter.write(currentUser);
@@ -46,10 +47,10 @@ public class FileHandling {
 	 */
 	public static String getCurrentUser() {
 		String currentUser = "";
-		
 		String filePath = DATA_FILE_PATH + "CurrentUser.txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -70,6 +71,7 @@ public class FileHandling {
 		String filePath = DATA_FILE_PATH + "User.txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -106,6 +108,7 @@ public class FileHandling {
 		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -139,6 +142,7 @@ public class FileHandling {
 		String filePath = TIME_FILE_PATH + "Total Time.txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -173,6 +177,7 @@ public class FileHandling {
 		String filePath = LEVEL_FILE_PATH + "Level " + levelNum + ".txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -278,6 +283,7 @@ public class FileHandling {
 		String filePath = LEVEL_FILE_PATH + "Base Level " + levelNum + ".txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -314,11 +320,11 @@ public class FileHandling {
 	 */
 	public static void createUser(String newUser) {
 		String filePath = DATA_FILE_PATH + "User.txt";
-		
 		File file = null;
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
 		PrintWriter printWriter = null;
+		
 		try { 
 			file = new File(filePath);
 			fileWriter = new FileWriter(file, true);
@@ -342,11 +348,11 @@ public class FileHandling {
 	 */
 	public static void addNewLevelTime(String newTime, int levelNum) {
 		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
-		
 		File file = null;
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
 		PrintWriter printWriter = null;
+		
 		try { 
 			file = new File(filePath);
 			fileWriter = new FileWriter(file, true);
@@ -369,11 +375,11 @@ public class FileHandling {
 	 */
 	public static void addNewGameTime(String newTime) {
 		String filePath = TIME_FILE_PATH + "Total Time.txt";
-		
 		File file = null;
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
 		PrintWriter printWriter = null;
+		
 		try { 
 			file = new File(filePath);
 			fileWriter = new FileWriter(file, true);
@@ -397,7 +403,6 @@ public class FileHandling {
 	 */
 	public static void editUser(String oldUser, String newUser) {
 		String filePath = DATA_FILE_PATH + "User.txt";
-		
 		File inputFile = new File(filePath);
 		BufferedReader reader = null;
 		FileWriter writer = null;
@@ -441,7 +446,6 @@ public class FileHandling {
 	 */
 	public static void editLevelTime(String oldTime, String newTime, int levelNum) {
 		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
-		
 		File inputFile = new File(filePath);
 		BufferedReader reader = null;
 		FileWriter writer = null;
@@ -485,7 +489,6 @@ public class FileHandling {
 	 */
 	public static void editGameTime(String oldTime, String newTime) {
 		String filePath = TIME_FILE_PATH + "Total Time.txt";
-		
 		File inputFile = new File(filePath);
 		BufferedReader reader = null;
 		FileWriter writer = null;
@@ -528,11 +531,11 @@ public class FileHandling {
 	 */
 	public static void saveGameState(String newGameState) {
 		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
-		
 		File file = null;
 		FileWriter fileWriter = null;
 		BufferedWriter buffWriter = null;
 		PrintWriter printWriter = null;
+		
 		try { 
 			file = new File(filePath);
 			fileWriter = new FileWriter(file, true);
@@ -552,13 +555,14 @@ public class FileHandling {
 	/**
 	 * Fetches the saved game states that the player has made.
 	 * @param username The username of the player.
-	 * @return An array of saved game states. 
+	 * @return An array list of saved game states. 
 	 */
-	public static GameState[] getGameStates(String username) {
+	public static ArrayList<GameState> getGameStates(String username) {
 		// Read in the game states text file.
 		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
 		File inputFile = new File(filePath);
 		Scanner in = null;
+		
 	    try {
 	    	// Opens the file for reading
 			in = new Scanner(inputFile);
@@ -569,7 +573,7 @@ public class FileHandling {
 		}
 	    
 	    in.useDelimiter(",");
-	    // Store states in an array list. It will be converted to an array.
+	    // Store states in an array list. 
 	    ArrayList<GameState> gameStates = new ArrayList<>();
 	    
 	    // Read each saved state made by the user.
@@ -684,12 +688,9 @@ public class FileHandling {
 	    	// Close the scanner for the current line.
 	    	readState.close();
 	    }
-	    in.close();
 	    
-	    // Convert game state array list to an array.
-	    GameState[] gameStatesArray = new GameState[gameStates.size()];
-	    gameStatesArray = gameStates.toArray(gameStatesArray);
-	    return gameStatesArray;
+	    in.close();
+	    return gameStates;
 	}
 	
 	/**
@@ -943,5 +944,49 @@ public class FileHandling {
 	    
 	    in.close();
 	    return itemsArray;
+	}
+	
+	/**
+	 * Deletes the specified save state from the text file.
+	 * @param strSaveState The save state to be deleted as a string.
+	 */
+	public static void deleteSaveState(String strSaveState) {
+		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String newContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write the old contents to a string.
+	    	// The contents will exclude the save state to be deleted.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	// Exclude the passed down save state.
+		    	if (!line.equals(strSaveState)) {
+		    		newContent = newContent + line + System.lineSeparator();
+		    	}
+		        line = reader.readLine();
+		    }
+		    // Write the updated contents to the text file.
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
 	}
 }

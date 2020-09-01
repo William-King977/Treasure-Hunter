@@ -49,12 +49,24 @@
                   <Insets left="20.0" />
                </HBox.margin>
                <children>
-                  <ListView fx:id="lstGameStates" onMouseClicked="#gameStateSelectAction" prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="btnLoad" disable="true" mnemonicParsing="false" onAction="#loadButtonAction" text="Load">
+                  <ListView fx:id="lstGameStates" onMouseClicked="#gameStateSelectAction" prefHeight="187.0" prefWidth="166.0" />
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.199951171875" minWidth="10.0" prefWidth="65.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.20001220703125" minWidth="10.0" prefWidth="23.599987792968747" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.80001220703124" minWidth="10.0" prefWidth="78.80001220703126" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#deleteButtonAction" prefHeight="26.0" prefWidth="81.0" text="Delete" GridPane.columnIndex="2" />
+                        <Button fx:id="btnLoad" disable="true" mnemonicParsing="false" onAction="#loadButtonAction" text="Load" />
+                     </children>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="20.0" />
                      </VBox.margin>
-                  </Button>
+                  </GridPane>
                </children>
             </VBox>
             <VBox prefHeight="261.0" prefWidth="162.0">
