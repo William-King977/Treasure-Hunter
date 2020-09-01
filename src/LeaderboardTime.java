@@ -18,7 +18,7 @@ public class LeaderboardTime implements Comparable<LeaderboardTime> {
 	/** The completion time formatted into a readable format. */
 	private String formattedTime;
 	
-	/** The player's rank on the leaderboards. */
+	/** The player's rank on the leaderboard. */
 	private int rank;
 	
 	/**

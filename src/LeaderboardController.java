@@ -106,12 +106,13 @@ public class LeaderboardController {
      * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel1Action() {
-		// Clear other checkboxes and the table.
+		// Clear the other checkboxes.
 		cbLevel2.setSelected(false);
 		cbWholeGame.setSelected(false);
-		tblLeaderboard.getItems().clear();
 		
 		if (cbLevel1.isSelected()) {
+			// Clear the table and add the new items.
+			tblLeaderboard.getItems().clear();
 			for (LeaderboardTime time : level1TimesAL) {
 				tblLeaderboard.getItems().add(time);
 			}
@@ -126,12 +127,13 @@ public class LeaderboardController {
      * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel2Action() {
-		// Clear other checkboxes and the table.
+		// Clear the other checkboxes.
 		cbLevel1.setSelected(false);
 		cbWholeGame.setSelected(false);
-		tblLeaderboard.getItems().clear();
 		
 		if (cbLevel2.isSelected()) {
+			// Clear the table and add the new items.
+			tblLeaderboard.getItems().clear();
 			for (LeaderboardTime time : level2TimesAL) {
 				tblLeaderboard.getItems().add(time);
 			}
@@ -146,12 +148,13 @@ public class LeaderboardController {
      * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbWholeGameAction() {
-		// Clear other checkboxes and the table.
+		// Clear other checkboxes.
 		cbLevel1.setSelected(false);
 		cbLevel2.setSelected(false);
-		tblLeaderboard.getItems().clear();
 		
 		if (cbWholeGame.isSelected()) {
+			// Clear the table and add the new items.
+			tblLeaderboard.getItems().clear();
 			for (LeaderboardTime time : gameTimesAL) {
 				tblLeaderboard.getItems().add(time);
 			}
