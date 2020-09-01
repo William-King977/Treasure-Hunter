@@ -27,15 +27,15 @@ import javafx.stage.Stage;
  */
 public class GameController {
 	/** File location of the player sprites. */
-	private final static String PLAYER_FILE_PATH = "DataFiles/Player Sprites/";
+	private final static String PLAYER_FILE_PATH = "DataFiles/Graphics/Player Sprites/";
 	/** File location of the items. */
-	private final static String ITEM_FILE_PATH = "DataFiles/Items/";
+	private final static String ITEM_FILE_PATH = "DataFiles/Graphics/Items/";
 	/** File location of the doors. */
-	private final static String DOOR_FILE_PATH = "DataFiles/Doors/";
+	private final static String DOOR_FILE_PATH = "DataFiles/Graphics/Doors/";
 	/** File location of the textures. */
-	private final static String TEXTURE_FILE_PATH = "DataFiles/Textures/";
+	private final static String TEXTURE_FILE_PATH = "DataFiles/Graphics/Textures/";
 	/** File location of the enemy sprites. */
-	private final static String ENEMY_FILE_PATH = "DataFiles/Enemies/";
+	private final static String ENEMY_FILE_PATH = "DataFiles/Graphics/Enemies/";
 	/** Title for the Main Menu. */
 	private final String MAIN_MENU_TITLE = "Main Menu";
 	/** The number marking the highest level in the game. */

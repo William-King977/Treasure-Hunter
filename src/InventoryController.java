@@ -15,9 +15,9 @@ import javafx.stage.Stage;
  */
 public class InventoryController {
 	/** File location of the player sprites. */
-	private final static String PLAYER_FILE_PATH = "DataFiles/Player Sprites/";
+	private final static String PLAYER_FILE_PATH = "DataFiles/Graphics/Player Sprites/";
 	/** File location of the items. */
-	private final static String ITEM_FILE_PATH = "DataFiles/Items/";
+	private final static String ITEM_FILE_PATH = "DataFiles/Graphics/Items/";
 	
 	/** Player in the game (to control its status). */
 	private Player player;
