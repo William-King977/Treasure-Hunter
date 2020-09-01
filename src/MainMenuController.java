@@ -46,7 +46,7 @@ public class MainMenuController {
 	}
 	
 	/**
-	 * Loads the user's latest accessed state.
+	 * Loads the user's last saved state.
 	 */
 	public void continueButtonAction() {
 	}
@@ -122,7 +122,7 @@ public class MainMenuController {
 	}
 	
 	/**
-	 * Displays a menu of levels that are available for the user.
+	 * Displays a menu of levels that are available for the user to play.
 	 */
 	public void levelSelectButtonAction() {
 		try {
@@ -154,8 +154,8 @@ public class MainMenuController {
 	}
 	
 	/**
-	 * Displays a menu of leaderboards to select. They show the top 3
-	 * best times for each level.
+	 * Displays the leaderboard showing the fastest completion times for each
+	 * level and the game.
 	 */
 	public void leaderboardsButtonAction() {
 		try {
@@ -179,7 +179,7 @@ public class MainMenuController {
 	}
 	
 	/**
-	 * Deletes the user's profile and any related statistics (and states).
+	 * Deletes the user's profile and any data associated with the profile.
 	 */
 	public void deleteProfileButtonAction() {
 	}

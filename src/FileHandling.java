@@ -591,8 +591,9 @@ public class FileHandling {
 	    	long currentLevelTime = readState.nextLong();
 	    	long currentGameTime = readState.nextLong();
 	    	boolean timeValid = readState.nextBoolean();
+	    	String saveDate = readState.next();
+	    	String saveTime = readState.next();
 	    	int levelNum = readState.nextInt();
-	  
 	   
 	    	// Construct the player.
 	    	Player player = readPlayer(readState.next());
@@ -675,6 +676,9 @@ public class FileHandling {
 		    // Construct the game state.
 		    GameState newState = new GameState(username, description, currentLevelTime, 
 		    		currentGameTime, timeValid, newLevel);
+		    // Overwrite the date and time (made in constructor) with the actual ones.
+		    newState.setSaveDate(saveDate);
+		    newState.setSaveTime(saveTime);
 	    	gameStates.add(newState);
 	    	
 	    	// Close the scanner for the current line.

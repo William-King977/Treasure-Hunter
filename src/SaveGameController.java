@@ -39,9 +39,10 @@ public class SaveGameController {
 		}
 		
 		// Save the game.
-		String strSaveState = username + "," + description + "," + currentLevelTime + 
-				"," + currentGameTime + "," + timeValid + "," + level.toStringDetail();
-		FileHandling.saveGameState(strSaveState);
+		GameState newState = new GameState(username, description, currentLevelTime, 
+				currentGameTime, timeValid, level);
+		String strGameState = newState.toStringDetail();
+		FileHandling.saveGameState(strGameState);
 		Alerts.gameSaved();
 		backButtonAction(); // Then close the page.
 	}

@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * This class models a state in the game i.e. a saved game.
  * @author William King
@@ -17,6 +21,12 @@ public class GameState {
 	
 	/** If the player's total game time should be saved or not. */
 	private boolean timeValid;
+	
+	/** The date that the save state was made (dd/MM/yyyy). */
+	private String saveDate;
+	
+	/** The time that the save state was made (hh:mm). */
+	private String saveTime;
 	
 	/** The level that was saved in its current state. */
 	private Level level;
@@ -38,6 +48,25 @@ public class GameState {
 		this.currentGameTime = currentGameTime;
 		this.timeValid = timeValid;
 		this.level = level;
+		
+		// Get the date and time that the save state was made.
+		LocalDate date = LocalDate.now();
+		LocalTime time = LocalTime.now().withSecond(0).withNano(0);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    	this.saveDate = date.format(formatter);
+    	this.saveTime = time.toString();
+	}
+	
+	/**
+	 * Gets a string of the game state's full details for file saving.
+	 * @return A string of the game state's full details.
+	 */
+	public String toStringDetail() {
+		String strGameState = username + "," + description + "," + currentLevelTime + 
+				"," + currentGameTime + "," + timeValid + "," + saveDate + 
+				"," + saveTime + "," + level.toStringDetail();
+		return strGameState;
 	}
 	
 	/**
@@ -78,6 +107,38 @@ public class GameState {
 	 */
 	public boolean getTimeValid() {
 		return timeValid;
+	}
+	
+	/**
+	 * Gets the date that the save state was made.
+	 * @return The date in the format of dd/MM/yyyy.
+	 */
+	public String getSaveDate() {
+		return saveDate;
+	}
+	
+	/**
+	 * Sets the date that the save state was made when loading it in.
+	 * @param saveDate The date to be set (dd/MM/yyyy). 
+	 */
+	public void setSaveDate(String saveDate) {
+		this.saveDate = saveDate;
+	}
+	
+	/**
+	 * Gets the time that the save state was made.
+	 * @return The time in the format of hh:mm.
+	 */
+	public String getSaveTime() {
+		return saveTime;
+	}
+	
+	/**
+	 * Sets the time that the save state was made when loading it in.
+	 * @param saveTime The time to be set (hh:mm).
+	 */
+	public void setSaveTime(String saveTime) {
+		this.saveTime = saveTime;
 	}
 	
 	/**

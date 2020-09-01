@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -23,6 +24,12 @@ public class LoadGameController {
 	
 	/** A list view to show the save states. */
 	@FXML private ListView<String> lstGameStates;
+	/** A text field that shows the game level of a save state. */
+	@FXML private TextField txtLevel;
+	/** A text field that shows date that the save state was made. */
+	@FXML private TextField txtDate;
+	/** A text field that shows time that the save state was made. */
+	@FXML private TextField txtTime;
 	/** The load button opens the selected game state. */
 	@FXML private Button btnLoad;
 	/** The back button for the page. */
@@ -39,7 +46,16 @@ public class LoadGameController {
 		if (selectedIndex < 0) {
 			return;
 		}
+		
+		// Fetch the selected game state.
+		GameState selectedState = gameStates[selectedIndex];
+		
+		// Enable the load button and show additional information about
+		// the save state.
 		btnLoad.setDisable(false);
+		txtLevel.setText(selectedState.getLevel().getLevelNumber() + "");
+		txtDate.setText(selectedState.getSaveDate());
+		txtTime.setText(selectedState.getSaveTime());
 	}
 	
 	/**

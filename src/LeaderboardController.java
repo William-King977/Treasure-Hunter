@@ -79,7 +79,7 @@ public class LeaderboardController {
 		Collections.sort(level2TimesAL);
 		Collections.sort(gameTimesAL);
 		
-		// Display times from level 1 by default.
+		// Display the times from level 1 by default.
 		// Rank is set for visual purposes.
 		int rank = 1;
 		for (LeaderboardTime time : level1TimesAL) {
