@@ -68,6 +68,8 @@ public class GameController {
 			+ "crisp as you walked into the fire pit. Restarting level...\n";
 	private final String ENEMY_DEATH_MSG = "\nAn enemy ripped you into two, putting an "
 			+ "end to your adventure. Restarting level...\n";
+	private final String PORTAL_DEATH_MSG = "\n You dived through the portal and landed "
+			+ "into enemy hands...literally. Restarting level...\n";
 
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
@@ -249,22 +251,22 @@ public class GameController {
 			case UP:
 			case W:
 				playerNewY = player.getY() - 1;
-	        	isMoveValid(player.getX(), playerNewY);
+	        	isMoveValid(player.getX(), playerNewY, "UP");
 				break;
 			case DOWN:
 			case S:
 				playerNewY = player.getY() + 1;
-				isMoveValid(player.getX(), playerNewY);
+				isMoveValid(player.getX(), playerNewY, "DOWN");
 	        	break;
 			case LEFT:
 			case A:
 		    	playerNewX = player.getX() - 1;
-		    	isMoveValid(playerNewX, player.getY());
+		    	isMoveValid(playerNewX, player.getY(), "LEFT");
 	        	break;
 		    case RIGHT:
 		    case D:
 		    	playerNewX = player.getX() + 1;
-		    	isMoveValid(playerNewX, player.getY());
+		    	isMoveValid(playerNewX, player.getY(), "RIGHT");
 	        	break;	        
 	        default:
 	        	// Do nothing
@@ -284,8 +286,9 @@ public class GameController {
 	 * depending on the surrounding elements.
 	 * @param newX The new x-coordinate.
 	 * @param newY The new y-coordinate.
+	 * @param direction The direction the player moved towards.
 	 */
-	private void isMoveValid(int newX, int newY) {
+	private void isMoveValid(int newX, int newY, String direction) {
 		// Fetches the element the player moves into.
 		String element = levelElements[newY][newX];
 		String[] equippedItems =  player.getEquippedItems();
@@ -428,10 +431,12 @@ public class GameController {
 			case "P":
 				txtLevelPrompt.appendText(PORTAL_MSG);
 				Portal portal = portals[newY][newX];
-				int destX = portal.getDestX();
-				int destY = portal.getDestY();
-				player.setX(destX);
-				player.setY(destY);
+				boolean playerDeath = portal.playerMoveOnEnemy(levelElements, player, direction);
+				// If the player teleports to an enemy.
+				if (playerDeath) {
+					txtLevelPrompt.appendText(PORTAL_DEATH_MSG);
+					restartLevel();
+				}
 				break;
 			// If the player moves into an enemy.
 			case "E":

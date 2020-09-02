@@ -71,4 +71,110 @@ public class Portal {
 	public int getDestY() {	
 		return destY;
 	}
+	
+	/**
+	 * Moves the player to the destination portal and checks if they
+	 * 'landed' into an enemy.
+	 * @param levelElements An array holding all the elements in the level.
+	 * @param player The player to be moved.
+	 * @param direction The direction the player moved towards.
+	 * @return True if the player 'landed' on an enemy, otherwise false.
+	 */
+	public boolean playerMoveOnEnemy(String[][] levelElements, Player player, String direction) {
+		// The new co-ordinates for the player to move in.
+		int newX = -1;
+		int newY = -1;
+		
+		// Indexes of the left/right/front/back of the destination portal.
+		int leftX = destX - 1;
+		int leftY = destY;
+		int rightX = destX + 1;
+		int rightY = destY;
+		
+		int frontX = destX;
+		int frontY = destY - 1;
+		int backX = destX;
+		int backY = destY + 1;
+		
+		// Attempt to move the player adjacent to the destination portal's direction.
+		String adjacentObject = "";
+		switch (direction) {
+			case "UP":
+				adjacentObject = levelElements[frontY][frontX];
+				newX = frontX;
+				newY = frontY;
+				break;
+			case "DOWN":
+				adjacentObject = levelElements[backY][backX];
+				newX = backX;
+				newY = backY;
+				break;
+			case "LEFT":
+				adjacentObject = levelElements[leftY][leftX];
+				newX = leftX;
+				newY = leftY;
+				break;
+			case "RIGHT":
+				adjacentObject = levelElements[rightY][rightX];
+				newX = rightX;
+				newY = rightY;
+				break;
+		}
+		
+		// Indicates if the player teleported into an enemy.
+		boolean playerDeath = false;
+		boolean isAdjacentObject = isObject(adjacentObject);
+		
+		if (isAdjacentObject) {
+			// Change direction (clockwise).
+			switch (direction) {
+				case "UP":
+					direction = "RIGHT";
+					break;
+				case "DOWN":
+					direction = "LEFT";
+					break;
+				case "LEFT":
+					direction = "UP";
+					break;
+				case "RIGHT":
+					direction = "DOWN";
+					break;
+			}
+			// Then run the method again with the changed direction.
+			// Infinite recursion happens IF the destination portal is
+			// surrounded by walls.
+			playerMoveOnEnemy(levelElements, player, direction);
+		// If the player teleports into an enemy.
+		} else if (adjacentObject.equals("E")) {
+			playerDeath = true;
+		} else {
+			player.setX(newX);
+			player.setY(newY);
+		}
+		
+		return playerDeath;
+	}
+	
+	/**
+	 * Checks if the passed in string is an object or a floor.
+	 * @param object The level object as a string. 
+	 * @return True if its an object, otherwise false (if it's clear).
+	 */
+	private boolean isObject(String object) {
+		switch (object) {
+			case "W":
+			// case "G":
+			// case "A":
+			// case "I":
+			// case "D":
+			// case "T":
+			// case "P":
+			// case "H":
+			// case "E":
+				return true;
+			default:
+				return false;
+		}
+	}
 }
