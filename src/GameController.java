@@ -285,7 +285,7 @@ public class GameController {
 	 * @param newX The new x-coordinate.
 	 * @param newY The new y-coordinate.
 	 */
-	public void isMoveValid(int newX, int newY) {
+	private void isMoveValid(int newX, int newY) {
 		// Fetches the element the player moves into.
 		String element = levelElements[newY][newX];
 		String[] equippedItems =  player.getEquippedItems();
@@ -457,7 +457,7 @@ public class GameController {
 	/**
 	 * Moves every enemy in the level after the player has made a move.
 	 */
-	public void moveEnemies() {
+	private void moveEnemies() {
 		for (int i = 0; i < enemies.length; i++) {
 			Enemy enemy = enemies[i];
 			EnemyType type = enemy.getType();
@@ -495,7 +495,7 @@ public class GameController {
 	/**
 	 * Draw the game on the canvas.
 	 */
-	public void drawLevel() {
+	private void drawLevel() {
 		// Get the Graphic Context of the canvas. This is what we draw on.
 		gc = canvas.getGraphicsContext2D();
 		
@@ -566,7 +566,7 @@ public class GameController {
 	 * @param row The actual row the element is in.
 	 * @param col The actual column the element is in.
 	 */
-	public void drawElements(String element, int tempCol, int tempRow, int row, int col) {
+	private void drawElements(String element, int tempCol, int tempRow, int row, int col) {
 		// Draw the floor first (as a base).
 		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 		switch(element) {
@@ -670,7 +670,7 @@ public class GameController {
 	 * Redraws the player sprite after an action is performed (movement or using an item).
 	 * Or when loading a game state.
 	 */
-	public void drawPlayerSprite() {
+	private void drawPlayerSprite() {
 		String[] equippedItems = player.getEquippedItems();
 		String apparel = equippedItems[0];
 		String item = equippedItems[1];
@@ -763,16 +763,7 @@ public class GameController {
 			} 
 			
 			currentLevel = FileHandling.getLevel(levelNum);
-			levelElements = currentLevel.getLevelElements();
-			player = currentLevel.getPlayer();
-			playerSprite = playerDefault;
-			
-			doors = currentLevel.getDoors();
-			apparels = currentLevel.getApparels();
-			items = currentLevel.getItems();
-			hazards = currentLevel.getHazards();
-			portals = currentLevel.getPortals();
-			enemies = currentLevel.getEnemies();
+			loadLevelElements();
 			
 			lblToken.setText("0");
 			txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
@@ -781,7 +772,7 @@ public class GameController {
 			totalLevelTime = 0;
 			levelStartTime = System.currentTimeMillis();
 			
-			drawLevel();
+			drawLevel(); // Also resets the player sprite.
 		}
 	}
 	
@@ -789,21 +780,13 @@ public class GameController {
 	 * Resets the elements for the current level if the player has died.
 	 */
 	public void restartLevel() {
+		// Gets a new copy of the level.
 		currentLevel = FileHandling.getLevel(levelNum);
-		levelElements = currentLevel.getLevelElements();
-		player = currentLevel.getPlayer();
-		playerSprite = playerDefault;
-		
-		doors = currentLevel.getDoors(); 
-		apparels = currentLevel.getApparels();
-		items = currentLevel.getItems();
-		hazards = currentLevel.getHazards();
-		portals = currentLevel.getPortals();
-		enemies = currentLevel.getEnemies();
+		loadLevelElements();
 		
 		lblToken.setText("0");
 		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
-		drawLevel();
+		drawLevel(); // Also resets the player sprite.
 	}
 	
 	/**
@@ -811,16 +794,7 @@ public class GameController {
 	 */
 	public void startGame() {
 		currentLevel = FileHandling.getLevel(levelNum);
-		levelElements = currentLevel.getLevelElements();
-		player = currentLevel.getPlayer();
-		playerSprite = playerDefault;
-		
-		doors = currentLevel.getDoors(); 
-		apparels = currentLevel.getApparels();
-		items = currentLevel.getItems();
-		hazards = currentLevel.getHazards();
-		portals = currentLevel.getPortals();
-		enemies = currentLevel.getEnemies();
+		loadLevelElements();
 		
 		lblToken.setText("0");
 		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
@@ -842,15 +816,7 @@ public class GameController {
 	public void loadGameState(Level level, long currentLevelTime, long currentGameTime) {
 		currentLevel = level;
 		levelNum = level.getLevelNumber();
-		levelElements = currentLevel.getLevelElements();
-		player = currentLevel.getPlayer();
-		
-		doors = currentLevel.getDoors(); 
-		apparels = currentLevel.getApparels();
-		items = currentLevel.getItems();
-		hazards = currentLevel.getHazards();
-		portals = currentLevel.getPortals();
-		enemies = currentLevel.getEnemies();
+		loadLevelElements();
 		
 		lblToken.setText(player.getNumTokens() + "");
 		txtLevelPrompt.appendText("Welcome back to Level " + levelNum + ".");
@@ -860,7 +826,22 @@ public class GameController {
 		totalGameTime = currentGameTime;
 		levelStartTime = System.currentTimeMillis();
 		
-		drawLevel();
+		drawLevel(); // Also sets the player sprite.
+	}
+	
+	/**
+	 * Sets the elements for each level when being loaded.
+	 */
+	private void loadLevelElements() {
+		levelElements = currentLevel.getLevelElements();
+		player = currentLevel.getPlayer();
+		
+		doors = currentLevel.getDoors(); 
+		apparels = currentLevel.getApparels();
+		items = currentLevel.getItems();
+		hazards = currentLevel.getHazards();
+		portals = currentLevel.getPortals();
+		enemies = currentLevel.getEnemies();
 	}
 	
 	/**
@@ -943,7 +924,7 @@ public class GameController {
 	 * Saves the player's level completion time after completing a level.
 	 * @param levelNum The number of the completed level.
 	 */
-	public void saveLevelTime(int levelNum) {
+	private void saveLevelTime(int levelNum) {
 		// Get the times for the level.
 		levelTimes = FileHandling.getLevelTimes(levelNum);
 		String username = currentUser.getUsername();
@@ -969,7 +950,7 @@ public class GameController {
 	/**
 	 * Saves the player's total game time after completing the game.
 	 */
-	public void saveTotalGameTime() {
+	private void saveTotalGameTime() {
 		String username = currentUser.getUsername();
 		if (gameTimes.containsKey(username)) {
 			// Compare if the new time is better (smaller) than the old time.

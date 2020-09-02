@@ -34,6 +34,7 @@ public class NewUserController {
 		String username = txtUsername.getText().trim();
 		if (users.containsKey(username)) {
 			Alerts.usernameExists();
+		// If there's no input.
 		} else if (username.isEmpty()) {
 			Alerts.usernameNotEntered();
 		} else {
@@ -44,6 +45,7 @@ public class NewUserController {
 			String strNewUser = newUser.toStringDetail();
 			FileHandling.createUser(strNewUser);
 			Alerts.userCreated();
+			backButtonAction(); // Close the page.
 		}
 	}
 	

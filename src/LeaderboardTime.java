@@ -85,7 +85,7 @@ public class LeaderboardTime implements Comparable<LeaderboardTime> {
 	 * Converts the completion time from milliseconds to a readable format 
 	 * depending on the amount of time recorded. 
 	 */
-	public void formatCompletionTime() {
+	private void formatCompletionTime() {
 		// For now, it assumes it doesn't take an hour (or more) to complete
 		// the whole game.
 		if (completionTime >= ONE_MINUTE_MILLIS) {
@@ -99,7 +99,7 @@ public class LeaderboardTime implements Comparable<LeaderboardTime> {
 	 * Comparison method used to sort the leaderboard times in ascending order.
 	 * @param otherTime The other LeaderboardTime object being compared with 
 	 *                  this object.
-	 * @return 1 if this > otherTime, otherwise -1.
+	 * @return A positive integer if this > otherTime, otherwise a negative integer.
 	 */
 	public int compareTo(LeaderboardTime otherTime) {
 		return (int) (this.getTime() - otherTime.getTime());

@@ -16,7 +16,7 @@
             <Button fx:id="btnLoadGame" mnemonicParsing="false" onAction="#loadGameButtonAction" prefWidth="185.0" text="Load Game" />
             <Button fx:id="btnLevelSelect" layoutX="145.0" layoutY="101.0" mnemonicParsing="false" onAction="#levelSelectButtonAction" prefWidth="185.0" text="Level Select" />
             <Button fx:id="btnLeaderboards" layoutX="145.0" layoutY="147.0" mnemonicParsing="false" onAction="#leaderboardsButtonAction" prefWidth="185.0" text="Leaderboards" />
-            <Button fx:id="btnDeleteProfile" disable="true" layoutX="145.0" layoutY="192.0" mnemonicParsing="false" onAction="#deleteProfileButtonAction" prefWidth="185.0" text="Delete Profile" />
+            <Button fx:id="btnDeleteProfile" layoutX="145.0" layoutY="192.0" mnemonicParsing="false" onAction="#deleteProfileButtonAction" prefHeight="26.0" prefWidth="135.0" text="Delete Profile" />
             <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logoutButtonAction" text=" Log out" />
          </children>
       </VBox>

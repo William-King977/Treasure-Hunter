@@ -5,7 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -182,6 +185,20 @@ public class MainMenuController {
 	 * Deletes the user's profile and any data associated with the profile.
 	 */
 	public void deleteProfileButtonAction() {
+		// Alert message for confirmation.
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Profile.");
+		alert.setHeaderText(null);
+		alert.setContentText("Are you sure you want to delete your profile?");
+		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+		
+		// Handles the button press event (Yes, No).
+		alert.showAndWait().ifPresent(e -> {
+			if (e == ButtonType.YES) {
+				FileHandling.deleteProfile(currentUser.getUsername());
+				logoutButtonAction();
+			}
+		});
 	}
 	
 	/**

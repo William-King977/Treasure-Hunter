@@ -278,7 +278,7 @@ public class FileHandling {
 	 * @param levelNum The specified level as an integer.
 	 * @return A 2D array of level elements.
 	 */
-	public static String[][] readLevelBase(int levelNum) {
+	private static String[][] readLevelBase(int levelNum) {
 		// Read in the level text file (the level base).
 		String filePath = LEVEL_FILE_PATH + "Base Level " + levelNum + ".txt";
 		File inputFile = new File(filePath);
@@ -699,7 +699,7 @@ public class FileHandling {
 	 * @param strPlayer A string holding the player's details.
 	 * @return A player object.
 	 */
-	public static Player readPlayer(String strPlayer) {
+	private static Player readPlayer(String strPlayer) {
 		// Scanner to read the player's details.
 	    Scanner in = new Scanner(strPlayer);
 	    in.useDelimiter(":");
@@ -736,7 +736,7 @@ public class FileHandling {
 	 * @param strDoor A string holding the door's details.
 	 * @return A door object.
 	 */
-	public static Door readDoor(String strDoor) {
+	private static Door readDoor(String strDoor) {
 		// Scanner to read the door's details.
 	    Scanner in = new Scanner(strDoor);
 	    in.useDelimiter(":");
@@ -771,7 +771,7 @@ public class FileHandling {
 	 * @param strApparel A string holding the apparel's details.
 	 * @return An apparel object.
 	 */
-	public static Apparel readApparel(String strApparel) {
+	private static Apparel readApparel(String strApparel) {
 		// Scanner to read the apparel's details.
 	    Scanner in = new Scanner(strApparel);
 	    in.useDelimiter(":");
@@ -799,7 +799,7 @@ public class FileHandling {
 	 * @param strItem A string holding the item's details.
 	 * @return An item object.
 	 */
-	public static Item readItem(String strItem) {
+	private static Item readItem(String strItem) {
 		// Scanner to read the item's details.
 	    Scanner in = new Scanner(strItem);
 	    in.useDelimiter(":");
@@ -830,7 +830,7 @@ public class FileHandling {
 	 * @param strHazard A string holding the hazard's details.
 	 * @return A hazard object.
 	 */
-	public static Hazard readHazard(String strHazard) {
+	private static Hazard readHazard(String strHazard) {
 		// Scanner to read the hazard's details.
 	    Scanner in = new Scanner(strHazard);
 	    in.useDelimiter(":");
@@ -858,7 +858,7 @@ public class FileHandling {
 	 * @param strPortal A string holding the portal's details.
 	 * @return A portal object.
 	 */
-	public static Portal readPortal(String strPortal) {
+	private static Portal readPortal(String strPortal) {
 		// Scanner to read the portal's details.
 	    Scanner in = new Scanner(strPortal);
 	    in.useDelimiter(":");
@@ -878,7 +878,7 @@ public class FileHandling {
 	 * @param strEnemy A string holding the enemy's details.
 	 * @return An enemy object.
 	 */
-	public static Enemy readEnemy(String strEnemy) {
+	private static Enemy readEnemy(String strEnemy) {
 		// Scanner to read the enemy's details.
 	    Scanner in = new Scanner(strEnemy);
 	    in.useDelimiter(":");
@@ -914,7 +914,7 @@ public class FileHandling {
 	 * @param itemSet The single string of items.
 	 * @return A string array of items.
 	 */
-	public static String[] addItems(String itemSet) {
+	private static String[] addItems(String itemSet) {
 		// Scanner to read individual items.
 	    Scanner in = new Scanner(itemSet);
 		int numItems = 0;
@@ -972,6 +972,198 @@ public class FileHandling {
 		    while (line != null) {
 		    	// Exclude the passed down save state.
 		    	if (!line.equals(strSaveState)) {
+		    		newContent = newContent + line + System.lineSeparator();
+		    	}
+		        line = reader.readLine();
+		    }
+		    // Write the updated contents to the text file.
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Deletes the user's profile and any associated data.
+	 * @param username The username of the user to be deleted.
+	 */
+	public static void deleteProfile(String username) {
+		// Delete the user's level times from each level.
+		deleteLevelTime(username, 1);
+		deleteLevelTime(username, 2);
+		
+		deleteGameTime(username);
+		deleteGameStates(username);
+		
+		deleteUserProfile(username);
+	}
+	
+	/**
+	 * Deletes the user's profile on the text file.
+	 * @param username The user's username.
+	 */
+	private static void deleteUserProfile(String username) {
+		String filePath = DATA_FILE_PATH + "User.txt";
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String newContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write the old contents to a string.
+	    	// The contents will exclude the user.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	// Exclude user.
+		    	if (!line.contains(username)) {
+		    		newContent = newContent + line + System.lineSeparator();
+		    	}
+		        line = reader.readLine();
+		    }
+		    // Write the updated contents to the text file.
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Deletes the user's completion time on the specified level.
+	 * @param username The user's username.
+	 * @param levelNum The level number.
+	 */
+	private static void deleteLevelTime(String username, int levelNum) {
+		String filePath = TIME_FILE_PATH + "Level " + levelNum + ".txt";
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String newContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write the old contents to a string.
+	    	// The contents will exclude the user's time.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	// Exclude user's time.
+		    	if (!line.contains(username)) {
+		    		newContent = newContent + line + System.lineSeparator();
+		    	}
+		        line = reader.readLine();
+		    }
+		    // Write the updated contents to the text file.
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Deletes the user's game completion time.
+	 * @param username The user's username.
+	 */
+	private static void deleteGameTime(String username) {
+		String filePath = TIME_FILE_PATH + "Total Time.txt";
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String newContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write the old contents to a string.
+	    	// The contents will exclude the user's time.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	// Exclude user's time.
+		    	if (!line.contains(username)) {
+		    		newContent = newContent + line + System.lineSeparator();
+		    	}
+		        line = reader.readLine();
+		    }
+		    // Write the updated contents to the text file.
+		    writer = new FileWriter(filePath);
+		    writer.write(newContent);
+		    reader.close();
+		    writer.flush();
+		    writer.close();
+	    } catch (IOException e) {
+	    	// Catches an IO exception when the file can't 
+	    	// be written.
+            e.printStackTrace();
+            System.exit(-1);
+	    }
+	}
+	
+	/**
+	 * Deletes all of the user's saved game states.
+	 * @param username The user's username.
+	 */
+	private static void deleteGameStates(String username) {
+		String filePath = DATA_FILE_PATH + "SavedGameStates.txt";
+		File inputFile = new File(filePath);
+		BufferedReader reader = null;
+		FileWriter writer = null;
+		String newContent = "";
+		
+	    try {
+			reader = new BufferedReader(new FileReader(inputFile));
+		// Catch an exception if the file does not exist and exit the program.
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot open " + filePath);
+			System.exit(-1);
+		}
+	    
+	    try {
+		    // Uses buffer to write the old contents to a string.
+	    	// The contents will exclude the user's save states.
+		    String line = reader.readLine();
+		    while (line != null) {
+		    	// Exclude user's save states.
+		    	if (!line.contains(username)) {
 		    		newContent = newContent + line + System.lineSeparator();
 		    	}
 		        line = reader.readLine();

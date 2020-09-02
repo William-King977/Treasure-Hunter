@@ -1,3 +1,2 @@
 Lalas,57506,
-BigZ,60925,
-KingBigW,115292,
+BigZ,53661,
