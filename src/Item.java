@@ -29,7 +29,7 @@ public class Item {
 	 * @return A string of the Item's full details.
 	 */
 	public String toStringDetail() {
-		String strItem = "ITEM," + itemX + ":" + itemY + ":" + type + ":";
+		String strItem = "ITEM," + itemX + ":" + itemY + ":" + type + ",";
 		return strItem;
 	}
 

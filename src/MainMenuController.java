@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ public class MainMenuController {
 	private final String LOGIN_TITLE = "The Game";
 	/** Stores the details of the logged in user. */
 	private User currentUser;
+	/** An array list holding the save states that the user has made. */
+	private ArrayList<GameState> gameStates;
 	
 	/** A button that opens the latest state of the game. */
 	@FXML private Button btnContinue;
@@ -39,19 +42,66 @@ public class MainMenuController {
 	@FXML private Button btnLogout;
 	
 	/**
-	 * Fetches the details of the logged in user.
+	 * Fetches the details of the logged in user, their game states
+	 * and adjusts the accessibility of certain buttons.
 	 * This method will run automatically.
 	 */
 	public void initialize() {
 		String currentUsername = FileHandling.getCurrentUser();
 		LinkedHashMap<String, User> users = FileHandling.getUsers();
 		currentUser = users.get(currentUsername);
+		gameStates = FileHandling.getGameStates(currentUsername);
+		
+		// Enable the continue and load game buttons if the user
+		// has any existing save states.
+		if (gameStates.size() > 0) {
+			btnContinue.setDisable(false);
+			btnLoadGame.setDisable(false);
+		}
 	}
 	
 	/**
 	 * Loads the user's last saved state.
 	 */
 	public void continueButtonAction() {
+		// Fetch the user's latest game state.
+		GameState selectedState = gameStates.get(gameStates.size() - 1);
+		
+		// Get the elements required to start the game.
+		Level level = selectedState.getLevel();
+		long currentLevelTime = selectedState.getCurrentLevelTime();
+		long currentGameTime = selectedState.getCurrentGameTime();
+		boolean timeValid = selectedState.getTimeValid();
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource("FXMLFiles/GameWindow.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			
+			// Gets the controller for the FXML file.
+			GameController gameWindow = fxmlLoader.<GameController> getController();
+			
+			// Pass down the user, level and time elements from the save state.
+			gameWindow.setCurrentUser(currentUser);
+			gameWindow.loadGameState(level, currentLevelTime, currentGameTime);
+			gameWindow.setTotalTimeValid(timeValid);
+			
+			Scene scene = new Scene(root);
+			Stage primaryStage = new Stage();
+			primaryStage.setScene(scene);
+			// primaryStage.setTitle(THE_GAME_TITLE);
+			primaryStage.show();
+			
+			// Close the load game window.
+			Stage stage = (Stage) btnContinue.getScene().getWindow();
+			stage.close();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+            // file is not found.
+            e.printStackTrace();
+            System.exit(-1);
+		}
+		
 	}
 	
 	/**
@@ -105,6 +155,7 @@ public class MainMenuController {
 			LoadGameController loadGame = fxmlLoader.<LoadGameController> getController();
 			// Pass down the user.
 			loadGame.setCurrentUser(currentUser);
+			loadGame.setGameStates(gameStates);
 			loadGame.showGameStates();
 			
 			Scene scene = new Scene(root);

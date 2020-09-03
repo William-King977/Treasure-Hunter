@@ -130,7 +130,6 @@ public class LoadGameController {
 				FileHandling.deleteSaveState(selectedState.toStringDetail());
 				// Delete it locally as well.
 				gameStates.remove(selectedIndex);
-				lstGameStates.getItems().remove(selectedIndex);
 				refresh();
 			}
 		});
@@ -147,15 +146,23 @@ public class LoadGameController {
 		
 		btnLoad.setDisable(true);
 		btnDelete.setDisable(true);
+		
+		showGameStates();
+	}
+	
+	/**
+	 * Sets the user's game states to be stored locally.
+	 * @param gameStates The game states that the user has created.
+	 */
+	public void setGameStates(ArrayList<GameState> gameStates) {
+		this.gameStates = gameStates;
 	}
 	
 	/**
 	 * Displays the description of each saved game state on the list view.
 	 */
 	public void showGameStates() {
-		String username = currentUser.getUsername();
-		gameStates = FileHandling.getGameStates(username);
-		
+		lstGameStates.getItems().clear();
 		for (int i = 0; i < gameStates.size(); i++) {
 			lstGameStates.getItems().add((i + 1) + ": " + gameStates.get(i).getDescription());
 		}
