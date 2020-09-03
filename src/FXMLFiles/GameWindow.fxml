@@ -29,14 +29,14 @@
                      <HBox.margin>
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin></Button>
-                  <TextArea fx:id="txtLevelPrompt" editable="false" onKeyPressed="#processMovement" prefHeight="90.0" prefWidth="295.0" wrapText="true">
+                  <TextArea fx:id="txtGamePrompt" editable="false" onKeyPressed="#processMovement" prefHeight="90.0" prefWidth="295.0" wrapText="true">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </TextArea>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#saveGameButtonAction" text="Save Game" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveGameButtonAction" text="Save Game" />
          </children>
       </VBox>
    </center>

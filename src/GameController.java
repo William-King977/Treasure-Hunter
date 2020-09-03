@@ -26,16 +26,18 @@ import javafx.stage.Stage;
  * @author William King
  */
 public class GameController {
+	/** File location of the graphics folder. */
+	private final static String GRAPHICS_FILE_PATH = "DataFiles/Graphics/";
 	/** File location of the player sprites. */
-	private final static String PLAYER_FILE_PATH = "DataFiles/Graphics/Player Sprites/";
+	private final static String PLAYER_FILE_PATH = GRAPHICS_FILE_PATH + "Player Sprites/";
 	/** File location of the items. */
-	private final static String ITEM_FILE_PATH = "DataFiles/Graphics/Items/";
+	private final static String ITEM_FILE_PATH = GRAPHICS_FILE_PATH + "Items/";
 	/** File location of the doors. */
-	private final static String DOOR_FILE_PATH = "DataFiles/Graphics/Doors/";
+	private final static String DOOR_FILE_PATH = GRAPHICS_FILE_PATH + "Doors/";
 	/** File location of the textures. */
-	private final static String TEXTURE_FILE_PATH = "DataFiles/Graphics/Textures/";
+	private final static String TEXTURE_FILE_PATH = GRAPHICS_FILE_PATH + "Textures/";
 	/** File location of the enemy sprites. */
-	private final static String ENEMY_FILE_PATH = "DataFiles/Graphics/Enemies/";
+	private final static String ENEMY_FILE_PATH = GRAPHICS_FILE_PATH + "Enemies/";
 	/** Title for the Main Menu. */
 	private final String MAIN_MENU_TITLE = "Main Menu";
 	/** The number marking the highest level in the game. */
@@ -68,8 +70,11 @@ public class GameController {
 			+ "crisp as you walked into the fire pit. Restarting level...\n";
 	private final String ENEMY_DEATH_MSG = "\nAn enemy ripped you into two, putting an "
 			+ "end to your adventure. Restarting level...\n";
-	private final String PORTAL_DEATH_MSG = "\n You dived through the portal and landed "
+	private final String PORTAL_DEATH_MSG = "\nYou dived through the portal and landed "
 			+ "into enemy hands...literally. Restarting level...\n";
+	
+	private final String GAME_COMPLETE_MSG = "Congratulations! You've completed the game. It's "
+			+ "time to get you out of there.";
 
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
@@ -96,6 +101,8 @@ public class GameController {
 	private int levelNum;
 	/** Used to check if an enemy has moved to the same position as the player. */
 	private boolean enemyOnPlayer;
+	/** Used to check if the game has been completed or not. */
+	private boolean gameCompleted;
 	
 	/** Holds the completion times for a single level (from every player). */
 	private LinkedHashMap<String, LeaderboardTime> levelTimes;
@@ -163,14 +170,19 @@ public class GameController {
 	private Image dumbEnemy;
 	private Image smartEnemy;
 	
+	// Game completion image.
+	private Image imgGameComplete;
+	
 	/** The inventory button for the game. */
 	@FXML private Button btnInventory;
+	/** The save button for the game. */
+	@FXML private Button btnSave;
 	/** The quit button for the game. */
 	@FXML private Button btnQuit;
 	/** An label to show the token count. */
 	@FXML private Label lblToken; 
 	/** A text area to prompt the user of their actions and the level status. */
-	@FXML private TextArea txtLevelPrompt; 
+	@FXML private TextArea txtGamePrompt; 
 	/** An image view to show the token icon. */
 	@FXML private ImageView imgViewToken; 
 	/* The canvas in the GUI. */ 
@@ -184,7 +196,7 @@ public class GameController {
 	 */
 	public void initialize() {
 		// Load the graphics.
-		// Player Sprites.
+		// Player Sprites
 		playerDefault = new Image(new File (PLAYER_FILE_PATH + "Default.png").toURI().toString());
 		playerOrangeKey = new Image(new File (PLAYER_FILE_PATH + "DefaultOrangeKey.png").toURI().toString());
 		playerYellowKey = new Image(new File (PLAYER_FILE_PATH + "DefaultYellowKey.png").toURI().toString());
@@ -215,7 +227,7 @@ public class GameController {
 		purpleDoor  = new Image(new File (DOOR_FILE_PATH + "PurpleDoor.png").toURI().toString());
 		tokenDoor  = new Image(new File (DOOR_FILE_PATH + "TokenDoor.png").toURI().toString());
 		
-		// Environment.
+		// Environment
 		floor = new Image(new File (TEXTURE_FILE_PATH + "Floor.png").toURI().toString());
 		wall = new Image(new File (TEXTURE_FILE_PATH + "StoneWall.png").toURI().toString());
 		water = new Image(new File (TEXTURE_FILE_PATH + "Water.png").toURI().toString());
@@ -229,9 +241,13 @@ public class GameController {
 		dumbEnemy = new Image(new File (ENEMY_FILE_PATH + "Dumb.png").toURI().toString());
 		smartEnemy = new Image(new File (ENEMY_FILE_PATH + "Smart.png").toURI().toString());
 		
+		// Game Completion
+		imgGameComplete = new Image(new File (GRAPHICS_FILE_PATH + "Game Completion.png").toURI().toString());
+		
 		// Set other values.
 		gameTimes = FileHandling.getTotalGameTimes();
 		enemyOnPlayer = false;
+		gameCompleted = false;
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);
 	}
@@ -245,36 +261,46 @@ public class GameController {
 		int playerNewX;
 		int playerNewY;
 		
-		// Because the level is basically stored in an array.
-		// Going UP needs to lower the index and vice versa.
-		switch (event.getCode()) {
-			case UP:
-			case W:
-				playerNewY = player.getY() - 1;
-	        	isMoveValid(player.getX(), playerNewY, "UP");
+		// Close the game if the Enter button is pressed (and the game is completed).
+		if (gameCompleted) {
+			switch (event.getCode()) {
+				case ENTER:
+				quitButtonAction();
 				break;
-			case DOWN:
-			case S:
-				playerNewY = player.getY() + 1;
-				isMoveValid(player.getX(), playerNewY, "DOWN");
-	        	break;
-			case LEFT:
-			case A:
-		    	playerNewX = player.getX() - 1;
-		    	isMoveValid(playerNewX, player.getY(), "LEFT");
-	        	break;
-		    case RIGHT:
-		    case D:
-		    	playerNewX = player.getX() + 1;
-		    	isMoveValid(playerNewX, player.getY(), "RIGHT");
-	        	break;	        
-	        default:
-	        	// Do nothing
-	        	break;
+			default:
+				// Nothing happens.
+				break;
+			}
+		// Otherwise, determine the player's movement.
+		} else { 
+			// Because the level is basically stored in an array.
+			// Going UP needs to lower the index and vice versa.
+			switch (event.getCode()) {
+				case UP:
+				case W:
+					playerNewY = player.getY() - 1;
+		        	isMoveValid(player.getX(), playerNewY, "UP");
+					break;
+				case DOWN:
+				case S:
+					playerNewY = player.getY() + 1;
+					isMoveValid(player.getX(), playerNewY, "DOWN");
+		        	break;
+				case LEFT:
+				case A:
+			    	playerNewX = player.getX() - 1;
+			    	isMoveValid(playerNewX, player.getY(), "LEFT");
+		        	break;
+			    case RIGHT:
+			    case D:
+			    	playerNewX = player.getX() + 1;
+			    	isMoveValid(playerNewX, player.getY(), "RIGHT");
+		        	break;	        
+		        default:
+		        	// Do nothing
+		        	break;
+			}
 		}
-		
-		// Redraw game as the player may have moved.
-		drawLevel();
 		
 		// Consume the event. This means we mark it as dealt with. 
 		// This stops other GUI nodes (buttons etc.) responding to it.
@@ -299,19 +325,19 @@ public class GameController {
 				break;
 			case "G":
 				// Level Complete
-				txtLevelPrompt.appendText("\nLevel " + levelNum + " completed!\n");
+				txtGamePrompt.appendText("\nLevel " + levelNum + " completed!\n");
 				loadNewLevel();
-				break;
+				return;
 			// APPAREL.
 			case "A":
 				Apparel apparel = apparels[newY][newX];
 				switch (apparel.getType()) {
 				case FLIPPERS:
-					txtLevelPrompt.appendText(FLIPPERS_MSG);
+					txtGamePrompt.appendText(FLIPPERS_MSG);
 					player.addInventory("Flippers");
 					break;
 				case FIREBOOTS:
-					txtLevelPrompt.appendText(FIRE_BOOTS_MSG);
+					txtGamePrompt.appendText(FIRE_BOOTS_MSG);
 					player.addInventory("Fire Boots");
 					break;
 				}
@@ -324,15 +350,15 @@ public class GameController {
 				Item item = items[newY][newX];
 				switch (item.getType()) {
 					case YELLOWKEY:
-						txtLevelPrompt.appendText(YELLOW_KEY_MSG);
+						txtGamePrompt.appendText(YELLOW_KEY_MSG);
 						player.addInventory("Yellow Key");
 						break;
 					case ORANGEKEY:
-						txtLevelPrompt.appendText(ORANGE_KEY_MSG);
+						txtGamePrompt.appendText(ORANGE_KEY_MSG);
 						player.addInventory("Orange Key");
 						break;
 					case PURPLEKEY:
-						txtLevelPrompt.appendText(PURPLE_KEY_MSG);
+						txtGamePrompt.appendText(PURPLE_KEY_MSG);
 						player.addInventory("Purple Key");
 						break;
 				}
@@ -342,7 +368,7 @@ public class GameController {
 				break;
 			// TOKENS.
 			case "T":
-				txtLevelPrompt.appendText(TOKEN_MSG);
+				txtGamePrompt.appendText(TOKEN_MSG);
 				// Increment token count and show it on screen.
 				int newTokenCount = player.getNumTokens() + 1;
 				player.setNumTokens(newTokenCount);
@@ -360,7 +386,7 @@ public class GameController {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						} else {
-							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
+							txtGamePrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case ORANGE:
@@ -368,7 +394,7 @@ public class GameController {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						} else {
-							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
+							txtGamePrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case PURPLE:
@@ -376,7 +402,7 @@ public class GameController {
 							player.useItem(itemEquipped);
 							levelElements[newY][newX] = " ";
 						} else {
-							txtLevelPrompt.appendText(COLOUR_DOOR_LOCKED);
+							txtGamePrompt.appendText(COLOUR_DOOR_LOCKED);
 						}
 						break;
 					case TOKEN:
@@ -389,7 +415,7 @@ public class GameController {
 							lblToken.setText(newTokens + "");
 							levelElements[newY][newX] = " ";
 						} else {
-							txtLevelPrompt.appendText(TOKEN_DOOR_LOCKED + doorCost);
+							txtGamePrompt.appendText(TOKEN_DOOR_LOCKED + doorCost);
 						}
 						break;
 				}
@@ -407,7 +433,7 @@ public class GameController {
 								break;
 							default:
 								// DEATH.
-								txtLevelPrompt.appendText(WATER_DEATH_MSG);
+								txtGamePrompt.appendText(WATER_DEATH_MSG);
 								restartLevel();
 								return;
 						}
@@ -421,7 +447,7 @@ public class GameController {
 								break;
 							default:
 								// DEATH.
-								txtLevelPrompt.appendText(FIRE_DEATH_MSG);
+								txtGamePrompt.appendText(FIRE_DEATH_MSG);
 								restartLevel();
 								return;
 						}
@@ -429,19 +455,19 @@ public class GameController {
 				}
 				break;
 			case "P":
-				txtLevelPrompt.appendText(PORTAL_MSG);
+				txtGamePrompt.appendText(PORTAL_MSG);
 				Portal portal = portals[newY][newX];
 				boolean playerDeath = portal.playerMoveOnEnemy(levelElements, player, direction);
 				// If the player teleports to an enemy.
 				if (playerDeath) {
-					txtLevelPrompt.appendText(PORTAL_DEATH_MSG);
+					txtGamePrompt.appendText(PORTAL_DEATH_MSG);
 					restartLevel();
 				}
 				break;
 			// If the player moves into an enemy.
 			case "E":
 				// DEATH.
-				txtLevelPrompt.appendText(ENEMY_DEATH_MSG);
+				txtGamePrompt.appendText(ENEMY_DEATH_MSG);
 				restartLevel();
 				return;
 			default:
@@ -453,10 +479,12 @@ public class GameController {
 		moveEnemies();
 		if (enemyOnPlayer) {
 			enemyOnPlayer = false;
-			txtLevelPrompt.appendText(ENEMY_DEATH_MSG);
+			txtGamePrompt.appendText(ENEMY_DEATH_MSG);
 			restartLevel();
 			return;
 		}
+		// Redraw game as the player may have moved.
+		drawLevel();
 	}
 	
 	/**
@@ -574,7 +602,7 @@ public class GameController {
 	private void drawElements(String element, int tempCol, int tempRow, int row, int col) {
 		// Draw the floor first (as a base).
 		gc.drawImage(floor, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
-		switch(element) {
+		switch (element) {
 			case "W":
 				gc.drawImage(wall, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 				break;
@@ -752,7 +780,9 @@ public class GameController {
 			if (totalTimeValid) {
 				saveTotalGameTime();
 			}
-			// GAME COMPLETE!
+			// Show the that game is completed.
+			showGameCompletion();
+			return;
 		} else {
 			levelNum++;
 			// Change if the highest level the user can access is less than 
@@ -771,12 +801,11 @@ public class GameController {
 			loadLevelElements();
 			
 			lblToken.setText("0");
-			txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+			txtGamePrompt.appendText("Welcome to Level " + levelNum + ".");
 			
 			// Reset the start and level time for the next level.
 			totalLevelTime = 0;
 			levelStartTime = System.currentTimeMillis();
-			
 			drawLevel(); // Also resets the player sprite.
 		}
 	}
@@ -790,7 +819,7 @@ public class GameController {
 		loadLevelElements();
 		
 		lblToken.setText("0");
-		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+		txtGamePrompt.appendText("Welcome to Level " + levelNum + ".");
 		drawLevel(); // Also resets the player sprite.
 	}
 	
@@ -802,13 +831,12 @@ public class GameController {
 		loadLevelElements();
 		
 		lblToken.setText("0");
-		txtLevelPrompt.appendText("Welcome to Level " + levelNum + ".");
+		txtGamePrompt.appendText("Welcome to Level " + levelNum + ".");
 		
 		// Set the start and total time.
 		totalGameTime = 0;
 		totalLevelTime = 0;
 		levelStartTime = System.currentTimeMillis(); 
-		
 		drawLevel();
 	}
 	
@@ -824,13 +852,12 @@ public class GameController {
 		loadLevelElements();
 		
 		lblToken.setText(player.getNumTokens() + "");
-		txtLevelPrompt.appendText("Welcome back to Level " + levelNum + ".");
+		txtGamePrompt.appendText("Welcome back to Level " + levelNum + ".");
 		
 		// Adjust the start and total times.
 		totalLevelTime = currentLevelTime;
 		totalGameTime = currentGameTime;
 		levelStartTime = System.currentTimeMillis();
-		
 		drawLevel(); // Also sets the player sprite.
 	}
 	
@@ -847,6 +874,21 @@ public class GameController {
 		hazards = currentLevel.getHazards();
 		portals = currentLevel.getPortals();
 		enemies = currentLevel.getEnemies();
+	}
+	
+	/**
+	 * Shows the game completion image and makes any adjustments to the game window.
+	 */
+	private void showGameCompletion() {
+		txtGamePrompt.appendText(GAME_COMPLETE_MSG);
+		gc.drawImage(imgGameComplete, 0, 0, canvas.getWidth(), canvas.getHeight());
+		
+		btnSave.setDisable(true);
+		btnInventory.setDisable(true);
+		gameCompleted = true;
+		
+		// The player can exit the game by either quitting (quit button) or
+		// pressing enter.
 	}
 	
 	/**
