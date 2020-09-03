@@ -75,6 +75,14 @@
                   </VBox>
                   <VBox prefHeight="87.0" prefWidth="117.0">
                      <children>
+                        <CheckBox fx:id="cbLevel3" mnemonicParsing="false" onAction="#cbLevel3Action" text="Level 3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </CheckBox>
                         <CheckBox fx:id="cbWholeGame" mnemonicParsing="false" onAction="#cbWholeGameAction" text="Whole Game">
                            <font>
                               <Font size="14.0" />

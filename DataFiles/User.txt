@@ -1,2 +1,2 @@
-BigZ,2,
+BigZ,3,
 Lalas,2,
