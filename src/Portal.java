@@ -103,21 +103,26 @@ public class Portal {
 				adjacentObject = levelElements[frontY][frontX];
 				newX = frontX;
 				newY = frontY;
+				// Change direction clockwise (used if the method runs again). 
+				direction = "RIGHT";
 				break;
 			case "DOWN":
 				adjacentObject = levelElements[backY][backX];
 				newX = backX;
 				newY = backY;
+				direction = "LEFT";
 				break;
 			case "LEFT":
 				adjacentObject = levelElements[leftY][leftX];
 				newX = leftX;
 				newY = leftY;
+				direction = "UP";
 				break;
 			case "RIGHT":
 				adjacentObject = levelElements[rightY][rightX];
 				newX = rightX;
 				newY = rightY;
+				direction = "DOWN";
 				break;
 		}
 		
@@ -126,24 +131,10 @@ public class Portal {
 		boolean isAdjacentObject = isObject(adjacentObject);
 		
 		if (isAdjacentObject) {
-			// Change direction (clockwise).
-			switch (direction) {
-				case "UP":
-					direction = "RIGHT";
-					break;
-				case "DOWN":
-					direction = "LEFT";
-					break;
-				case "LEFT":
-					direction = "UP";
-					break;
-				case "RIGHT":
-					direction = "DOWN";
-					break;
-			}
-			// Then run the method again with the changed direction.
+			// Run the method again with the changed direction.
 			// Infinite recursion happens IF the destination portal is
-			// surrounded by walls.
+			// surrounded by walls. Or if you typed the portal co-ordinates
+			// wrong in the file...
 			playerMoveOnEnemy(levelElements, player, direction);
 		// If the player teleports into an enemy.
 		} else if (adjacentObject.equals("E")) {
