@@ -1,4 +1,4 @@
-15,15, WIDTH & HEIGHT
+15,15, HEIGHT & WIDTH
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,
 W, , , , , , , , ,D,T,T,T, ,W,
 W,W, ,W, ,W, , , ,W,T,W,T,W,W,
@@ -16,7 +16,7 @@ W, , , , , , , ,I,W, , , ,W,W,
 W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,
 START,13,1,
 DOOR,9:1:TOKEN:3,
-DOOR,5:12:TOKEN:5,
+DOOR,5:12:TOKEN:3,
 DOOR,6:6:TOKEN:3,
 DOOR,12:7:YELLOW:0,
 DOOR,12:8:ORANGE:0,

@@ -25,6 +25,8 @@ public class LevelSelectController {
 	@FXML private Button btnLevel2;
 	/** A button that opens level 3. */
 	@FXML private Button btnLevel3;
+	/** A button that opens level 4. */
+	@FXML private Button btnLevel4;
 	/** The back button for the level select menu. */
 	@FXML private Button btnBack;
 	
@@ -51,6 +53,9 @@ public class LevelSelectController {
 				break;
 			case "btnLevel3":
 				levelNumber = 3;
+				break;
+			case "btnLevel4":
+				levelNumber = 4;
 				break;
 		}
 		
@@ -100,6 +105,11 @@ public class LevelSelectController {
 			case 3:
 				btnLevel2.setDisable(false);
 				btnLevel3.setDisable(false);
+				break;
+			case 4:
+				btnLevel2.setDisable(false);
+				btnLevel3.setDisable(false);
+				btnLevel4.setDisable(false);
 				break;
 			}
 	}

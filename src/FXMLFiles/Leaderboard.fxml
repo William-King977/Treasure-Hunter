@@ -83,13 +83,18 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </CheckBox>
-                        <CheckBox fx:id="cbWholeGame" mnemonicParsing="false" onAction="#cbWholeGameAction" text="Whole Game">
+                        <CheckBox fx:id="cbLevel4" mnemonicParsing="false" onAction="#cbLevel4Action" text="Level 4">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </CheckBox>
                      </children>
                   </VBox>
+                  <CheckBox fx:id="cbWholeGame" mnemonicParsing="false" onAction="#cbWholeGameAction" text="Whole Game">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
                </children>
             </HBox>
          </children>

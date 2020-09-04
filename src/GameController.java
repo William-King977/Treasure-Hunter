@@ -41,7 +41,7 @@ public class GameController {
 	/** Title for the Main Menu. */
 	private final String MAIN_MENU_TITLE = "Main Menu";
 	/** The number marking the highest level in the game. */
-	private final static int MAX_LEVEL = 3;
+	private final static int MAX_LEVEL = 4;
 	/** Size of the cell width. */
 	private static int GRID_CELL_WIDTH = 50;
 	/** Size of the cell height. */

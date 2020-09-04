@@ -7,13 +7,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="301.0" prefWidth="361.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelSelectController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="361.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelSelectController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="254.0" prefWidth="189.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnLevel1" mnemonicParsing="false" onAction="#getButtonPress" prefWidth="185.0" text="Level 1" />
             <Button fx:id="btnLevel2" disable="true" mnemonicParsing="false" onAction="#getButtonPress" prefWidth="185.0" text="Level 2" />
             <Button fx:id="btnLevel3" disable="true" mnemonicParsing="false" onAction="#getButtonPress" prefHeight="26.0" prefWidth="185.0" text="Level 3" />
+            <Button fx:id="btnLevel4" disable="true" mnemonicParsing="false" onAction="#getButtonPress" prefWidth="185.0" text="Level 4" />
          </children>
       </VBox>
    </center>
