@@ -30,6 +30,8 @@ public class LeaderboardController {
 	private LinkedHashMap<String, LeaderboardTime> level3Times;
 	/** Holds the completion times for level 4. */
 	private LinkedHashMap<String, LeaderboardTime> level4Times;
+	/** Holds the completion times for level 5. */
+	private LinkedHashMap<String, LeaderboardTime> level5Times;
 	/** Holds the completion times for the game (from every player). */
 	private LinkedHashMap<String, LeaderboardTime> gameTimes;
 	
@@ -41,6 +43,8 @@ public class LeaderboardController {
 	private ArrayList<LeaderboardTime> level3TimesAL;
 	/** Holds the completion times for level 4 in an array list. */
 	private ArrayList<LeaderboardTime> level4TimesAL;
+	/** Holds the completion times for level 5 in an array list. */
+	private ArrayList<LeaderboardTime> level5TimesAL;
 	/** Holds the completion times for the game in an array list (from every player). */
 	private ArrayList<LeaderboardTime> gameTimesAL;
 	
@@ -60,6 +64,8 @@ public class LeaderboardController {
 	@FXML private CheckBox cbLevel3;
 	/** A check box used to only show the level 4 times. */
 	@FXML private CheckBox cbLevel4;
+	/** A check box used to only show the level 5 times. */
+	@FXML private CheckBox cbLevel5;
 	/** A check box used to only show the game completion time. */
 	@FXML private CheckBox cbWholeGame;
 	/** The back button for the page. */
@@ -76,6 +82,7 @@ public class LeaderboardController {
 		level2Times = FileHandling.getLevelTimes(2);
 		level3Times = FileHandling.getLevelTimes(3);
 		level4Times = FileHandling.getLevelTimes(4);
+		level5Times = FileHandling.getLevelTimes(5);
 		gameTimes = FileHandling.getTotalGameTimes();
 		
 		// Set property values for each column in the table view.
@@ -89,12 +96,14 @@ public class LeaderboardController {
 		level2TimesAL = new ArrayList<LeaderboardTime>(level2Times.values());
 		level3TimesAL = new ArrayList<LeaderboardTime>(level3Times.values());
 		level4TimesAL = new ArrayList<LeaderboardTime>(level4Times.values());
+		level5TimesAL = new ArrayList<LeaderboardTime>(level5Times.values());
 		gameTimesAL = new ArrayList<LeaderboardTime>(gameTimes.values());
 		
 		Collections.sort(level1TimesAL);
 		Collections.sort(level2TimesAL);
 		Collections.sort(level3TimesAL);
 		Collections.sort(level4TimesAL);
+		Collections.sort(level5TimesAL);
 		Collections.sort(gameTimesAL);
 		
 		// Display the times from level 1 by default.
@@ -123,6 +132,11 @@ public class LeaderboardController {
 			rank++;
 		}
 		rank = 1;
+		for (LeaderboardTime time : level5TimesAL) {
+			time.setRank(rank);
+			rank++;
+		}
+		rank = 1;
 		for (LeaderboardTime time : gameTimesAL) {
 			time.setRank(rank);
 			rank++;
@@ -137,6 +151,8 @@ public class LeaderboardController {
 		// Clear the other checkboxes.
 		cbLevel2.setSelected(false);
 		cbLevel3.setSelected(false);
+		cbLevel4.setSelected(false);
+		cbLevel5.setSelected(false);
 		cbWholeGame.setSelected(false);
 		
 		if (cbLevel1.isSelected()) {
@@ -160,6 +176,7 @@ public class LeaderboardController {
 		cbLevel1.setSelected(false);
 		cbLevel3.setSelected(false);
 		cbLevel4.setSelected(false);
+		cbLevel5.setSelected(false);
 		cbWholeGame.setSelected(false);
 		
 		if (cbLevel2.isSelected()) {
@@ -183,6 +200,7 @@ public class LeaderboardController {
 		cbLevel1.setSelected(false);
 		cbLevel2.setSelected(false);
 		cbLevel4.setSelected(false);
+		cbLevel5.setSelected(false);
 		cbWholeGame.setSelected(false);
 		
 		if (cbLevel3.isSelected()) {
@@ -206,6 +224,7 @@ public class LeaderboardController {
 		cbLevel1.setSelected(false);
 		cbLevel2.setSelected(false);
 		cbLevel3.setSelected(false);
+		cbLevel5.setSelected(false);
 		cbWholeGame.setSelected(false);
 		
 		if (cbLevel4.isSelected()) {
@@ -221,6 +240,30 @@ public class LeaderboardController {
 	}
 	
 	/**
+	 * Sets the status of the level 5 check box and makes the 
+     * appropriate changes to the leaderboard when selected.
+	 */
+	public void cbLevel5Action() {
+		// Clear the other checkboxes.
+		cbLevel1.setSelected(false);
+		cbLevel2.setSelected(false);
+		cbLevel3.setSelected(false);
+		cbLevel4.setSelected(false);
+		cbWholeGame.setSelected(false);
+		
+		if (cbLevel5.isSelected()) {
+			// Clear the table and add the new items.
+			tblLeaderboard.getItems().clear();
+			for (LeaderboardTime time : level5TimesAL) {
+				tblLeaderboard.getItems().add(time);
+			}
+		// Keep it selected if it's clicked on again.
+		} else {
+			cbLevel5.setSelected(true);
+		}
+	}
+	
+	/**
 	 * Sets the status of the whole game check box and makes the 
      * appropriate changes to the leaderboard when selected.
 	 */
@@ -230,6 +273,7 @@ public class LeaderboardController {
 		cbLevel2.setSelected(false);
 		cbLevel3.setSelected(false);
 		cbLevel4.setSelected(false);
+		cbLevel5.setSelected(false);
 		
 		if (cbWholeGame.isSelected()) {
 			// Clear the table and add the new items.
