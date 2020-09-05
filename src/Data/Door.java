@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Models a Door in a game level.

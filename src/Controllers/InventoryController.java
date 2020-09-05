@@ -1,8 +1,8 @@
-package Controllers;
+package controllers;
 
 import java.io.File;
 
-import Data.*;
+import data.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;

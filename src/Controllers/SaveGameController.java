@@ -1,6 +1,6 @@
-package Controllers;
+package controllers;
 
-import Data.*;
+import data.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

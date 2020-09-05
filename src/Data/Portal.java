@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Models a portal in the level.

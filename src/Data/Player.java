@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * This class constructs a Player model in the game and keeps

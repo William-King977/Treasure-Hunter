@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
  */
 public class Main extends Application {
 	/** The file location of the FXML files. */
-	public static final String FXML_FILE_PATH = "../FXMLFiles/";
+	public static final String FXML_FILE_PATH = "../fxml/";
 	/** The title given to the stage. */
 	private static final String STAGE_TITLE = "The Game";
 	/** Width of the stage. */

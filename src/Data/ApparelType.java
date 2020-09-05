@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * An enum holding the different types of apparel.

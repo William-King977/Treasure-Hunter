@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Models an apparel that can be picked up in a level.

@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * This class models a node to hold the details of a position in a level.

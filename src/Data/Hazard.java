@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * Models a hazard in a level.

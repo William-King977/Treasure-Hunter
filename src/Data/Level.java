@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * This class models a single level in the game.

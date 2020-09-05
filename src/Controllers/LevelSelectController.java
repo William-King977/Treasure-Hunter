@@ -1,8 +1,8 @@
-package Controllers;
+package controllers;
 
 import java.io.IOException;
 
-import Data.*;
+import data.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

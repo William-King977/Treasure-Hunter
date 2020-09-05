@@ -1,10 +1,10 @@
-package Controllers;
+package controllers;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-import Data.*;
+import data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * This models a user profile in the game system.

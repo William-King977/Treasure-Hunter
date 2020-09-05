@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 /**
  * An enum that holds the different types of hazards.
