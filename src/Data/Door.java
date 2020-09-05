@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * Models a Door in a game level.
  * @author William King

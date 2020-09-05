@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * An enum that holds the different types of hazards.
  * @author William King

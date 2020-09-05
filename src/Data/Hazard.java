@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * Models a hazard in a level.
  * @author William King

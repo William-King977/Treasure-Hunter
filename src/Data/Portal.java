@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * Models a portal in the level.
  * This transports the player from the portal to another portal

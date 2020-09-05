@@ -1,3 +1,5 @@
+package Data;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -10,6 +12,8 @@ import javafx.fxml.FXMLLoader;
  * @author William King
  */
 public class Main extends Application {
+	/** The file location of the FXML files. */
+	public static final String FXML_FILE_PATH = "../FXMLFiles/";
 	/** The title given to the stage. */
 	private static final String STAGE_TITLE = "The Game";
 	/** Width of the stage. */
@@ -34,7 +38,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			// Load the main scene.
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("FXMLFiles/Login.fxml"));
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource(FXML_FILE_PATH + "Login.fxml"));
 			Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
 			
 			// Place the main scene on stage and show it.

@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * This models a user profile in the game system.
  * @author William King

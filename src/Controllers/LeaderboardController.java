@@ -1,8 +1,11 @@
+package Controllers;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+import Data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -297,7 +300,7 @@ public class LeaderboardController {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/MainMenu.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(MAIN_MENU_TITLE);

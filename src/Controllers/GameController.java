@@ -1,7 +1,10 @@
+package Controllers;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
+import Data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -897,7 +900,7 @@ public class GameController {
 	public void openInventory() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/InventoryWindow.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "InventoryWindow.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -936,7 +939,7 @@ public class GameController {
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/SaveGame.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "SaveGame.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -1054,7 +1057,7 @@ public class GameController {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/MainMenu.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(MAIN_MENU_TITLE);

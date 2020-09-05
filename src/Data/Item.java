@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * Models an item that can be picked up in a level.
  * @author William King

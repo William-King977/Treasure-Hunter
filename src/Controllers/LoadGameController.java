@@ -1,6 +1,9 @@
+package Controllers;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -81,7 +84,7 @@ public class LoadGameController {
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/GameWindow.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "GameWindow.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -186,7 +189,7 @@ public class LoadGameController {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/MainMenu.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(MAIN_MENU_TITLE);

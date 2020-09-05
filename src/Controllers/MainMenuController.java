@@ -1,7 +1,10 @@
+package Controllers;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import Data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -75,7 +78,7 @@ public class MainMenuController {
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/GameWindow.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "GameWindow.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -110,7 +113,7 @@ public class MainMenuController {
 	public void newGameButtonAction() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/GameWindow.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "GameWindow.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -148,7 +151,7 @@ public class MainMenuController {
 	public void loadGameButtonAction() {	
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/LoadGameWindow.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "LoadGameWindow.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -181,7 +184,7 @@ public class MainMenuController {
 	public void levelSelectButtonAction() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/LevelSelect.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "LevelSelect.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
@@ -219,7 +222,7 @@ public class MainMenuController {
 			
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/Leaderboard.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "Leaderboard.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(LEADERBOARD_TITLE);
@@ -263,7 +266,7 @@ public class MainMenuController {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/Login.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "Login.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(LOGIN_TITLE);

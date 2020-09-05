@@ -1,6 +1,9 @@
+package Controllers;
+
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
+import Data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -63,7 +66,7 @@ public class LoginController {
 	public void createNewProfileButtonAction() {
 		try {	
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource("FXMLFiles/NewUser.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "NewUser.fxml"));
 				
 			// Sets a new border pane.
 			BorderPane newRoot = fxmlLoader.load();
@@ -101,7 +104,7 @@ public class LoginController {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
-					.getResource("FXMLFiles/MainMenu.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(MAIN_MENU_TITLE);

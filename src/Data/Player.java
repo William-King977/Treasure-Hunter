@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * This class constructs a Player model in the game and keeps
  * track of its current status.

@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * An enum holding the different types of apparel.
  * @author William King

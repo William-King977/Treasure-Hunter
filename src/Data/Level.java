@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * This class models a single level in the game.
  * @author William King

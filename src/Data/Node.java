@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * This class models a node to hold the details of a position in a level.
  * Used for the smart enemy path finding.

@@ -1,3 +1,5 @@
+package Data;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +25,8 @@ public class FileHandling {
 	private final static String LEVEL_FILE_PATH = "DataFiles/Levels/";
 	/** File location of the leaderboard times text files. */
 	private final static String TIME_FILE_PATH = "DataFiles/Level Times/";
+	/** The number of levels in the game i.e. the highest level in the game. */
+	private final static int MAX_LEVEL = 5;
 	
 	/**
 	 * Saves the username of the currently logged in user to a text file.
@@ -996,12 +1000,12 @@ public class FileHandling {
 	 */
 	public static void deleteProfile(String username) {
 		// Delete the user's level times from each level.
-		deleteLevelTime(username, 1);
-		deleteLevelTime(username, 2);
+		for (int i = 1; i <= MAX_LEVEL; i++) {
+			deleteLevelTime(username, i);
+		}
 		
 		deleteGameTime(username);
 		deleteGameStates(username);
-		
 		deleteUserProfile(username);
 	}
 	

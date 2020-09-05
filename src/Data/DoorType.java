@@ -1,3 +1,5 @@
+package Data;
+
 /**
  * An enum that holds the different types of doors.
  * @author William King
