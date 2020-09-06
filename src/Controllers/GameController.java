@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -535,8 +536,10 @@ public class GameController {
 		// Get the Graphic Context of the canvas. This is what we draw on.
 		gc = canvas.getGraphicsContext2D();
 		
-		// Clear canvas.
+		// Clear canvas, then fill the canvas with a colour base (black).
 		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		// Based on the index.
 		int levelHeight = currentLevel.getLevelHeight() - 1;

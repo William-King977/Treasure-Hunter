@@ -1,6 +1,7 @@
 package data;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Models a leader board time object holding the completion time
@@ -10,6 +11,8 @@ import java.text.SimpleDateFormat;
 public class LeaderboardTime implements Comparable<LeaderboardTime> {
 	/** One minute in milliseconds. */
 	private final long ONE_MINUTE_MILLIS = 60000;
+	/** One hour in milliseconds. */
+	private final long ONE_HOUR_MILLIS = 3600000;
 	
 	/** Username of the player who's time was recorded. */
 	private String username;
@@ -88,12 +91,20 @@ public class LeaderboardTime implements Comparable<LeaderboardTime> {
 	 * depending on the amount of time recorded. 
 	 */
 	private void formatCompletionTime() {
-		// For now, it assumes it doesn't take an hour (or more) to complete
-		// the whole game.
-		if (completionTime >= ONE_MINUTE_MILLIS) {
-			formattedTime = new SimpleDateFormat("m:ss").format(completionTime) + " min";
+		// For now, it assumes it doesn't take more than 24 hours to complete
+		// the whole game (or a level...).
+		// Divide the time into hours, minutes and seconds.
+		long hours = TimeUnit.MILLISECONDS.toHours(completionTime) % 24;
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(completionTime) % 60;
+	    long seconds = TimeUnit.MILLISECONDS.toSeconds(completionTime) % 60;
+	    
+		if (completionTime >= ONE_HOUR_MILLIS) {
+			formattedTime = String.format("%d hr : %d min : %d sec", 
+					hours, minutes, seconds);
+		} else if (completionTime >= ONE_MINUTE_MILLIS) {
+			formattedTime = String.format("%d min : %d sec", minutes, seconds);
 		} else {
-			formattedTime = new SimpleDateFormat("s").format(completionTime) + " sec";
+			formattedTime = String.format("%d sec", seconds);
 		}
 	}
 	
