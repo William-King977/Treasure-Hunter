@@ -620,10 +620,12 @@ public class GameController {
 				Apparel apparel = apparels[row][col];
 				switch (apparel.getType()) {
 				case FLIPPERS:
-					gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+					gc.drawImage(flippers, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT, 
+							GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 					break;
 				case FIREBOOTS:
-					gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+					gc.drawImage(fireBoots, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT, 
+							GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 					break;
 				}
 				break;
@@ -632,13 +634,16 @@ public class GameController {
 				Item item = items[row][col];
 				switch (item.getType()) {
 					case YELLOWKEY:
-						gc.drawImage(yellowKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						gc.drawImage(yellowKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT, 
+								GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 						break;
 					case ORANGEKEY:
-						gc.drawImage(orangeKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						gc.drawImage(orangeKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT, 
+								GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 						break;
 					case PURPLEKEY:
-						gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
+						gc.drawImage(purpleKey, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT, 
+								GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 						break;
 				}
 				break;
@@ -764,8 +769,9 @@ public class GameController {
 					break;
 				}
 		}
-		// Draw the sprite.
-		gc.drawImage(playerSprite, GAME_BOUNDS * GRID_CELL_WIDTH, GAME_BOUNDS * GRID_CELL_HEIGHT);
+		// Draw the sprite. Scales it down to the cell size.
+		gc.drawImage(playerSprite, GAME_BOUNDS * GRID_CELL_WIDTH, 
+				GAME_BOUNDS * GRID_CELL_HEIGHT, GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
 	}
 	
 	/**
