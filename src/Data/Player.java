@@ -127,12 +127,9 @@ public class Player {
 	 */
 	public void addInventory(String newItem) {
 		// Checks how many items there are in the current inventory.
-		int numItems = 0; 
-		for (String items : inventory) {
-			numItems++;
-		}
+		int numItems = inventory.length; 
 		
-		// Populate the new inventory.
+		// Create a new inventory array with the new item.
 		String[] updatedInventory = new String[numItems + 1];
 		for (int i = 0; i < numItems; i++) {
 			updatedInventory[i] = inventory[i];
