@@ -9,7 +9,7 @@ The game assets and their functionality have been added.
 - Indents are 4 spaces.
 - File handling is done by text files.
 - The Smart Enemy's path is calculated by using A* Search (if the player is reachable).
-- The player must equip items to use them (equipping a key to open a door etc.) with the exeption of tokens.
+- The player must equip items to use them (equipping a key to open a door etc.) except for tokens.
 - The player is always at the centre of the screen (canvas). So, when the player moves towards the bounds of the level, nothing is shown out-of-bounds.
 
 # Credits
