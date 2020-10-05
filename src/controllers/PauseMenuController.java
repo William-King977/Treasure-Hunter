@@ -115,6 +115,8 @@ public class PauseMenuController {
 			// primaryStage.setTitle(SAVE_GAME_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
             primaryStage.showAndWait();
+            
+            refreshGameStates();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
             // file is not found.
@@ -152,6 +154,19 @@ public class PauseMenuController {
             // file is not found.
             e.printStackTrace();
             System.exit(-1);
+		}
+	}
+	
+	/**
+	 * Refreshes the game states if the user has saved the game.
+	 */
+	public void refreshGameStates() {
+		gameStates = FileHandling.getGameStates(currentUser.getUsername());
+		
+		// Enable the continue and load game buttons if the user
+		// has any existing save states.
+		if (gameStates.size() > 0) {
+			btnLoadGame.setDisable(false);
 		}
 	}
 	
