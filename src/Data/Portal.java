@@ -75,14 +75,12 @@ public class Portal {
 	}
 	
 	/**
-	 * Moves the player to the destination portal and checks if they
-	 * 'landed' into an enemy.
+	 * Moves the player to the destination portal.
 	 * @param levelElements An array holding all the elements in the level.
 	 * @param player The player to be moved.
 	 * @param direction The direction the player moved towards.
-	 * @return True if the player 'landed' on an enemy, otherwise false.
 	 */
-	public boolean playerMoveOnEnemy(String[][] levelElements, Player player, String direction) {
+	public void movePlayer(String[][] levelElements, Player player, String direction) {
 		// The new co-ordinates for the player to move in.
 		int newX = -1;
 		int newY = -1;
@@ -128,8 +126,6 @@ public class Portal {
 				break;
 		}
 		
-		// Indicates if the player teleported into an enemy.
-		boolean playerDeath = false;
 		boolean isAdjacentObject = isObject(adjacentObject);
 		
 		if (isAdjacentObject) {
@@ -137,16 +133,12 @@ public class Portal {
 			// Infinite recursion happens IF the destination portal is
 			// surrounded by walls. Or if you typed the portal co-ordinates
 			// wrong in the file...
-			playerMoveOnEnemy(levelElements, player, direction);
-		// If the player teleports into an enemy.
-		} else if (adjacentObject.equals("E")) {
-			playerDeath = true;
-		} else {
+			movePlayer(levelElements, player, direction);
+		// Move the player if there isn't an enemy in the way.
+		} else if (!adjacentObject.equals("E")) {
 			player.setX(newX);
 			player.setY(newY);
 		}
-		
-		return playerDeath;
 	}
 	
 	/**

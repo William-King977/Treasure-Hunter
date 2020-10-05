@@ -472,9 +472,11 @@ public class GameController {
 			case "P":
 				txtGamePrompt.appendText(PORTAL_MSG);
 				Portal portal = portals[newY][newX];
-				boolean playerDeath = portal.playerMoveOnEnemy(levelElements, player, direction);
-				// If the player teleports to an enemy.
-				if (playerDeath) {
+				int oldPlayerX = player.getX();
+				int oldPlayerY = player.getY();
+				portal.movePlayer(levelElements, player, direction);
+				// If the player doesn't move, then they teleported into an enemy.
+				if ((player.getX() == oldPlayerX) && (player.getY() == oldPlayerY)) {
 					txtGamePrompt.appendText(PORTAL_DEATH_MSG);
 					restartLevel();
 				}
