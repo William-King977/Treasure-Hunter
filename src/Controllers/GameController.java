@@ -95,6 +95,8 @@ public class GameController {
 	/** An array holding all the enemies in a level. */
 	private Enemy[] enemies;
 	
+	/** The instance of the game controller object. */
+	private GameController gameController;
 	/** Holds the User to adjust the levels they can play. */
 	private User currentUser;
 	/** The current level that the player is on. */
@@ -181,8 +183,8 @@ public class GameController {
 	@FXML private Button btnInventory;
 	/** The save button for the game. */
 	@FXML private Button btnSave;
-	/** The quit button for the game. */
-	@FXML private Button btnQuit;
+	/** The pause button for the game. */
+	@FXML private Button btnPause;
 	/** An label to show the token count. */
 	@FXML private Label lblToken; 
 	/** A text area to prompt the user of their actions and the level status. */
@@ -269,13 +271,14 @@ public class GameController {
 		if (gameCompleted) {
 			switch (event.getCode()) {
 				case ENTER:
-				quitButtonAction();
+				closeGameWindow();
+				openMainMenu();
 				break;
 			default:
 				// Nothing happens.
 				break;
 			}
-		// Otherwise, determine the player's movement.
+		// Otherwise, determine the player's movement (or hot keys).
 		} else { 
 			// Because the level is basically stored in an array.
 			// Going UP needs to lower the index and vice versa.
@@ -299,7 +302,15 @@ public class GameController {
 			    case D:
 			    	playerNewX = player.getX() + 1;
 			    	isMoveValid(playerNewX, player.getY(), "RIGHT");
-		        	break;	        
+		        	break;
+		        // Hot key to pause the game.
+			    case P:
+			    	pauseButtonAction();
+			    	break;
+			    // Hot key to open the inventory.
+			    case I:
+			    	openInventory();
+			    	break;
 		        default:
 		        	// Do nothing
 		        	break;
@@ -895,12 +906,11 @@ public class GameController {
 		txtGamePrompt.appendText(GAME_COMPLETE_MSG);
 		gc.drawImage(imgGameComplete, 0, 0, canvas.getWidth(), canvas.getHeight());
 		
-		btnSave.setDisable(true);
+		btnPause.setDisable(true);
 		btnInventory.setDisable(true);
 		gameCompleted = true;
 		
-		// The player can exit the game by either quitting (quit button) or
-		// pressing enter.
+		// The player can exit the game by pressing enter.
 	}
 	
 	/**
@@ -939,29 +949,24 @@ public class GameController {
 	}
 	
 	/**
-	 * Opens a window that allows the user to save the current state of the game.
+	 * Opens the pause menu (and pauses the game).
 	 */
-	public void saveGameButtonAction() {
+	public void pauseButtonAction() {
 		// Calculate the current level time first.
 		long timeElapsed = System.currentTimeMillis() - levelStartTime;
 		totalLevelTime = totalLevelTime + timeElapsed;
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-					.getResource(Main.FXML_FILE_PATH + "SaveGame.fxml"));
+					.getResource(Main.FXML_FILE_PATH + "PauseMenu.fxml"));
 			BorderPane root = (BorderPane) fxmlLoader.load();
 			
 			// Gets the controller for the FXML file.
-			SaveGameController saveGameWindow = fxmlLoader.<SaveGameController> getController();
+			PauseMenuController pauseMenu = fxmlLoader.<PauseMenuController> getController();
 			
-			// Pass down the player's username and the level.
-			saveGameWindow.setLevel(currentLevel);
-			saveGameWindow.setPlayerUsername(currentUser.getUsername());
-			
-			// Pass down the time variables.
-			saveGameWindow.setTimes(totalLevelTime, totalGameTime);
-			saveGameWindow.setTimeValid(totalTimeValid);
-			
+			// Pass down the variables that need to be saved.
+			pauseMenu.setCurrentGameStatus(currentLevel, totalLevelTime, totalGameTime, 
+					totalTimeValid, gameController, pauseMenu);
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
@@ -1056,13 +1061,17 @@ public class GameController {
 	}
 	
 	/**
-	 * Closes the game window, then opens the main menu.
+	 * Sets the instance of the game controller.
+	 * @param gameController The game controller as an object.
 	 */
-	public void quitButtonAction() {
-		// Closes the window.
-		Stage stage = (Stage) btnQuit.getScene().getWindow();
-		stage.close();
-		
+	public void setGameController(GameController gameWindow) {
+		this.gameController = gameWindow;
+	}
+	
+	/**
+	 * Opens a window to the main menu.
+	 */
+	public void openMainMenu() {
 		try {
 			Stage primaryStage = new Stage();
 			Parent root = FXMLLoader.load(getClass()
@@ -1077,5 +1086,14 @@ public class GameController {
             e.printStackTrace();
             System.exit(-1);
 		}
+	}
+	
+	/**
+	 * Closes the game window.
+	 */
+	public void closeGameWindow() {
+		// Closes the window.
+		Stage stage = (Stage) btnPause.getScene().getWindow();
+		stage.close();
 	}
 }

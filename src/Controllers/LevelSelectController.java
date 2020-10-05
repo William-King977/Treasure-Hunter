@@ -80,6 +80,7 @@ public class LevelSelectController {
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.setLevelNumber(levelNumber);
 			gameWindow.setTotalTimeValid(isTotalTimeValid);
+			gameWindow.setGameController(gameWindow);
 			gameWindow.startGame();
 			
 			Scene scene = new Scene(root);

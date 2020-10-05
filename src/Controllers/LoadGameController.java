@@ -29,6 +29,11 @@ public class LoadGameController {
 	/** An array list holding the save states that the user has made. */
 	private ArrayList<GameState> gameStates;
 	
+	/** Instance of the pause menu. */
+	private PauseMenuController pauseMenu;
+	/** Used to check if the pause menu is open or not. */
+	private boolean isPaused = false;
+	
 	/** A list view to show the save states. */
 	@FXML private ListView<String> lstGameStates;
 	/** A text field that shows the game level of a save state. */
@@ -94,6 +99,12 @@ public class LoadGameController {
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.loadGameState(level, currentLevelTime, currentGameTime);
 			gameWindow.setTotalTimeValid(timeValid);
+			gameWindow.setGameController(gameWindow);
+			
+			// Close the previous windows if accessed from the pause menu.
+			if (isPaused) {
+				pauseMenu.closePreviousWindows();
+			}
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
@@ -180,25 +191,38 @@ public class LoadGameController {
 	}
 	
 	/**
+	 * Set the elements for the load game page when being accessed
+	 * through the pause menu.
+	 * @param pauseMenu The instance of the pause menu.
+	 */
+	public void setPauseElements(PauseMenuController pauseMenu) {
+		this.pauseMenu = pauseMenu;
+		this.isPaused = true;
+	}
+	
+	/**
 	 * Closes this page, then opens the main menu. 
 	 */
 	public void backButtonAction() {
 		Stage stage = (Stage) btnBack.getScene().getWindow();
 		stage.close();
 		
-		try {
-			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass()
-					.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
-			Scene scene = new Scene(root);
-			primaryStage.setScene(scene);
-			primaryStage.setTitle(MAIN_MENU_TITLE);
-			primaryStage.show(); // Displays the new stage.
-		} catch (IOException e) {
-			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+		// If it's not accessed through the pause menu, then open the main menu.
+		if (!isPaused) {
+			try {
+				Stage primaryStage = new Stage();
+				Parent root = FXMLLoader.load(getClass()
+						.getResource(Main.FXML_FILE_PATH + "MainMenu.fxml"));
+				Scene scene = new Scene(root);
+				primaryStage.setScene(scene);
+				primaryStage.setTitle(MAIN_MENU_TITLE);
+				primaryStage.show(); // Displays the new stage.
+			} catch (IOException e) {
+				// Catches an IO exception such as that where the FXML
+	            // file is not found.
+	            e.printStackTrace();
+	            System.exit(-1);
+			}
 		}
 	}
 }

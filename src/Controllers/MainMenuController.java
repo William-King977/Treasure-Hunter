@@ -88,6 +88,7 @@ public class MainMenuController {
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.loadGameState(level, currentLevelTime, currentGameTime);
 			gameWindow.setTotalTimeValid(timeValid);
+			gameWindow.setGameController(gameWindow);
 			
 			Scene scene = new Scene(root);
 			Stage primaryStage = new Stage();
@@ -126,6 +127,7 @@ public class MainMenuController {
 			gameWindow.setCurrentUser(currentUser);
 			gameWindow.setLevelNumber(1);
 			gameWindow.setTotalTimeValid(true);
+			gameWindow.setGameController(gameWindow);
 			gameWindow.startGame();
 			
 			Scene scene = new Scene(root);

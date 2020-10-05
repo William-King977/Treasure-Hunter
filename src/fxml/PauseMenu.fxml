@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PauseMenuController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="253.0" prefWidth="362.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnResume" mnemonicParsing="false" onAction="#resumeButtonAction" prefWidth="185.0" text="Resume" />
+            <Button fx:id="btnSave" layoutX="145.0" layoutY="101.0" mnemonicParsing="false" onAction="#saveGameButtonAction" prefWidth="185.0" text="Save Game" />
+            <Button fx:id="btnLoadGame" disable="true" mnemonicParsing="false" onAction="#loadGameButtonAction" prefWidth="185.0" text="Load Game" />
+            <Button fx:id="btnQuit" layoutX="145.0" layoutY="192.0" mnemonicParsing="false" onAction="#quitButtonAction" prefHeight="26.0" prefWidth="135.0" text="Quit" />
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <VBox alignment="TOP_CENTER" prefHeight="85.0" prefWidth="455.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Game">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pause Menu">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
+</BorderPane>
