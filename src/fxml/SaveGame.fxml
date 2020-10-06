@@ -9,31 +9,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="350.0" maxWidth="416.0" minHeight="80.0" minWidth="360.0" prefHeight="109.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SaveGameController">
+<BorderPane maxHeight="350.0" maxWidth="416.0" minHeight="80.0" minWidth="360.0" prefHeight="122.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SaveGameController">
    <center>
-      <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="367.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <children>
-      <Label text="Description">
-               <font>
-                  <Font size="14.0" fx:id="x2" />
-               </font>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Label>
-      <TextField fx:id="txtDescription" onKeyPressed="#textFieldLimit" prefHeight="25.0" prefWidth="192.0" />
-            <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="367.0">
+               <children>
+            <Label text="Description">
+                     <font>
+                        <Font size="14.0" fx:id="x2" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+            <TextField fx:id="txtDescription" onKeyPressed="#textFieldLimit" prefHeight="25.0" prefWidth="192.0" />
+                  <Button mnemonicParsing="false" onAction="#saveButtonAction" text="Save" />
+               </children>
+            </HBox>
+            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
          </children>
          <BorderPane.margin>
             <Insets top="20.0" />
          </BorderPane.margin>
-      </HBox>
-   </center>
-   <bottom>
-      <VBox alignment="TOP_CENTER" prefHeight="44.0" prefWidth="360.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
-         </children>
       </VBox>
-   </bottom>
+   </center>
 </BorderPane>

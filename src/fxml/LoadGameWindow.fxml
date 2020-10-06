@@ -34,83 +34,81 @@
          </BorderPane.margin>
       </VBox>
    </top>
-   <bottom>
-      <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="20.0" />
-         </BorderPane.margin>
-      </Button>
-   </bottom>
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="218.0" prefWidth="165.0">
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
+            <HBox alignment="TOP_CENTER" prefHeight="230.0" prefWidth="408.0">
                <children>
-                  <ListView fx:id="lstGameStates" onMouseClicked="#gameStateSelectAction" prefHeight="187.0" prefWidth="166.0" />
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.199951171875" minWidth="10.0" prefWidth="65.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.20001220703125" minWidth="10.0" prefWidth="23.599987792968747" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.80001220703124" minWidth="10.0" prefWidth="78.80001220703126" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                  <VBox prefHeight="218.0" prefWidth="165.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                      <children>
-                        <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#deleteButtonAction" prefHeight="26.0" prefWidth="81.0" text="Delete" GridPane.columnIndex="2" />
-                        <Button fx:id="btnLoad" disable="true" mnemonicParsing="false" onAction="#loadButtonAction" text="Load" />
+                        <ListView fx:id="lstGameStates" onMouseClicked="#gameStateSelectAction" prefHeight="187.0" prefWidth="166.0" />
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.199951171875" minWidth="10.0" prefWidth="65.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.20001220703125" minWidth="10.0" prefWidth="23.599987792968747" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.80001220703124" minWidth="10.0" prefWidth="78.80001220703126" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="btnDelete" disable="true" mnemonicParsing="false" onAction="#deleteButtonAction" prefHeight="26.0" prefWidth="81.0" text="Delete" GridPane.columnIndex="2" />
+                              <Button fx:id="btnLoad" disable="true" mnemonicParsing="false" onAction="#loadButtonAction" text="Load" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </GridPane>
                      </children>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </GridPane>
-               </children>
-            </VBox>
-            <VBox prefHeight="261.0" prefWidth="162.0">
-               <children>
-                  <GridPane prefHeight="138.0" prefWidth="198.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.199951171875" minWidth="10.0" prefWidth="84.6" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.80005073547363" minWidth="10.0" prefWidth="141.4" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="79.00001831054686" minHeight="10.0" prefHeight="37.79999389648438" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                  </VBox>
+                  <VBox prefHeight="261.0" prefWidth="162.0">
                      <children>
-                        <TextField fx:id="txtLevel" editable="false" GridPane.columnIndex="1" />
-                        <TextField fx:id="txtDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtTime" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label prefHeight="18.0" prefWidth="53.0" text="Level">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label text="Date" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label text="Time" GridPane.rowIndex="4">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
+                        <GridPane prefHeight="138.0" prefWidth="198.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.199951171875" minWidth="10.0" prefWidth="84.6" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.80005073547363" minWidth="10.0" prefWidth="141.4" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="79.00001831054686" minHeight="10.0" prefHeight="37.79999389648438" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="txtLevel" editable="false" GridPane.columnIndex="1" />
+                              <TextField fx:id="txtDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="txtTime" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label prefHeight="18.0" prefWidth="53.0" text="Level">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Date" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Time" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </GridPane>
                      </children>
-                  </GridPane>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </VBox>
                </children>
-               <HBox.margin>
-                  <Insets left="40.0" />
-               </HBox.margin>
-            </VBox>
+            </HBox>
+            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
          </children>
-      </HBox>
+      </VBox>
    </center>
 </BorderPane>

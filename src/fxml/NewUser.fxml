@@ -10,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="350.0" maxWidth="416.0" minHeight="80.0" minWidth="360.0" prefHeight="167.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewUserController">
+<BorderPane maxHeight="350.0" maxWidth="416.0" minHeight="80.0" minWidth="360.0" prefHeight="168.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewUserController">
    <top>
-      <VBox alignment="CENTER" prefHeight="52.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="416.0" BorderPane.alignment="CENTER">
          <children>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Creation" textAlignment="CENTER" wrappingWidth="338.13128662109375">
           <font>
@@ -23,26 +23,24 @@
       </VBox>
    </top>
    <center>
-      <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-      <Label text="   Username   ">
-               <font>
-                  <Font size="14.0" fx:id="x2" />
-               </font>
-            </Label>
-      <TextField fx:id="txtUsername" prefHeight="25.0" prefWidth="192.0" />
-            <Button mnemonicParsing="false" onAction="#createProfileButtonAction" text="Create Profile" />
-         </children>
-         <BorderPane.margin>
-            <Insets top="20.0" />
-         </BorderPane.margin>
-      </HBox>
-   </center>
-   <bottom>
-      <VBox alignment="TOP_CENTER" prefHeight="44.0" prefWidth="360.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="12.0" prefWidth="416.0">
+               <children>
+            <Label text="   Username   ">
+                     <font>
+                        <Font size="14.0" fx:id="x2" />
+                     </font>
+                  </Label>
+            <TextField fx:id="txtUsername" prefHeight="25.0" prefWidth="192.0" />
+                  <Button mnemonicParsing="false" onAction="#createProfileButtonAction" text="Create Profile" />
+               </children>
+            </HBox>
             <Button fx:id="btnBack" mnemonicParsing="false" onAction="#backButtonAction" text="Back" />
          </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
       </VBox>
-   </bottom>
+   </center>
 </BorderPane>
