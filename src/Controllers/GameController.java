@@ -105,8 +105,6 @@ public class GameController {
 	private Player player;
 	/** The number of the level selected. */
 	private int levelNum;
-	/** Used to check if an enemy has moved to the same position as the player. */
-	private boolean enemyOnPlayer;
 	/** Used to check if the game has been completed or not. */
 	private boolean gameCompleted;
 	
@@ -252,7 +250,6 @@ public class GameController {
 		
 		// Set other values.
 		gameTimes = FileHandling.getTotalGameTimes();
-		enemyOnPlayer = false;
 		gameCompleted = false;
 		playerSprite = playerDefault;
 		imgViewToken.setImage(token);
@@ -472,11 +469,9 @@ public class GameController {
 			case "P":
 				txtGamePrompt.appendText(PORTAL_MSG);
 				Portal portal = portals[newY][newX];
-				int oldPlayerX = player.getX();
-				int oldPlayerY = player.getY();
 				portal.movePlayer(levelElements, player, direction);
-				// If the player doesn't move, then they teleported into an enemy.
-				if ((player.getX() == oldPlayerX) && (player.getY() == oldPlayerY)) {
+				// If the player teleported into an enemy.
+				if (player.isDead()) {
 					txtGamePrompt.appendText(PORTAL_DEATH_MSG);
 					restartLevel();
 				}
@@ -494,8 +489,7 @@ public class GameController {
 		// Moves the enemies and check if the any of them 
 		// have moved on the player's position.
 		moveEnemies();
-		if (enemyOnPlayer) {
-			enemyOnPlayer = false;
+		if (player.isDead()) {
 			txtGamePrompt.appendText(ENEMY_DEATH_MSG);
 			restartLevel();
 			return;
@@ -517,25 +511,25 @@ public class GameController {
 				case STRAIGHT:
 					enemy.moveStraightEnemy(levelElements);
 					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						enemyOnPlayer = true;
+						player.setDead(true);
 					}
 					break;
 				case WALL:
 					enemy.moveWallEnemy(levelElements);
 					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						enemyOnPlayer = true;
+						player.setDead(true);
 					}
 					break;
 				case DUMB:
 					enemy.moveDumbEnemy(levelElements, player.getX(), player.getY());
 					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						enemyOnPlayer = true;
+						player.setDead(true);
 					}
 					break;
 				case SMART:
 					enemy.moveSmartEnemy(levelElements, player.getX(), player.getY());
 					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						enemyOnPlayer = true;
+						player.setDead(true);
 					}
 					break;
 			}

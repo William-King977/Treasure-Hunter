@@ -134,8 +134,11 @@ public class Portal {
 			// surrounded by walls. Or if you typed the portal co-ordinates
 			// wrong in the file...
 			movePlayer(levelElements, player, direction);
-		// Move the player if there isn't an enemy in the way.
-		} else if (!adjacentObject.equals("E")) {
+		// If the player lands into an enemy.
+		} else if (adjacentObject.equals("E")) {
+			player.setDead(true);
+		// Otherwise, move the player.
+		} else {
 			player.setX(newX);
 			player.setY(newY);
 		}

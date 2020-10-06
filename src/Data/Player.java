@@ -26,6 +26,9 @@ public class Player {
 	/** The number of tokens the player has currently collected. */
 	private int numTokens;
 	
+	/** True if the player is dead, otherwise false. */
+	private boolean isDead;
+	
 	/**
 	 * Constructor for the Player class.
 	 * @param playerX The x-coordinate of the player's start position.
@@ -35,6 +38,7 @@ public class Player {
 		this.setX(playerX);
 		this.setY(playerY);
 		this.numTokens = 0;
+		this.isDead = false;
 		
 		// Initialise it with empty spaces.
 		this.equippedItems = new String[NUM_POSSIBLE_EQUIPPED];
@@ -220,5 +224,21 @@ public class Player {
 	 */
 	public void setNumTokens(int numTokens) {
 		this.numTokens = numTokens;
-	}	
+	}
+	
+	/**
+	 * Gets if the player is dead or not.
+	 * @return True if the player is dead, otherwise false.
+	 */
+	public boolean isDead() {
+		return isDead;
+	}
+	
+	/**
+	 * Sets if the player is dead or not.
+	 * @param isDead True if the player is dead, otherwise false.
+	 */
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
 }
