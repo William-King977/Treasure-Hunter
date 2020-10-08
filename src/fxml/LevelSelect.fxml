@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="361.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LevelSelectController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LevelSelectController">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="292.0" prefWidth="362.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="306.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnLevel1" mnemonicParsing="false" onAction="#getButtonPress" prefWidth="185.0" text="Level 1" />
             <Button fx:id="btnLevel2" disable="true" mnemonicParsing="false" onAction="#getButtonPress" prefWidth="185.0" text="Level 2" />
@@ -21,22 +21,13 @@
       </VBox>
    </center>
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="85.0" prefWidth="455.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Game">
-               <font>
-                  <Font name="System Bold" size="27.0" />
-               </font>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level Select">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </Text>
-         </children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level Select" BorderPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="27.0" />
+         </font>
          <BorderPane.margin>
-            <Insets top="10.0" />
+            <Insets bottom="20.0" top="10.0" />
          </BorderPane.margin>
-      </VBox>
+      </Text>
    </top>
 </BorderPane>

@@ -10,18 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="168.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewUserController">
-   <top>
-      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="416.0" BorderPane.alignment="CENTER">
-         <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Creation" textAlignment="CENTER" wrappingWidth="338.13128662109375">
-          <font>
-            <Font size="32.0" />
-          </font>
-        </Text>
-         </children>
-      </VBox>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.NewUserController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -43,4 +32,14 @@
          </BorderPane.margin>
       </VBox>
    </center>
+   <top>
+  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Creation" textAlignment="CENTER" wrappingWidth="338.13128662109375" BorderPane.alignment="TOP_CENTER">
+    <font>
+      <Font size="27.0" />
+    </font>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
+  </Text>
+   </top>
 </BorderPane>

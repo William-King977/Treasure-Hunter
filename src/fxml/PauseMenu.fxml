@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PauseMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PauseMenuController">
    <center>
-      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="322.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
+      <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0" prefWidth="322.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <children>
             <Button fx:id="btnResume" mnemonicParsing="false" onAction="#resumeButtonAction" prefWidth="185.0" text="Resume" />
             <Button fx:id="btnRestartLevel" mnemonicParsing="false" onAction="#restartLevelButtonAction" prefWidth="185.0" text="Restart Level" />
@@ -20,22 +20,13 @@
       </VBox>
    </center>
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="85.0" prefWidth="455.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Game">
-               <font>
-                  <Font name="System Bold" size="27.0" />
-               </font>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pause Menu">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </Text>
-         </children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Paused" textAlignment="CENTER" BorderPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="27.0" />
+         </font>
          <BorderPane.margin>
-            <Insets top="10.0" />
+            <Insets bottom="20.0" top="10.0" />
          </BorderPane.margin>
-      </VBox>
+      </Text>
    </top>
 </BorderPane>
