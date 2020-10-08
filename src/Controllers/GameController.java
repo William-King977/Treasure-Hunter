@@ -69,13 +69,13 @@ public class GameController {
 			+ "and you don't have enough. Tokens Required: ";
 	
 	private final String WATER_DEATH_MSG = "\nYou fell into a deep pond. Without wearing the "
-			+ "appropriate equipment, you drowned. Restarting level...\n";
+			+ "appropriate equipment, you drowned. Restarting level...";
 	private final String FIRE_DEATH_MSG = "\nWithout any protection, you burned to a "
-			+ "crisp as you walked into the fire pit. Restarting level...\n";
+			+ "crisp as you walked into the fire pit. Restarting level...";
 	private final String ENEMY_DEATH_MSG = "\nAn enemy ripped you into two, putting an "
-			+ "end to your adventure. Restarting level...\n";
+			+ "end to your adventure. Restarting level...";
 	private final String PORTAL_DEATH_MSG = "\nYou dived through the portal and landed "
-			+ "into enemy hands...literally. Restarting level...\n";
+			+ "into enemy hands...literally. Restarting level...";
 	
 	private final String GAME_COMPLETE_MSG = "Congratulations! You've completed the game. It's "
 			+ "time to get you out of there.";
@@ -838,7 +838,7 @@ public class GameController {
 		loadLevelElements();
 		
 		lblToken.setText("0");
-		txtGamePrompt.appendText("Welcome to Level " + levelNum + ".");
+		txtGamePrompt.appendText("\nWelcome to Level " + levelNum + ".");
 		drawLevel(); // Also resets the player sprite.
 	}
 	

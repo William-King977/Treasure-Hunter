@@ -7,11 +7,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PauseMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PauseMenuController">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="253.0" prefWidth="362.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="322.0" spacing="20.0" BorderPane.alignment="TOP_CENTER">
          <children>
             <Button fx:id="btnResume" mnemonicParsing="false" onAction="#resumeButtonAction" prefWidth="185.0" text="Resume" />
+            <Button fx:id="btnRestartLevel" mnemonicParsing="false" onAction="#restartLevelButtonAction" prefWidth="185.0" text="Restart Level" />
             <Button fx:id="btnSave" layoutX="145.0" layoutY="101.0" mnemonicParsing="false" onAction="#saveGameButtonAction" prefWidth="185.0" text="Save Game" />
             <Button fx:id="btnLoadGame" disable="true" mnemonicParsing="false" onAction="#loadGameButtonAction" prefWidth="185.0" text="Load Game" />
             <Button fx:id="btnQuit" layoutX="145.0" layoutY="192.0" mnemonicParsing="false" onAction="#quitButtonAction" prefHeight="26.0" prefWidth="135.0" text="Quit" />

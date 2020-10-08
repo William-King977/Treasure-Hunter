@@ -8,7 +8,10 @@ import data.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,6 +37,8 @@ public class PauseMenuController {
 	
 	/** The resume button for the menu. */
 	@FXML private Button btnResume;
+	/** The restart level button for the menu. */
+	@FXML private Button btnRestartLevel;
 	/** The save game button for the menu. */
 	@FXML private Button btnSaveGame;
 	/** The load game button for the menu. */
@@ -87,6 +92,17 @@ public class PauseMenuController {
 		// Closes the window.
 		Stage stage = (Stage) btnResume.getScene().getWindow();
 		stage.close();
+	}
+	
+	/**
+	 * Restarts the current level.
+	 */
+	public void restartLevelButtonAction() {
+		// Closes the window.
+		Stage stage = (Stage) btnRestartLevel.getScene().getWindow();
+		stage.close();
+		
+		gameWindow.restartLevel();
 	}
 	
 	/**
@@ -186,12 +202,25 @@ public class PauseMenuController {
 	 * Closes this window and the game window, then opens the main menu.
 	 */
 	public void quitButtonAction() {
-		// Closes the window.
-		Stage stage = (Stage) btnQuit.getScene().getWindow();
-		stage.close();
+		// Alert message for confirmation.
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setHeaderText(null);
+		alert.setContentText("Are you sure you want to quit the game? "
+				+ "Any unsaved progress will be lost.");
+		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 		
-		// Closes the game window, then opens the main menu.
-		gameWindow.closeGameWindow();
-		gameWindow.openMainMenu();
+		// Handles the button press event (Yes, No).
+		alert.showAndWait().ifPresent(e -> {
+			// If they want to quit.
+			if (e == ButtonType.YES) {
+				// Closes the window.
+				Stage stage = (Stage) btnQuit.getScene().getWindow();
+				stage.close();
+				
+				// Closes the game window, then opens the main menu.
+				gameWindow.closeGameWindow();
+				gameWindow.openMainMenu();
+			}
+		});
 	}
 }
