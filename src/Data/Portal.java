@@ -152,13 +152,12 @@ public class Portal {
 	private boolean isObject(String object) {
 		switch (object) {
 			case "W":
+			case "H":
 			// case "G":
 			// case "A":
 			// case "I":
 			// case "D":
 			// case "T":
-			// case "P":
-			// case "H":
 			// case "E":
 				return true;
 			default:
