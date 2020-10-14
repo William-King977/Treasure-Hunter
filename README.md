@@ -3,7 +3,6 @@ A simple retro style game made using JavaFX. The name will change because I'm no
 
 # Notes About The Implementation
 - Everything is coded in Eclipse IDE.
-- Indents are 4 spaces.
 - File handling is done by text files.
 - Enemies only move when you move.
 - The Smart Enemy's path is calculated by using A* Search (if the player is reachable).
