@@ -148,7 +148,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the level 1 check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel1Action() {
 		// Clear the other checkboxes.
@@ -172,7 +172,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the level 2 check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel2Action() {
 		// Clear the other checkboxes.
@@ -196,7 +196,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the level 3 check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel3Action() {
 		// Clear the other checkboxes.
@@ -220,7 +220,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the level 4 check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel4Action() {
 		// Clear the other checkboxes.
@@ -244,7 +244,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the level 5 check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbLevel5Action() {
 		// Clear the other checkboxes.
@@ -268,7 +268,7 @@ public class LeaderboardController {
 	
 	/**
 	 * Sets the status of the whole game check box and makes the 
-     * appropriate changes to the leaderboard when selected.
+	 * appropriate changes to the leaderboard when selected.
 	 */
 	public void cbWholeGameAction() {
 		// Clear other checkboxes.
@@ -307,9 +307,9 @@ public class LeaderboardController {
 			primaryStage.show(); // Displays the new stage.
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }

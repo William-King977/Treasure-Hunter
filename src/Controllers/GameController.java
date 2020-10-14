@@ -79,7 +79,7 @@ public class GameController {
 	
 	private final String GAME_COMPLETE_MSG = "Congratulations! You've completed the game. It's "
 			+ "time to get you out of there.";
-
+	
 	/** An array holding the elements for a level. */
 	private String[][] levelElements;
 	/** An array holding all the doors in a level. */
@@ -283,34 +283,34 @@ public class GameController {
 				case UP:
 				case W:
 					playerNewY = player.getY() - 1;
-		        	isMoveValid(player.getX(), playerNewY, "UP");
+					isMoveValid(player.getX(), playerNewY, "UP");
 					break;
 				case DOWN:
 				case S:
 					playerNewY = player.getY() + 1;
 					isMoveValid(player.getX(), playerNewY, "DOWN");
-		        	break;
+					break;
 				case LEFT:
 				case A:
-			    	playerNewX = player.getX() - 1;
-			    	isMoveValid(playerNewX, player.getY(), "LEFT");
-		        	break;
-			    case RIGHT:
-			    case D:
-			    	playerNewX = player.getX() + 1;
-			    	isMoveValid(playerNewX, player.getY(), "RIGHT");
-		        	break;
-		        // Hot key to pause the game.
-			    case P:
-			    	pauseButtonAction();
-			    	break;
-			    // Hot key to open the inventory.
-			    case I:
-			    	openInventory();
-			    	break;
-		        default:
-		        	// Do nothing
-		        	break;
+					playerNewX = player.getX() - 1;
+					isMoveValid(playerNewX, player.getY(), "LEFT");
+					break;
+				case RIGHT:
+				case D:
+					playerNewX = player.getX() + 1;
+					isMoveValid(playerNewX, player.getY(), "RIGHT");
+					break;
+				// Hot key to pause the game.
+				case P:
+					pauseButtonAction();
+					break;
+				// Hot key to open the inventory.
+				case I:
+					openInventory();
+					break;
+				default:
+					// Do nothing
+					break;
 			}
 		}
 		
@@ -576,29 +576,29 @@ public class GameController {
 		if (xRightBound > levelWidth) {
 			xRightBound = levelWidth;
 		} 	
-	    if (yDownBound > levelHeight) {
-	    	yDownBound = levelHeight;
+		if (yDownBound > levelHeight) {
+			yDownBound = levelHeight;
 		} 
-	    if (yUpBound < 0) {
-	    	tempRow = yUpBound * -1;
+		if (yUpBound < 0) {
+			tempRow = yUpBound * -1;
 			yUpBound = 0;
 		}
 		
-	    // Show elements based on the bounds.
+		// Show elements based on the bounds.
 		for (int row = yUpBound; row <= yDownBound; row++) {
-	    	for (int col = xLeftBound; col <= xRightBound; col++) {
-	    		String element = levelElements[row][col];
-	    		drawElements(element, tempCol, tempRow, row, col);
-	    		tempCol++;
-	    	}
-	    	
-	    	tempCol = 0;
-	    	if (xLeftBoundChange) {
-	    		tempCol = (playerX - GAME_BOUNDS) * -1;
-	    	}
-	    	
-	    	tempRow++;
-	    }
+			for (int col = xLeftBound; col <= xRightBound; col++) {
+				String element = levelElements[row][col];
+				drawElements(element, tempCol, tempRow, row, col);
+				tempCol++;
+			}
+			
+			tempCol = 0;
+			if (xLeftBoundChange) {
+				tempCol = (playerX - GAME_BOUNDS) * -1;
+			}
+			
+			tempRow++;
+		}
 	
 		// Draw player sprite (after using an item or moving).
 		drawPlayerSprite();
@@ -931,16 +931,16 @@ public class GameController {
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(INVENTORY_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
-            primaryStage.showAndWait();
-            
-            // Update the level with the changed sprite.
-            playerSprite = inventoryWindow.getPlayerSprite();
-            drawLevel();
+			primaryStage.showAndWait();
+			
+			// Update the level with the changed sprite.
+			playerSprite = inventoryWindow.getPlayerSprite();
+			drawLevel();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -968,15 +968,15 @@ public class GameController {
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(SAVE_GAME_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
-            primaryStage.showAndWait();
-            
-            // Reset the start timer.
-            levelStartTime = System.currentTimeMillis();
+			primaryStage.showAndWait();
+			
+			// Reset the start timer.
+			levelStartTime = System.currentTimeMillis();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -1078,9 +1078,9 @@ public class GameController {
 			primaryStage.show(); // Displays the new stage.
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	

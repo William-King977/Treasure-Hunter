@@ -55,10 +55,10 @@ public class SaveGameController {
 	 */
 	public void textFieldLimit() {
 		txtDescription.setOnKeyTyped(event -> {
-	        if (txtDescription.getText().length() > DESCRIPTION_CHAR_LIMIT) {
-	        	event.consume();
-	        }
-	    });
+			if (txtDescription.getText().length() > DESCRIPTION_CHAR_LIMIT) {
+				event.consume();
+			}
+		});
 	}
 	
 	/**

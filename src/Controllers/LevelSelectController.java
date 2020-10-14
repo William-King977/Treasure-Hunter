@@ -87,16 +87,16 @@ public class LevelSelectController {
 			Stage primaryStage = new Stage();
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(THE_GAME_TITLE);
-            primaryStage.show();
-            
-            // Close the level select menu.
-            Stage stage = (Stage) buttonPressed.getScene().getWindow();
-    		stage.close();
+			primaryStage.show();
+			
+			// Close the level select menu.
+			Stage stage = (Stage) buttonPressed.getScene().getWindow();
+			stage.close();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -155,9 +155,9 @@ public class LevelSelectController {
 			primaryStage.show(); // Displays the new stage.
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}	
 }

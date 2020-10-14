@@ -77,21 +77,21 @@ public class LoginController {
 			// Pass down the user linked hashmap for local changes.
 			createUser.setUserHashMap(users);
 			
-	        // Sets the scene.
-	        Scene newScene = new Scene(newRoot); 
-	        // Creates a new stage.
-	        Stage newStage = new Stage();
-	        // Sets the scene to the stage.
-	        newStage.setScene(newScene);
-	        newStage.setTitle(NEW_USER_TITLE);
-	        newStage.initModality(Modality.APPLICATION_MODAL);
-	        newStage.showAndWait();
-        } catch (IOException e) {
-        	// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
-        }
+			// Sets the scene.
+			Scene newScene = new Scene(newRoot); 
+			// Creates a new stage.
+			Stage newStage = new Stage();
+			// Sets the scene to the stage.
+			newStage.setScene(newScene);
+			newStage.setTitle(NEW_USER_TITLE);
+			newStage.initModality(Modality.APPLICATION_MODAL);
+			newStage.showAndWait();
+		} catch (IOException e) {
+			// Catches an IO exception such as that where the FXML
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -111,9 +111,9 @@ public class LoginController {
 			primaryStage.show(); // Displays the new stage.
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }

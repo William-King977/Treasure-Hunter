@@ -130,14 +130,14 @@ public class PauseMenuController {
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(SAVE_GAME_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
-            primaryStage.showAndWait();
-            
-            refreshGameStates();
+			primaryStage.showAndWait();
+			
+			refreshGameStates();
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -163,13 +163,13 @@ public class PauseMenuController {
 			primaryStage.setScene(scene);
 			// primaryStage.setTitle(LOAD_GAME_TITLE);
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
-            primaryStage.showAndWait();
+			primaryStage.showAndWait();
 			
 		} catch (IOException e) {
 			// Catches an IO exception such as that where the FXML
-            // file is not found.
-            e.printStackTrace();
-            System.exit(-1);
+			// file is not found.
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	

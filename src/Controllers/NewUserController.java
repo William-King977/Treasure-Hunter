@@ -53,10 +53,10 @@ public class NewUserController {
 	}
 	
 	/**
-     * Closes the current page.
-     */
-    public void backButtonAction() {
+	 * Closes the current page.
+	 */
+	public void backButtonAction() {
 		Stage curStage = (Stage) btnBack.getScene().getWindow(); 
 		curStage.close(); 
-    }
+	}
 }
