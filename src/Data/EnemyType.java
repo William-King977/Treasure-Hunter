@@ -21,5 +21,4 @@ public enum EnemyType {
 	 * path (and doesn't get stuck). If no path is possible, then it will move
 	 * as if it were a dumb targeting enemy. */
 	SMART,
-
 }

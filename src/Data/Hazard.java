@@ -42,7 +42,7 @@ public class Hazard {
 	public int getX() {
 		return hazardX;
 	}
-
+	
 	/**
 	 * Gets the y-coordinate location of the hazard.
 	 * @return The y-coordinate as an integer.
@@ -50,7 +50,7 @@ public class Hazard {
 	public int getY() {
 		return hazardY;
 	}
-
+	
 	/**
 	 * Gets the hazard's type (water, fire, etc.).
 	 * @return The hazard type as a HazardType enum.

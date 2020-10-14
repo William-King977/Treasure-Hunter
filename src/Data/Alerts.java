@@ -19,7 +19,7 @@ public class Alerts {
 		alert.setTitle("Error: User Does Not Exist.");
 		alert.setHeaderText(null);
 		alert.setContentText("The username '" + username + "' does not exist "
-				+ "in the system. Please try again.");	
+				+ "in the system. Please try again.");
 		alert.showAndWait();
 	}
 	
@@ -31,7 +31,7 @@ public class Alerts {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error: Username Not Entered.");
 		alert.setHeaderText(null);
-		alert.setContentText("Please enter a username.");	
+		alert.setContentText("Please enter a username.");
 		alert.showAndWait();
 	}
 	
@@ -46,7 +46,7 @@ public class Alerts {
 		alert.setContentText("An existing user has the same "
 				+ "username, please enter a different one.");
 		alert.showAndWait();
-    	return;
+		return;
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Alerts {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error: Description Not Entered.");
 		alert.setHeaderText(null);
-		alert.setContentText("Please enter a description for your saved game.");	
+		alert.setContentText("Please enter a description for your saved game.");
 		alert.showAndWait();
 	}
 	
@@ -66,7 +66,7 @@ public class Alerts {
 	 * been created successfully.
 	 */
 	public static void userCreated() {
-    	Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("User Created Successfully.");
 		alert.setHeaderText(null);
 		alert.setContentText("This user has been created successfully.");
@@ -77,7 +77,7 @@ public class Alerts {
 	 * An alert pop-up that tells the user that their game has been saved.
 	 */
 	public static void gameSaved() {
-    	Alert alert = new Alert(AlertType.INFORMATION);
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Game Saved Successfully.");
 		alert.setHeaderText(null);
 		alert.setContentText("Your game has been saved successfully.");

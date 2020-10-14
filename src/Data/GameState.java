@@ -56,8 +56,8 @@ public class GameState {
 		LocalTime time = LocalTime.now().withSecond(0).withNano(0);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    	this.saveDate = date.format(formatter);
-    	this.saveTime = time.toString();
+		this.saveDate = date.format(formatter);
+		this.saveTime = time.toString();
 	}
 	
 	/**

@@ -34,7 +34,7 @@ public class Item {
 		String strItem = "ITEM," + itemX + ":" + itemY + ":" + type + ",";
 		return strItem;
 	}
-
+	
 	/**
 	 * Gets the x-coordinate location of the item.
 	 * @return The x-coordinate as an integer.
@@ -42,7 +42,7 @@ public class Item {
 	public int getX() {
 		return itemX;
 	}
-
+	
 	/**
 	 * Gets the y-coordinate location of the item.
 	 * @return The y-coordinate as an integer.
@@ -50,7 +50,7 @@ public class Item {
 	public int getY() {
 		return itemY;
 	}
-
+	
 	/**
 	 * Gets the item's type (yellow key, etc.).
 	 * @return The item type as an enum.

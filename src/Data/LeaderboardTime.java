@@ -95,8 +95,8 @@ public class LeaderboardTime implements Comparable<LeaderboardTime> {
 		// Divide the time into hours, minutes and seconds.
 		long hours = TimeUnit.MILLISECONDS.toHours(completionTime) % 24;
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(completionTime) % 60;
-	    long seconds = TimeUnit.MILLISECONDS.toSeconds(completionTime) % 60;
-	    
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(completionTime) % 60;
+		
 		if (completionTime >= ONE_HOUR_MILLIS) {
 			formattedTime = String.format("%d hr : %d min : %d sec", 
 					hours, minutes, seconds);

@@ -38,10 +38,10 @@ public class FileHandling {
 		try {
 			FileWriter myWriter = new FileWriter(filePath);
 			myWriter.write(currentUser);
-		    myWriter.close();
+			myWriter.close();
 		} catch (IOException e) {
-		      System.out.println("Cannot write to " + filePath);
-		      System.exit(-1);
+			System.out.println("Cannot write to " + filePath);
+			System.exit(-1);
 		}
 	}
 	
@@ -55,15 +55,15 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    currentUser = in.next();
+		currentUser = in.next();
 		return currentUser;
 	}
 	
@@ -76,30 +76,30 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    in.useDelimiter(",");
-	    // Read each user and store them in a linked hashmap.
-	    // The key is the username.
-	    LinkedHashMap<String, User> users = new LinkedHashMap<>();
-	    while (in.hasNextLine()) {
-	    	String username = in.next();
-	    	int currentLevel = in.nextInt();
-	    	User user = new User(username); 
-	    	
-	    	// Set any required values.
-	    	user.setCurrentLevel(currentLevel); 
-	    	users.put(username, user);
-	    	in.nextLine(); // Needed if you change delimiter.
-	    }
-	    in.close();
+		
+		in.useDelimiter(",");
+		// Read each user and store them in a linked hashmap.
+		// The key is the username.
+		LinkedHashMap<String, User> users = new LinkedHashMap<>();
+		while (in.hasNextLine()) {
+			String username = in.next();
+			int currentLevel = in.nextInt();
+			User user = new User(username); 
+			
+			// Set any required values.
+			user.setCurrentLevel(currentLevel); 
+			users.put(username, user);
+			in.nextLine(); // Needed if you change delimiter.
+		}
+		in.close();
 		return users;
 	}
 	
@@ -113,28 +113,28 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    in.useDelimiter(",");
-	    // Read each time and store them in a linked hashmap.
-	    // The key is the username.
-	    LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
-	    while (in.hasNextLine()) {
-	    	String username = in.next();
-	    	long completionTime = in.nextInt();
-	    	LeaderboardTime newTime = new LeaderboardTime(username, completionTime); 
-	    	
-	    	times.put(username, newTime);
-	    	in.nextLine(); // Needed if you change delimiter.
-	    }
-	    in.close();
+		
+		in.useDelimiter(",");
+		// Read each time and store them in a linked hashmap.
+		// The key is the username.
+		LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
+		while (in.hasNextLine()) {
+			String username = in.next();
+			long completionTime = in.nextInt();
+			LeaderboardTime newTime = new LeaderboardTime(username, completionTime); 
+			
+			times.put(username, newTime);
+			in.nextLine(); // Needed if you change delimiter.
+		}
+		in.close();
 		return times;
 	}
 	
@@ -147,28 +147,28 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    in.useDelimiter(",");
-	    // Read each time and store them in a linked hashmap.
-	    // The key is the username.
-	    LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
-	    while (in.hasNextLine()) {
-	    	String username = in.next();
-	    	long completionTime = in.nextInt();
-	    	LeaderboardTime newTime = new LeaderboardTime(username, completionTime); 
-	    	
-	    	times.put(username, newTime);
-	    	in.nextLine(); // Needed if you change delimiter.
-	    }
-	    in.close();
+		
+		in.useDelimiter(",");
+		// Read each time and store them in a linked hashmap.
+		// The key is the username.
+		LinkedHashMap<String, LeaderboardTime> times = new LinkedHashMap<>();
+		while (in.hasNextLine()) {
+			String username = in.next();
+			long completionTime = in.nextInt();
+			LeaderboardTime newTime = new LeaderboardTime(username, completionTime);
+			
+			times.put(username, newTime);
+			in.nextLine(); // Needed if you change delimiter.
+		}
+		in.close();
 		return times;
 	}
 	
@@ -182,98 +182,98 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    in.useDelimiter(",");
-	    
-	    // Read the level's height and width first.
-	    int levelHeight = in.nextInt();
-    	int levelWidth = in.nextInt();
-	    in.nextLine();
-	    
-	    // Then read the level elements.
-	    String[][] levelElements = new String[levelHeight][levelWidth];
-	    
-	    for (int row = 0; row < levelHeight; row++) {
-	    	for (int col = 0; col < levelWidth; col++) {
-	    		String element = in.next();
-	    		levelElements[row][col] = element;
-	    	}
-	    	in.nextLine(); // Needed if you change delimiter.
-	    }
-	    
-	    // Read miscellaneous game objects (that require more details).
-	    Player player = null;
-	    Door[][] doors = new Door[levelHeight][levelWidth];
-	    Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
-	    Item[][] items = new Item[levelHeight][levelWidth];
-	    Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
-	    Portal[][] portals = new Portal[levelHeight][levelWidth];
-	    ArrayList<Enemy> alEnemies = new ArrayList<Enemy>(); // Will be converted to an array.
-	    
-	    while(in.hasNextLine()) {
-		    String elementType = in.next();
-		    switch(elementType) {
-		    	case "START":
-		    		// Read the player's start position.
-				    int playerX = in.nextInt();
-				    int playerY = in.nextInt();
-				    // Construct the player.
-				    player = new Player(playerX, playerY);
-				    break;
-		    	case "APPAREL":
-		    		Apparel newApparel = readApparel(in.next());
-		    		int apparelX = newApparel.getX();
-		    		int apparelY = newApparel.getY();
-		    		apparels[apparelY][apparelX] = newApparel;
-		    		break;
-		    	case "ITEM":
-		    		Item newItem = readItem(in.next());
-		    		int itemX = newItem.getX();
-		    		int itemY = newItem.getY();
-		    		items[itemY][itemX] = newItem;
-		    		break;
-		    	case "DOOR":
-		    		Door newDoor = readDoor(in.next());
-	    			int doorX = newDoor.getX();
-	    			int doorY = newDoor.getY();
-		    		doors[doorY][doorX] = newDoor;
-		    		break;
-		    	case "HAZARD":
-		    		Hazard newHazard = readHazard(in.next());
-		    		int hazardX = newHazard.getX();
-		    		int hazardY = newHazard.getY();
-		    		hazards[hazardY][hazardX] = newHazard;
-		    		break;
-		    	case "PORTAL":
-		    		Portal newPortal = readPortal(in.next());
-		    		int portalX = newPortal.getX();
-		    		int portalY = newPortal.getY();
-		    		portals[portalY][portalX] = newPortal;
-		    		break;
-		    	case "ENEMY":
-		    		Enemy newEnemy = readEnemy(in.next());
-		    		alEnemies.add(newEnemy);
-		    		break;
-		    }
-		    in.nextLine();
-	    }
-	    in.close();
-	    
-	    // Convert enemies array list to an array.
-	    Enemy[] enemies = new Enemy[alEnemies.size()];
-	    enemies = alEnemies.toArray(enemies);
-	    
-	    // Construct the level.
-	    Level newLevel = new Level(levelElements, levelNum, player, doors, 
-	    		apparels, items, hazards, portals, enemies);
+		
+		in.useDelimiter(",");
+		
+		// Read the level's height and width first.
+		int levelHeight = in.nextInt();
+		int levelWidth = in.nextInt();
+		in.nextLine();
+		
+		// Then read the level elements.
+		String[][] levelElements = new String[levelHeight][levelWidth];
+		
+		for (int row = 0; row < levelHeight; row++) {
+			for (int col = 0; col < levelWidth; col++) {
+				String element = in.next();
+				levelElements[row][col] = element;
+			}
+			in.nextLine(); // Needed if you change delimiter.
+		}
+		
+		// Read miscellaneous game objects (that require more details).
+		Player player = null;
+		Door[][] doors = new Door[levelHeight][levelWidth];
+		Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
+		Item[][] items = new Item[levelHeight][levelWidth];
+		Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
+		Portal[][] portals = new Portal[levelHeight][levelWidth];
+		ArrayList<Enemy> alEnemies = new ArrayList<Enemy>(); // Will be converted to an array.
+		
+		while(in.hasNextLine()) {
+			String elementType = in.next();
+			switch(elementType) {
+				case "START":
+					// Read the player's start position.
+					int playerX = in.nextInt();
+					int playerY = in.nextInt();
+					// Construct the player.
+					player = new Player(playerX, playerY);
+					break;
+				case "APPAREL":
+					Apparel newApparel = readApparel(in.next());
+					int apparelX = newApparel.getX();
+					int apparelY = newApparel.getY();
+					apparels[apparelY][apparelX] = newApparel;
+					break;
+				case "ITEM":
+					Item newItem = readItem(in.next());
+					int itemX = newItem.getX();
+					int itemY = newItem.getY();
+					items[itemY][itemX] = newItem;
+					break;
+				case "DOOR":
+					Door newDoor = readDoor(in.next());
+					int doorX = newDoor.getX();
+					int doorY = newDoor.getY();
+					doors[doorY][doorX] = newDoor;
+					break;
+				case "HAZARD":
+					Hazard newHazard = readHazard(in.next());
+					int hazardX = newHazard.getX();
+					int hazardY = newHazard.getY();
+					hazards[hazardY][hazardX] = newHazard;
+					break;
+				case "PORTAL":
+					Portal newPortal = readPortal(in.next());
+					int portalX = newPortal.getX();
+					int portalY = newPortal.getY();
+					portals[portalY][portalX] = newPortal;
+					break;
+				case "ENEMY":
+					Enemy newEnemy = readEnemy(in.next());
+					alEnemies.add(newEnemy);
+					break;
+			}
+			in.nextLine();
+		}
+		in.close();
+		
+		// Convert enemies array list to an array.
+		Enemy[] enemies = new Enemy[alEnemies.size()];
+		enemies = alEnemies.toArray(enemies);
+		
+		// Construct the level.
+		Level newLevel = new Level(levelElements, levelNum, player, doors, 
+				apparels, items, hazards, portals, enemies);
 		return newLevel;
 	}
 	
@@ -288,33 +288,33 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    // Read the level's details.
-	    in.useDelimiter(",");
-	    int levelHeight = in.nextInt();
-    	int levelWidth = in.nextInt();
-    	in.nextLine();
-    	
-    	String[][] levelElements = new String[levelHeight][levelWidth];
-    	
-    	for (int row = 0; row < levelHeight; row++) {
-	    	for (int col = 0; col < levelWidth; col++) {
-	    		String element = in.next();
-	    		levelElements[row][col] = element;
-	    	}
-	    	in.nextLine(); // Needed if you change delimiter.
-	    }
-    	
-    	in.close();
-    	return levelElements;
+		
+		// Read the level's details.
+		in.useDelimiter(",");
+		int levelHeight = in.nextInt();
+		int levelWidth = in.nextInt();
+		in.nextLine();
+		
+		String[][] levelElements = new String[levelHeight][levelWidth];
+		
+		for (int row = 0; row < levelHeight; row++) {
+			for (int col = 0; col < levelWidth; col++) {
+				String element = in.next();
+				levelElements[row][col] = element;
+			}
+			in.nextLine(); // Needed if you change delimiter.
+		}
+		
+		in.close();
+		return levelElements;
 	}
 	
 	/**
@@ -339,10 +339,10 @@ public class FileHandling {
 			printWriter.print(newUser);
 			printWriter.println("");
 			printWriter.close();
-        } catch (IOException e) { 
-            System.out.println("Cannot write to " + filePath); 
-            System.exit(-1);
-        } 
+		} catch (IOException e) { 
+			System.out.println("Cannot write to " + filePath); 
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -367,10 +367,10 @@ public class FileHandling {
 			printWriter.print(newTime);
 			printWriter.println("");
 			printWriter.close();
-        } catch (IOException e) { 
-            System.out.println("Cannot write to " + filePath); 
-            System.exit(-1);
-        }
+		} catch (IOException e) { 
+			System.out.println("Cannot write to " + filePath); 
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -394,10 +394,10 @@ public class FileHandling {
 			printWriter.print(newTime);
 			printWriter.println("");
 			printWriter.close();
-        } catch (IOException e) { 
-            System.out.println("Cannot write to " + filePath); 
-            System.exit(-1);
-        }
+		} catch (IOException e) { 
+			System.out.println("Cannot write to " + filePath); 
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -412,34 +412,34 @@ public class FileHandling {
 		FileWriter writer = null;
 		String oldContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write old file contents to a string.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	oldContent = oldContent + line + System.lineSeparator();
-		        line = reader.readLine();
-		    }
-		    // Replace old user with the new one within the text file.
-		    String newContent = oldContent.replace(oldUser, newUser);
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write old file contents to a string.
+			String line = reader.readLine();
+			while (line != null) {
+				oldContent = oldContent + line + System.lineSeparator();
+				line = reader.readLine();
+			}
+			// Replace old user with the new one within the text file.
+			String newContent = oldContent.replace(oldUser, newUser);
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -455,34 +455,34 @@ public class FileHandling {
 		FileWriter writer = null;
 		String oldContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write old file contents to a string.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	oldContent = oldContent + line + System.lineSeparator();
-		        line = reader.readLine();
-		    }
-		    // Replace old time with the new one within the text file.
-		    String newContent = oldContent.replace(oldTime, newTime);
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write old file contents to a string.
+			String line = reader.readLine();
+			while (line != null) {
+				oldContent = oldContent + line + System.lineSeparator();
+				line = reader.readLine();
+			}
+			// Replace old time with the new one within the text file.
+			String newContent = oldContent.replace(oldTime, newTime);
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -498,34 +498,34 @@ public class FileHandling {
 		FileWriter writer = null;
 		String oldContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write old file contents to a string.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	oldContent = oldContent + line + System.lineSeparator();
-		        line = reader.readLine();
-		    }
-		    // Replace old time with the new one within the text file.
-		    String newContent = oldContent.replace(oldTime, newTime);
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write old file contents to a string.
+			String line = reader.readLine();
+			while (line != null) {
+				oldContent = oldContent + line + System.lineSeparator();
+				line = reader.readLine();
+			}
+			// Replace old time with the new one within the text file.
+			String newContent = oldContent.replace(oldTime, newTime);
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -550,10 +550,10 @@ public class FileHandling {
 			printWriter.print(newGameState);
 			printWriter.println("");
 			printWriter.close();
-        } catch (IOException e) { 
-            System.out.println("Cannot write to " + filePath); 
-            System.exit(-1);
-        } 
+		} catch (IOException e) { 
+			System.out.println("Cannot write to " + filePath); 
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -567,134 +567,134 @@ public class FileHandling {
 		File inputFile = new File(filePath);
 		Scanner in = null;
 		
-	    try {
-	    	// Opens the file for reading
+		try {
+			// Opens the file for reading
 			in = new Scanner(inputFile);
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    in.useDelimiter(",");
-	    // Store states in an array list. 
-	    ArrayList<GameState> gameStates = new ArrayList<>();
-	    
-	    // Read each saved state made by the user.
-	    while (in.hasNextLine()) {
-	    	// Fetch the line (game state as a string) and 
-	    	// read it using a separate scanner.
-	    	String strGameState = in.nextLine();
-	    	Scanner readState = new Scanner(strGameState);
-	    	readState.useDelimiter(",");
-	    	
-	    	// Check if it's the user's save state.
-	    	String user = readState.next();
-	    	if (!user.equals(username)) {
-	    		continue;
-	    	}
-	    	
-	    	// Read the game state details.
-	    	String description = readState.next();
-	    	long currentLevelTime = readState.nextLong();
-	    	long currentGameTime = readState.nextLong();
-	    	boolean timeValid = readState.nextBoolean();
-	    	String saveDate = readState.next();
-	    	String saveTime = readState.next();
-	    	int levelNum = readState.nextInt();
-	   
-	    	// Construct the player.
-	    	Player player = readPlayer(readState.next());
-	    	
-	    	// Fetch the level base.
-	    	String[][] levelElements = readLevelBase(levelNum);
-	    	int levelHeight = levelElements.length;
-	    	int levelWidth = levelElements[0].length;
-	    	
-	    	// Read miscellaneous game objects (that require more details).
-		    Door[][] doors = new Door[levelHeight][levelWidth];
-		    Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
-		    Item[][] items = new Item[levelHeight][levelWidth];
-		    Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
-		    Portal[][] portals = new Portal[levelHeight][levelWidth];
-		    ArrayList<Enemy> alEnemies = new ArrayList<Enemy>(); // Will be converted to an array.
-	    	
-	    	// Read the elements of the level (from its current state).
-	    	while (readState.hasNext()) {
-	    		String element = readState.next();
-	    		switch (element) {
-		    		case "DOOR":
-		    			Door newDoor = readDoor(readState.next());
-		    			int doorX = newDoor.getX();
-		    			int doorY = newDoor.getY();
-			    		doors[doorY][doorX] = newDoor;
-			    		levelElements[doorY][doorX] = "D";
-		    			break;
-		    		case "APPAREL":
-			    		Apparel newApparel = readApparel(readState.next());
-			    		int apparelX = newApparel.getX();
-			    		int apparelY = newApparel.getY();
-			    		apparels[apparelY][apparelX] = newApparel;
-			    		levelElements[apparelY][apparelX] = "A";
-			    		break;
-			    	case "ITEM":
-			    		Item newItem = readItem(readState.next());
-			    		int itemX = newItem.getX();
-			    		int itemY = newItem.getY();
-			    		items[itemY][itemX] = newItem;
-			    		levelElements[itemY][itemX] = "I";
-			    		break;
-			    	case "HAZARD":
-			    		Hazard newHazard = readHazard(readState.next());
-			    		int hazardX = newHazard.getX();
-			    		int hazardY = newHazard.getY();
-			    		hazards[hazardY][hazardX] = newHazard;
-			    		levelElements[hazardY][hazardX] = "H";
-			    		break;
-			    	case "PORTAL":
-			    		Portal newPortal = readPortal(readState.next());
-			    		int portalX = newPortal.getX();
-			    		int portalY = newPortal.getY();
-			    		portals[portalY][portalX] = newPortal;
-			    		levelElements[portalY][portalX] = "P";
-			    		break;
-			    	case "ENEMY":
-			    		Enemy newEnemy = readEnemy(readState.next());
-			    		int enemyX = newEnemy.getX();
-			    		int enemyY = newEnemy.getY();
-			    		alEnemies.add(newEnemy);
-			    		levelElements[enemyY][enemyX] = "E";
-		    			break;
-		    		case "TOKEN":
-		    			int tokenX = readState.nextInt();
-		    			int tokenY = readState.nextInt();
-		    			levelElements[tokenY][tokenX] = "T";
-		    			break;
-	    		}
-	    	}
-	    	
-	    	 // Convert enemies array list to an array.
-		    Enemy[] enemies = new Enemy[alEnemies.size()];
-		    enemies = alEnemies.toArray(enemies);
-		    
-		    // Construct the level.
-		    Level newLevel = new Level(levelElements, levelNum, player, doors, 
-		    apparels, items, hazards, portals, enemies);
-		    
-		    // Construct the game state.
-		    GameState newState = new GameState(username, description, currentLevelTime, 
-		    		currentGameTime, timeValid, newLevel);
-		    // Overwrite the date and time (made in constructor) with the actual ones.
-		    newState.setSaveDate(saveDate);
-		    newState.setSaveTime(saveTime);
-	    	gameStates.add(newState);
-	    	
-	    	// Close the scanner for the current line.
-	    	readState.close();
-	    }
-	    
-	    in.close();
-	    return gameStates;
+		
+		in.useDelimiter(",");
+		// Store states in an array list. 
+		ArrayList<GameState> gameStates = new ArrayList<>();
+		
+		// Read each saved state made by the user.
+		while (in.hasNextLine()) {
+			// Fetch the line (game state as a string) and 
+			// read it using a separate scanner.
+			String strGameState = in.nextLine();
+			Scanner readState = new Scanner(strGameState);
+			readState.useDelimiter(",");
+			
+			// Check if it's the user's save state.
+			String user = readState.next();
+			if (!user.equals(username)) {
+				continue;
+			}
+			
+			// Read the game state details.
+			String description = readState.next();
+			long currentLevelTime = readState.nextLong();
+			long currentGameTime = readState.nextLong();
+			boolean timeValid = readState.nextBoolean();
+			String saveDate = readState.next();
+			String saveTime = readState.next();
+			int levelNum = readState.nextInt();
+			
+			// Construct the player.
+			Player player = readPlayer(readState.next());
+			
+			// Fetch the level base.
+			String[][] levelElements = readLevelBase(levelNum);
+			int levelHeight = levelElements.length;
+			int levelWidth = levelElements[0].length;
+			
+			// Read miscellaneous game objects (that require more details).
+			Door[][] doors = new Door[levelHeight][levelWidth];
+			Apparel[][] apparels = new Apparel[levelHeight][levelWidth];
+			Item[][] items = new Item[levelHeight][levelWidth];
+			Hazard[][] hazards = new Hazard[levelHeight][levelWidth];
+			Portal[][] portals = new Portal[levelHeight][levelWidth];
+			ArrayList<Enemy> alEnemies = new ArrayList<Enemy>(); // Will be converted to an array.
+			
+			// Read the elements of the level (from its current state).
+			while (readState.hasNext()) {
+				String element = readState.next();
+				switch (element) {
+					case "DOOR":
+						Door newDoor = readDoor(readState.next());
+						int doorX = newDoor.getX();
+						int doorY = newDoor.getY();
+						doors[doorY][doorX] = newDoor;
+						levelElements[doorY][doorX] = "D";
+						break;
+					case "APPAREL":
+						Apparel newApparel = readApparel(readState.next());
+						int apparelX = newApparel.getX();
+						int apparelY = newApparel.getY();
+						apparels[apparelY][apparelX] = newApparel;
+						levelElements[apparelY][apparelX] = "A";
+						break;
+					case "ITEM":
+						Item newItem = readItem(readState.next());
+						int itemX = newItem.getX();
+						int itemY = newItem.getY();
+						items[itemY][itemX] = newItem;
+						levelElements[itemY][itemX] = "I";
+						break;
+					case "HAZARD":
+						Hazard newHazard = readHazard(readState.next());
+						int hazardX = newHazard.getX();
+						int hazardY = newHazard.getY();
+						hazards[hazardY][hazardX] = newHazard;
+						levelElements[hazardY][hazardX] = "H";
+						break;
+					case "PORTAL":
+						Portal newPortal = readPortal(readState.next());
+						int portalX = newPortal.getX();
+						int portalY = newPortal.getY();
+						portals[portalY][portalX] = newPortal;
+						levelElements[portalY][portalX] = "P";
+						break;
+					case "ENEMY":
+						Enemy newEnemy = readEnemy(readState.next());
+						int enemyX = newEnemy.getX();
+						int enemyY = newEnemy.getY();
+						alEnemies.add(newEnemy);
+						levelElements[enemyY][enemyX] = "E";
+						break;
+					case "TOKEN":
+						int tokenX = readState.nextInt();
+						int tokenY = readState.nextInt();
+						levelElements[tokenY][tokenX] = "T";
+						break;
+				}
+			}
+			
+			// Convert enemies array list to an array.
+			Enemy[] enemies = new Enemy[alEnemies.size()];
+			enemies = alEnemies.toArray(enemies);
+			
+			// Construct the level.
+			Level newLevel = new Level(levelElements, levelNum, player, doors, 
+			apparels, items, hazards, portals, enemies);
+			
+			// Construct the game state.
+			GameState newState = new GameState(username, description, currentLevelTime, 
+					currentGameTime, timeValid, newLevel);
+			// Overwrite the date and time (made in constructor) with the actual ones.
+			newState.setSaveDate(saveDate);
+			newState.setSaveTime(saveTime);
+			gameStates.add(newState);
+			
+			// Close the scanner for the current line.
+			readState.close();
+		}
+		
+		in.close();
+		return gameStates;
 	}
 	
 	/**
@@ -705,34 +705,34 @@ public class FileHandling {
 	 */
 	private static Player readPlayer(String strPlayer) {
 		// Scanner to read the player's details.
-	    Scanner in = new Scanner(strPlayer);
-	    in.useDelimiter(":");
-	    
-	    int playerX = in.nextInt();
-    	int playerY = in.nextInt();
-    	String strInventory = in.next();
-    	String strEquipped = in.next();
-    	int numPlayerTokens = in.nextInt();
-    	String[] inventory = {};
-    	String[] equippedItems = {};
-    	
-    	// Construct the player.
-    	Player newPlayer = new Player(playerX, playerY);
-    	newPlayer.setNumTokens(numPlayerTokens);
-    	
-    	// If it's not empty, then populate the inventory/equipped items.
-    	if (!strInventory.isEmpty()) {
-    		inventory = addItems(strInventory);
-    		newPlayer.setInventory(inventory);
-    	}
-    	
-    	if (!strEquipped.isEmpty()) {
-    		equippedItems = addItems(strEquipped);
-    		newPlayer.setEquippedItems(equippedItems);
-    	}
-    	
-    	in.close();
-    	return newPlayer;
+		Scanner in = new Scanner(strPlayer);
+		in.useDelimiter(":");
+		
+		int playerX = in.nextInt();
+		int playerY = in.nextInt();
+		String strInventory = in.next();
+		String strEquipped = in.next();
+		int numPlayerTokens = in.nextInt();
+		String[] inventory = {};
+		String[] equippedItems = {};
+		
+		// Construct the player.
+		Player newPlayer = new Player(playerX, playerY);
+		newPlayer.setNumTokens(numPlayerTokens);
+		
+		// If it's not empty, then populate the inventory/equipped items.
+		if (!strInventory.isEmpty()) {
+			inventory = addItems(strInventory);
+			newPlayer.setInventory(inventory);
+		}
+		
+		if (!strEquipped.isEmpty()) {
+			equippedItems = addItems(strEquipped);
+			newPlayer.setEquippedItems(equippedItems);
+		}
+		
+		in.close();
+		return newPlayer;
 	}
 	
 	/**
@@ -742,27 +742,27 @@ public class FileHandling {
 	 */
 	private static Door readDoor(String strDoor) {
 		// Scanner to read the door's details.
-	    Scanner in = new Scanner(strDoor);
-	    in.useDelimiter(":");
-	    
+		Scanner in = new Scanner(strDoor);
+		in.useDelimiter(":");
+		
 		int doorX = in.nextInt();
 		int doorY = in.nextInt();
 		String dType = in.next();
 		int numTokens = in.nextInt();
 		DoorType doorType = null;
 		switch (dType) {
-    		case "YELLOW":
-    			doorType = DoorType.YELLOW;
-    			break;
-    		case "ORANGE":
-    			doorType = DoorType.ORANGE;
-    			break;
-    		case "PURPLE":
-    			doorType = DoorType.PURPLE;
-    			break;
-    		case "TOKEN":
-    			doorType = DoorType.TOKEN;
-    			break;
+			case "YELLOW":
+				doorType = DoorType.YELLOW;
+				break;
+			case "ORANGE":
+				doorType = DoorType.ORANGE;
+				break;
+			case "PURPLE":
+				doorType = DoorType.PURPLE;
+				break;
+			case "TOKEN":
+				doorType = DoorType.TOKEN;
+				break;
 		}
 		
 		in.close();
@@ -777,20 +777,20 @@ public class FileHandling {
 	 */
 	private static Apparel readApparel(String strApparel) {
 		// Scanner to read the apparel's details.
-	    Scanner in = new Scanner(strApparel);
-	    in.useDelimiter(":");
-	    
+		Scanner in = new Scanner(strApparel);
+		in.useDelimiter(":");
+		
 		int apparelX = in.nextInt();
 		int apparelY = in.nextInt();
 		String aType = in.next();
 		ApparelType apparelType = null;
 		switch (aType) {
-    		case "FLIPPERS":
-    			apparelType = ApparelType.FLIPPERS;
-    			break;
-    		case "FIREBOOTS":
-    			apparelType = ApparelType.FIREBOOTS;
-    			break;
+			case "FLIPPERS":
+				apparelType = ApparelType.FLIPPERS;
+				break;
+			case "FIREBOOTS":
+				apparelType = ApparelType.FIREBOOTS;
+				break;
 		}
 		
 		in.close();
@@ -805,23 +805,23 @@ public class FileHandling {
 	 */
 	private static Item readItem(String strItem) {
 		// Scanner to read the item's details.
-	    Scanner in = new Scanner(strItem);
-	    in.useDelimiter(":");
-	    
+		Scanner in = new Scanner(strItem);
+		in.useDelimiter(":");
+		
 		int itemX = in.nextInt();
 		int itemY = in.nextInt();
 		String iType = in.next();
 		ItemType itemType = null;
 		switch (iType) {
-    		case "YELLOWKEY":
-    			itemType = ItemType.YELLOWKEY;
-    			break;
-    		case "ORANGEKEY":
-    			itemType = ItemType.ORANGEKEY;
-    			break;
-    		case "PURPLEKEY":
-    			itemType = ItemType.PURPLEKEY;
-    			break;
+			case "YELLOWKEY":
+				itemType = ItemType.YELLOWKEY;
+				break;
+			case "ORANGEKEY":
+				itemType = ItemType.ORANGEKEY;
+				break;
+			case "PURPLEKEY":
+				itemType = ItemType.PURPLEKEY;
+				break;
 		}
 		
 		in.close();
@@ -836,20 +836,20 @@ public class FileHandling {
 	 */
 	private static Hazard readHazard(String strHazard) {
 		// Scanner to read the hazard's details.
-	    Scanner in = new Scanner(strHazard);
-	    in.useDelimiter(":");
-	    
+		Scanner in = new Scanner(strHazard);
+		in.useDelimiter(":");
+		
 		int hazardX = in.nextInt();
 		int hazardY = in.nextInt();
 		String hType = in.next();
 		HazardType hazardType = null;
 		switch (hType) {
-    		case "WATER":
-    			hazardType = HazardType.WATER;
-    			break;
-    		case "FIRE":
-    			hazardType = HazardType.FIRE;
-    			break;
+			case "WATER":
+				hazardType = HazardType.WATER;
+				break;
+			case "FIRE":
+				hazardType = HazardType.FIRE;
+				break;
 		}
 		
 		in.close();
@@ -864,9 +864,9 @@ public class FileHandling {
 	 */
 	private static Portal readPortal(String strPortal) {
 		// Scanner to read the portal's details.
-	    Scanner in = new Scanner(strPortal);
-	    in.useDelimiter(":");
-	    
+		Scanner in = new Scanner(strPortal);
+		in.useDelimiter(":");
+		
 		int portalX = in.nextInt();
 		int portalY = in.nextInt();
 		int destX = in.nextInt();
@@ -884,27 +884,27 @@ public class FileHandling {
 	 */
 	private static Enemy readEnemy(String strEnemy) {
 		// Scanner to read the enemy's details.
-	    Scanner in = new Scanner(strEnemy);
-	    in.useDelimiter(":");
-	    
-	    int enemyX = in.nextInt();
+		Scanner in = new Scanner(strEnemy);
+		in.useDelimiter(":");
+		
+		int enemyX = in.nextInt();
 		int enemyY = in.nextInt();
 		String eType = in.next();
 		String moveDirection = in.next();
 		EnemyType enemyType = null;
 		switch (eType) {
-    		case "STRAIGHT":
-    			enemyType = EnemyType.STRAIGHT;
-    			break;
-    		case "WALL":
-    			enemyType = EnemyType.WALL;
-    			break;
-    		case "DUMB":
-    			enemyType = EnemyType.DUMB;
-    			break;
-    		case "SMART":
-    			enemyType = EnemyType.SMART;
-    			break;
+			case "STRAIGHT":
+				enemyType = EnemyType.STRAIGHT;
+				break;
+			case "WALL":
+				enemyType = EnemyType.WALL;
+				break;
+			case "DUMB":
+				enemyType = EnemyType.DUMB;
+				break;
+			case "SMART":
+				enemyType = EnemyType.SMART;
+				break;
 		}
 		
 		in.close();
@@ -920,34 +920,34 @@ public class FileHandling {
 	 */
 	private static String[] addItems(String itemSet) {
 		// Scanner to read individual items.
-	    Scanner in = new Scanner(itemSet);
+		Scanner in = new Scanner(itemSet);
 		int numItems = 0;
 		in.useDelimiter(";");
-	    
-	    // Reads through each item to check how many there are.
-	    while (in.hasNext()) {
-	    	numItems++;
-	    	in.next();
-	    }
-	    
-	    // Closes the file stream after reading all the items.
-	    in.close();
-	    
-	    String[] itemsArray = new String[numItems];
-	    
-	    // Scanner 'in' is redeclared so that its contents can be inserted 
-	    // into the array. (.next() was used on it earlier).
-	    in = new Scanner(itemSet);
-	    in.useDelimiter(";");
-	    
-	    // Insert the items into the array.
-	    for (int i = 0; i < numItems; i++) {
-	    	String item = in.next();
-	    	itemsArray[i] = item;
-	    }
-	    
-	    in.close();
-	    return itemsArray;
+		
+		// Reads through each item to check how many there are.
+		while (in.hasNext()) {
+			numItems++;
+			in.next();
+		}
+		
+		// Closes the file stream after reading all the items.
+		in.close();
+		
+		String[] itemsArray = new String[numItems];
+		
+		// Scanner 'in' is redeclared so that its contents can be inserted 
+		// into the array. (.next() was used on it earlier).
+		in = new Scanner(itemSet);
+		in.useDelimiter(";");
+		
+		// Insert the items into the array.
+		for (int i = 0; i < numItems; i++) {
+			String item = in.next();
+			itemsArray[i] = item;
+		}
+		
+		in.close();
+		return itemsArray;
 	}
 	
 	/**
@@ -961,37 +961,37 @@ public class FileHandling {
 		FileWriter writer = null;
 		String newContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write the old contents to a string.
-	    	// The contents will exclude the save state to be deleted.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	// Exclude the passed down save state.
-		    	if (!line.equals(strSaveState)) {
-		    		newContent = newContent + line + System.lineSeparator();
-		    	}
-		        line = reader.readLine();
-		    }
-		    // Write the updated contents to the text file.
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write the old contents to a string.
+			// The contents will exclude the save state to be deleted.
+			String line = reader.readLine();
+			while (line != null) {
+				// Exclude the passed down save state.
+				if (!line.equals(strSaveState)) {
+					newContent = newContent + line + System.lineSeparator();
+				}
+				line = reader.readLine();
+			}
+			// Write the updated contents to the text file.
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -1020,37 +1020,37 @@ public class FileHandling {
 		FileWriter writer = null;
 		String newContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write the old contents to a string.
-	    	// The contents will exclude the user.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	// Exclude user.
-		    	if (!line.contains(username)) {
-		    		newContent = newContent + line + System.lineSeparator();
-		    	}
-		        line = reader.readLine();
-		    }
-		    // Write the updated contents to the text file.
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write the old contents to a string.
+			// The contents will exclude the user.
+			String line = reader.readLine();
+			while (line != null) {
+				// Exclude user.
+				if (!line.contains(username)) {
+					newContent = newContent + line + System.lineSeparator();
+				}
+				line = reader.readLine();
+			}
+			// Write the updated contents to the text file.
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -1065,37 +1065,37 @@ public class FileHandling {
 		FileWriter writer = null;
 		String newContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write the old contents to a string.
-	    	// The contents will exclude the user's time.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	// Exclude user's time.
-		    	if (!line.contains(username)) {
-		    		newContent = newContent + line + System.lineSeparator();
-		    	}
-		        line = reader.readLine();
-		    }
-		    // Write the updated contents to the text file.
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write the old contents to a string.
+			// The contents will exclude the user's time.
+			String line = reader.readLine();
+			while (line != null) {
+				// Exclude user's time.
+				if (!line.contains(username)) {
+					newContent = newContent + line + System.lineSeparator();
+				}
+				line = reader.readLine();
+			}
+			// Write the updated contents to the text file.
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -1109,37 +1109,37 @@ public class FileHandling {
 		FileWriter writer = null;
 		String newContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write the old contents to a string.
-	    	// The contents will exclude the user's time.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	// Exclude user's time.
-		    	if (!line.contains(username)) {
-		    		newContent = newContent + line + System.lineSeparator();
-		    	}
-		        line = reader.readLine();
-		    }
-		    // Write the updated contents to the text file.
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write the old contents to a string.
+			// The contents will exclude the user's time.
+			String line = reader.readLine();
+			while (line != null) {
+				// Exclude user's time.
+				if (!line.contains(username)) {
+					newContent = newContent + line + System.lineSeparator();
+				}
+				line = reader.readLine();
+			}
+			// Write the updated contents to the text file.
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 	
 	/**
@@ -1153,36 +1153,36 @@ public class FileHandling {
 		FileWriter writer = null;
 		String newContent = "";
 		
-	    try {
+		try {
 			reader = new BufferedReader(new FileReader(inputFile));
 		// Catch an exception if the file does not exist and exit the program.
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot open " + filePath);
 			System.exit(-1);
 		}
-	    
-	    try {
-		    // Uses buffer to write the old contents to a string.
-	    	// The contents will exclude the user's save states.
-		    String line = reader.readLine();
-		    while (line != null) {
-		    	// Exclude user's save states.
-		    	if (!line.contains(username)) {
-		    		newContent = newContent + line + System.lineSeparator();
-		    	}
-		        line = reader.readLine();
-		    }
-		    // Write the updated contents to the text file.
-		    writer = new FileWriter(filePath);
-		    writer.write(newContent);
-		    reader.close();
-		    writer.flush();
-		    writer.close();
-	    } catch (IOException e) {
-	    	// Catches an IO exception when the file can't 
-	    	// be written.
-            e.printStackTrace();
-            System.exit(-1);
-	    }
+		
+		try {
+			// Uses buffer to write the old contents to a string.
+			// The contents will exclude the user's save states.
+			String line = reader.readLine();
+			while (line != null) {
+				// Exclude user's save states.
+				if (!line.contains(username)) {
+					newContent = newContent + line + System.lineSeparator();
+				}
+				line = reader.readLine();
+			}
+			// Write the updated contents to the text file.
+			writer = new FileWriter(filePath);
+			writer.write(newContent);
+			reader.close();
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// Catches an IO exception when the file can't 
+			// be written.
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 }

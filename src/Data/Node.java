@@ -31,7 +31,7 @@ public class Node {
 		this.cost = cost;
 		this.ancestorNode = ancestorNode;
 	}
-
+	
 	/**
 	 * Gets the x-coordinate location of the cell that this node represents.
 	 * @return The x-coordinate as an integer.
@@ -39,7 +39,7 @@ public class Node {
 	public int getX() {
 		return nodeX;
 	}
-
+	
 	/**
 	 * Gets the x-coordinate location of the cell that this node represents.
 	 * @return The y-coordinate as an integer.

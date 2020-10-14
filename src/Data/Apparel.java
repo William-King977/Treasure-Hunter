@@ -34,7 +34,7 @@ public class Apparel {
 		String strApparel = "APPAREL," + apparelX + ":" + apparelY + ":" + type + ",";
 		return strApparel;
 	}
-
+	
 	/**
 	 * Gets the x-coordinate location of the apparel.
 	 * @return The x-coordinate as an integer.
@@ -42,7 +42,7 @@ public class Apparel {
 	public int getX() {
 		return apparelX;
 	}
-
+	
 	/**
 	 * Gets the y-coordinate location of the apparel.
 	 * @return The y-coordinate as an integer.
@@ -50,7 +50,7 @@ public class Apparel {
 	public int getY() {
 		return apparelY;
 	}
-
+	
 	/**
 	 * Gets the apparel's type (flippers, fire boots, etc.).
 	 * @return The apparel type as an ApparelType enum.

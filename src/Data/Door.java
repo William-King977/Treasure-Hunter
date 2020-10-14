@@ -39,7 +39,7 @@ public class Door {
 		String strDoor = "DOOR," + doorX + ":" + doorY + ":" + type + ":" + numTokens + ",";
 		return strDoor;
 	}
-
+	
 	/**
 	 * Gets the x-coordinate location of the door.
 	 * @return The x-coordinate as an integer.
@@ -47,7 +47,7 @@ public class Door {
 	public int getX() {
 		return doorX;
 	}
-
+	
 	/**
 	 * Gets the y-coordinate location of the door.
 	 * @return The y-coordinate as an integer.
@@ -63,7 +63,7 @@ public class Door {
 	public DoorType getType() {
 		return type;
 	}
-
+	
 	/**
 	 * Gets the number of tokens required to open the (token) door.
 	 * @return The number of tokens as an integer.

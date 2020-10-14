@@ -76,7 +76,7 @@ public class Player {
 				":" + strEquippedItems + ":" + numTokens + ",";
 		return strPlayer;
 	}
-
+	
 	/**
 	 * Gets the player's current x-coordinate position.
 	 * @return The x-coordinate as an integer.
@@ -209,7 +209,7 @@ public class Player {
 		
 		inventory = updatedInventory;
 	}
-
+	
 	/**
 	 * Gets the number of tokens the player currently has.
 	 * @return The number of tokens as an integer.
@@ -217,7 +217,7 @@ public class Player {
 	public int getNumTokens() {
 		return numTokens;
 	}
-
+	
 	/**
 	 * Sets the number of tokens the player has.
 	 * @param numTokens The number of tokens to be set.
