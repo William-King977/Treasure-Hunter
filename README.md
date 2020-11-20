@@ -1,5 +1,5 @@
 # About
-A simple retro style game made using JavaFX. The name will change because I'm not good with naming stuff.
+A simple retro style game made using JavaFX. You are an ambitious treasure hunter who has discovered a castle that's loaded with treasure! Can you get past the guards and steal the treasure all for yourself? Let's find out!
 
 # Notes About The Implementation
 - Everything is coded in Eclipse IDE.
