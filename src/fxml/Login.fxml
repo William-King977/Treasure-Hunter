@@ -14,7 +14,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="52.0" prefWidth="360.0" BorderPane.alignment="CENTER">
          <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Game" textAlignment="CENTER" wrappingWidth="338.13128662109375">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Treasure Hunter" textAlignment="CENTER" wrappingWidth="338.13128662109375">
           <font>
             <Font name="System Bold" size="32.0" />
           </font>

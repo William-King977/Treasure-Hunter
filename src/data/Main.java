@@ -15,7 +15,7 @@ public class Main extends Application {
 	/** The file location of the FXML files. */
 	public static final String FXML_FILE_PATH = "../fxml/";
 	/** The title given to the stage. */
-	private static final String STAGE_TITLE = "The Game";
+	private static final String STAGE_TITLE = "Treasure Hunter";
 	/** Width of the stage. */
 	private static final int STAGE_WIDTH = 360;
 	/** Height of the stage. */

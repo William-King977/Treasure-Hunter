@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class MainMenuController {
 	/** Title for the Login page. */
-	private final String LOGIN_TITLE = "The Game";
+	private final String LOGIN_TITLE = "Treasure Hunter";
 	/** Stores the details of the logged in user. */
 	private User currentUser;
 	/** An array list holding the save states that the user has made. */
