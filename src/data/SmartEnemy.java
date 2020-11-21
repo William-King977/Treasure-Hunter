@@ -266,7 +266,6 @@ public class SmartEnemy extends Enemy {
 				enemyX = newX;
 				enemyY = newY;
 				levelElements[enemyY][enemyX] = "E";
-				break;
 		}
 	}
 	

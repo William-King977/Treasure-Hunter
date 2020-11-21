@@ -441,7 +441,6 @@ public class GameController {
 							case "Flippers":
 								player.setX(newX);
 								player.setY(newY);
-								moveEnemies();
 								break;
 							default:
 								// DEATH.
@@ -455,7 +454,6 @@ public class GameController {
 							case "Fire Boots":
 								player.setX(newX);
 								player.setY(newY);
-								moveEnemies();
 								break;
 							default:
 								// DEATH.
