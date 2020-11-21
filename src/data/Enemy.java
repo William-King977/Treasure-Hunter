@@ -10,23 +10,23 @@ import java.util.Random;
  */
 public class Enemy {
 	/** The x-coordinate location of the enemy. */
-	private int enemyX;
+	protected int enemyX;
 	
 	/** The y-coordinate location of the enemy. */
-	private int enemyY;
+	protected int enemyY;
 	
 	/** Specifies the type of enemy this is. */
-	private EnemyType type;
+	protected EnemyType type;
 	
 	/** The direction that the enemy moves towards. */
-	private String moveDirection;
+	protected String moveDirection;
 	
 	/**
 	 * Constructor for the Enemy class.
 	 * @param enemyX The x-coordinate location of the enemy.
 	 * @param enemyY The y-coordinate location of the enemy.
 	 * @param type The type of enemy this is.
-	 * @param moveDirection The direction that the enemy moves towards.
+	 * @param moveDirection The direction that the enemy moves towards/starting position.
 	 */
 	public Enemy(int enemyX, int enemyY, EnemyType type, String moveDirection) {
 		this.enemyX = enemyX;
@@ -598,7 +598,7 @@ public class Enemy {
 	 * @param object The level object as a string. 
 	 * @return True if its an object, otherwise false (if it's clear).
 	 */
-	private boolean isObject(String object) {
+	protected boolean isObject(String object) {
 		switch (object) {
 			case "W":
 			case "G":
