@@ -504,34 +504,21 @@ public class GameController {
 	private void moveEnemies() {
 		for (int i = 0; i < enemies.length; i++) {
 			Enemy enemy = enemies[i];
-			EnemyType type = enemy.getType();
 			
-			// Move enemies, then check if they 'landed' on the player.
-			switch (type) {
-				case STRAIGHT:
-					enemy.moveStraightEnemy(levelElements);
-					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						player.setDead(true);
-					}
+			// Move enemies.
+			switch (enemy.getType()) {
+				case "StraightEnemy":
+				case "WallEnemy":
+					enemy.move(levelElements);
 					break;
-				case WALL:
-					enemy.moveWallEnemy(levelElements);
-					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						player.setDead(true);
-					}
+				case "DumbEnemy":
+				case "SmartEnemy":
+					enemy.move(levelElements, player.getX(), player.getY());
 					break;
-				case DUMB:
-					enemy.moveDumbEnemy(levelElements, player.getX(), player.getY());
-					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						player.setDead(true);
-					}
-					break;
-				case SMART:
-					enemy.moveSmartEnemy(levelElements, player.getX(), player.getY());
-					if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
-						player.setDead(true);
-					}
-					break;
+			}
+			// Check if they 'landed' on the player.
+			if ((enemy.getX() == player.getX()) && (enemy.getY() == player.getY())) {
+				player.setDead(true);
 			}
 		}
 	}
@@ -697,16 +684,16 @@ public class GameController {
 				for (Enemy elem : enemies) {
 					if (elem.getX() == col && elem.getY() == row) {
 						switch (elem.getType()) {
-							case STRAIGHT:
+							case "StraightEnemy":
 								gc.drawImage(straightEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 								break;
-							case WALL:
+							case "WallEnemy":
 								gc.drawImage(wallEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 								break;
-							case DUMB:
+							case "DumbEnemy":
 								gc.drawImage(dumbEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 								break;
-							case SMART:
+							case "SmartEnemy":
 								gc.drawImage(smartEnemy, tempCol * GRID_CELL_WIDTH, tempRow * GRID_CELL_HEIGHT);
 								break;
 						}

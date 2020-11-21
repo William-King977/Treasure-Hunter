@@ -1,7 +1,8 @@
 package data;
 
 /**
- * Models a Straight Line Enemy in the game.
+ * Models a Straight Line Enemy in the game.  Goes in a single direction and 
+ * goes the opposite direction when they hit a wall.
  * @author William King
  */
 public class StraightEnemy extends Enemy {
@@ -88,7 +89,7 @@ public class StraightEnemy extends Enemy {
 							break;
 					}
 					// Run the method again with the changed direction.
-					moveStraightEnemy(levelElements);
+					move(levelElements);
 				}
 				break;
 			// Move to the new position.

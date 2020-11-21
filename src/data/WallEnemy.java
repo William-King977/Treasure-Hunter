@@ -3,7 +3,8 @@ package data;
 import java.util.Random;
 
 /**
- * Models a wall following enemy.
+ * Models a wall following enemy. Follows the wall - just like following 
+ * a maze with your hand on the wall at all times.
  * @author William King
  */
 public class WallEnemy extends Enemy {
@@ -109,7 +110,7 @@ public class WallEnemy extends Enemy {
 					break;
 			}
 			// Run the method again with the changed direction.
-			moveWallEnemy(levelElements);
+			move(levelElements);
 		// If they hit a left corner.
 		} else if (isFrontObject && isLeftObject) {
 			switch (moveDirection) {
@@ -126,7 +127,7 @@ public class WallEnemy extends Enemy {
 				moveDirection = "DOWN";
 				break;
 			}
-			moveWallEnemy(levelElements);
+			move(levelElements);
 		// If they hit a right corner.
 		} else if (isFrontObject && isRightObject) {
 			switch (moveDirection) {
@@ -143,7 +144,7 @@ public class WallEnemy extends Enemy {
 					moveDirection = "UP";
 					break;
 			}
-			moveWallEnemy(levelElements);
+			move(levelElements);
 		// If there's an object in front (and nothing else).
 		} else if (isFrontObject) {
 			// Used to generate a random index to make the enemy turn in
@@ -171,7 +172,7 @@ public class WallEnemy extends Enemy {
 					moveDirection = possibleDirections[randomNum];
 					break;
 			}
-			moveWallEnemy(levelElements);
+			move(levelElements);
 		// If it's a clear path.
 		} else {
 			enemyX = newX;

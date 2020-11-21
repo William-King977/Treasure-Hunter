@@ -891,24 +891,23 @@ public class FileHandling {
 		int enemyY = in.nextInt();
 		String eType = in.next();
 		String moveDirection = in.next();
-		EnemyType enemyType = null;
+		in.close();
+		
+		Enemy newEnemy = null;
 		switch (eType) {
 			case "STRAIGHT":
-				enemyType = EnemyType.STRAIGHT;
+				newEnemy = new StraightEnemy(enemyX, enemyY, moveDirection);
 				break;
 			case "WALL":
-				enemyType = EnemyType.WALL;
+				newEnemy = new WallEnemy(enemyX, enemyY, moveDirection);
 				break;
 			case "DUMB":
-				enemyType = EnemyType.DUMB;
+				newEnemy = new DumbEnemy(enemyX, enemyY, moveDirection);
 				break;
 			case "SMART":
-				enemyType = EnemyType.SMART;
+				newEnemy = new SmartEnemy(enemyX, enemyY, moveDirection);
 				break;
 		}
-		
-		in.close();
-		Enemy newEnemy = new Enemy(enemyX, enemyY, enemyType, moveDirection);
 		return newEnemy;
 	}
 	

@@ -1,7 +1,8 @@
 package data;
 
 /**
- * Models a Dumb Targeting Enemy in the game.
+ * Models a Dumb Targeting Enemy in the game. Moves directly towards the 
+ * player. They don't consider obstacles in the way and can easily get stuck.
  * @author William King
  */
 public class DumbEnemy extends Enemy {
@@ -22,7 +23,7 @@ public class DumbEnemy extends Enemy {
 	 * @param playerX The x-coordinate location of the player.
 	 * @param playerY The y-coordinate location of the player.
 	 */
-	public void moveDumbEnemy(String[][] levelElements, int playerX, int playerY) {
+	public void move(String[][] levelElements, int playerX, int playerY) {
 		// Calculate difference between the x and y.
 		// Move the smallest one (move left/right if x is smaller etc.).
 		// If it's blocked, move by the other axis.
